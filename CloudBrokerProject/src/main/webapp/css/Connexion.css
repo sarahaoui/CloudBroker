@@ -1,0 +1,167 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Poppins', sans-serif;
+	color: #0a1732;
+	overflow: hidden;
+}
+input:focus,
+select:focus,
+textarea:focus {
+	outline: none;
+}
+.signup {
+	display: flex;
+}
+.signup-image {
+	flex-basis: 45%;
+}
+.container {
+	flex-basis: 55%;
+}
+.signup-image img {
+	width: 500px;
+	height: 500px;
+	margin-top: 85px;
+	margin-right: 30px;
+}
+.signup-image {
+	background: white;
+	height: 100vh;
+}
+
+.signup-content {
+	padding-top: 200px;
+	padding-left: 150px;
+}
+h2 {
+	line-height: 1.66;
+	margin: 0;
+	padding: 0;
+	font-weight: 600;
+	color: #053157;
+	font-size: 28px;
+	margin-bottom: 20px;
+}
+.signup-form,
+.signup-image,
+.signin-form,
+.signin-image {
+	display: inline-block;
+	width: 55%;
+	overflow: hidden;
+}
+
+.form-submit {
+	display: inline-block;
+	background: #083e6f;
+	color: white;
+	border-bottom: none;
+	width: auto;
+	padding: 15px 45px;
+	border-radius: 10px;
+	margin-left: 70px;
+	margin-top: 25px;
+	cursor: pointer;
+}
+
+.form-submit:hover {
+	background: #4292dc;
+}
+
+#signin {
+	margin-top: 16px;
+}
+
+.signup-image-link {
+	font-size: 14px;
+	color: #222;
+	display: block;
+	text-align: center;
+}
+
+.term-service {
+	font-size: 13px;
+	color: #222;
+}
+
+.signup-form {
+	margin-left: 75px;
+	margin-right: 75px;
+	padding-left: 34px;
+}
+
+.register-form {
+	width: 100%;
+}
+
+.form-group {
+	position: relative;
+	margin-bottom: 25px;
+	overflow: hidden;
+}
+
+input {
+	width: 100%;
+	display: block;
+	border: none;
+	border-bottom: 1px solid #999;
+	padding: 6px 30px;
+	font-family: Poppins;
+	box-sizing: border-box;
+}
+input::-webkit-input-placeholder {
+	color: gray;
+}
+input::-moz-placeholder {
+	color: #e5e5e5;
+}
+input:-ms-input-placeholder {
+	color: #e5e5e5;
+}
+input:-moz-placeholder {
+	color: #e5e5e5;
+}
+input:focus {
+	border-bottom: 1px solid #e5e5e5;
+}
+input:focus::-webkit-input-placeholder {
+	color: #e5e5e5;
+}
+input:focus::-moz-placeholder {
+	color: #e5e5e5;
+}
+input:focus:-ms-input-placeholder {
+	color: #e5e5e5;
+}
+input:focus:-moz-placeholder {
+	color: #e5e5e5;
+}
+
+label {
+	position: absolute;
+	left: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	-moz-transform: translateY(-50%);
+	-webkit-transform: translateY(-50%);
+	-o-transform: translateY(-50%);
+	-ms-transform: translateY(-50%);
+	color: #222;
+}
+
+.material-icons-name {
+	font-size: 18px;
+}
+
+p {
+	color: #053157;
+	font-size: 14px;
+	margin-top: 20px;
+	margin-left: 70px;
+}
+
+a {
+	color: #083e6f;
+}
