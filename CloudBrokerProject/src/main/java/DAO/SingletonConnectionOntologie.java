@@ -10,7 +10,7 @@ public class SingletonConnectionOntologie {
 	
 	static {
 		model=ModelFactory.createOntologyModel();  
-		java.io.InputStream in=FileManager.get().open("D:/Description.owl");  
+		java.io.InputStream in=FileManager.get().open("D:/CloudFNF.owl");  
 		if(in==null) {
 			throw new IllegalArgumentException("fichier ontologie intruovable");  }
 		else {
