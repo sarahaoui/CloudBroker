@@ -21,7 +21,7 @@ public class Controleur extends HttpServlet {
     
     public Controleur() {
         super();
-        // TODO Auto-generated constructor stub
+        
     }
     public void init() throws ServletException {
     	imp = new InterfaceImpDAO();

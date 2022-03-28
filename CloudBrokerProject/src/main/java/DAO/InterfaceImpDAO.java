@@ -2,29 +2,22 @@ package DAO;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import Metier.entities.login;
 import java.sql.SQLException;
+
+import Metier.entities.login;
 
 
 public class InterfaceImpDAO implements InterfaceDAO{
 		
-	protected Connection getConnection() {
-		Connection connection = null;
-	    try{
-			Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1/cloudfnf","root","");
-		}catch (SQLException e) {		
-			e.printStackTrace();
-		}catch (ClassNotFoundException e) {			
-			e.printStackTrace();}
-		return connection;}
+	Connection connection= SingletonConnection.getConnection();
 	
-	private static final String INSERT_USERS = "INSERT INTO `login`(`nom`, `motdepasse`, `email`, `telephone`, `nom_entreprise`, `pays`) VALUES (?,?,?,?,?,?);";
+	
 
 	
 	public void insertProvider(login provider){
-		try (Connection connection = getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USERS)) {
+		try {
+		    String INSERT_USERS = "INSERT INTO `provider`(`nom`, `motdepasse`, `email`, `telephone`, `nom_entreprise`, `pays`) VALUES (?,?,?,?,?,?);";
+			PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USERS);
 			preparedStatement.setString(1, provider.getNom());
 			preparedStatement.setString(2, provider.getMotdepasse());
 			preparedStatement.setString(3, provider.getEmail());
