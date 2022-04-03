@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src/main/java"/>
-	<classpathentry kind="src" path="config"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+	<classpathentry kind="src" output="target/classes" path="src/main/java">
 		<attributes>
-			<attribute name="module" value="true"/>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
-	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry excluding="**" kind="src" output="target/classes" path="config">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-16">
+		<attributes>
+			<attribute name="module" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/pc-click/Desktop/PFE Ressources/com.mysql.jdbc_5.1.5.jar"/>
 	<classpathentry kind="lib" path="C:/Users/pc-click/Desktop/PFE Ressources/commons-lang3-3.3.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/pc-click/Desktop/PFE Ressources/javax.servlet-3.0.jar"/>
@@ -105,10 +113,19 @@
 	<classpathentry kind="lib" path="C:/Users/pc-click/Desktop/PFE Ressources/lib-Apache jena ontologogy/jena-tdb-4.2.0.jar"/>
 	<classpathentry kind="lib" path="C:/Users/pc-click/Desktop/PFE Ressources/lib-Apache jena ontologogy/jsonld-java-0.13.3.jar"/>
 	<classpathentry kind="lib" path="C:/Users/pc-click/Desktop/PFE Ressources/lib-Apache jena ontologogy/libthrift-0.14.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/pc-click/Desktop/PFE Ressources/lib-Apache jena ontologogy/log4j-api-2.14.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/pc-click/Desktop/PFE Ressources/lib-Apache jena ontologogy/log4j-core-2.14.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/pc-click/Desktop/PFE Ressources/lib-Apache jena ontologogy/log4j-slf4j-impl-2.14.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/pc-click/Desktop/PFE Ressources/lib-Apache jena ontologogy/slf4j-api-1.7.32.jar"/>
 	<classpathentry kind="lib" path="C:/Users/pc-click/Desktop/PFE Ressources/lib-Apache jena ontologogy/titanium-json-ld-1.1.0.jar"/>
-	<classpathentry kind="output" path="build/classes"/>
+	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
+		<attributes>
+			<attribute name="test" value="true"/>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="target/classes"/>
 </classpath>

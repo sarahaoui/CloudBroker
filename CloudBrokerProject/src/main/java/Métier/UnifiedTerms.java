@@ -7,7 +7,7 @@ import org.json.simple.JSONObject;
 
 public class UnifiedTerms {
 
-	public void UnifiedTerms(JSONArray Dictionary, ArrayList<String> list) {
+	public static void UnifiedTerms(JSONArray Dictionary, ArrayList<String> list) {
 		ArrayList<String> result= new ArrayList<>();
 		for(int i=0;i<list.size();i++) {
 			if(!result.contains(list.get(i))) {

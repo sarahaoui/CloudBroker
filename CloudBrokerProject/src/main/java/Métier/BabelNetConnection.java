@@ -18,7 +18,7 @@ public class BabelNetConnection {
 	
 	List<BabelSense> senses = null;
 	List<BabelSynset> byl =null;
-	BabelNet bn = BabelNet.getInstance();
+	static BabelNet bn = BabelNet.getInstance();
 	
 	/**** 	First Test *****/
 	public void Connection(ArrayList<String> keywords) {
@@ -143,7 +143,7 @@ public class BabelNetConnection {
 		  for (Object object : Dictionary) {System.out.println(object);}
  }*/
 	/**** Create DictionaryCloud ****/
-	public JSONArray createDictionaryCloud(ArrayList<String> Tokens,JSONArray Dictionary,String FF) {
+	public static JSONArray createDictionaryCloud(ArrayList<String> Tokens,JSONArray Dictionary,String FF) {
 		  for (int i=0;i<Tokens.size();i++) {
 		    String[] parts= Tokens.get(i).split(";");
 			ArrayList<String>Concepts= new ArrayList<>();

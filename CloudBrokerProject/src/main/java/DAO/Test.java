@@ -1,28 +1,29 @@
 package DAO;
 
-import java.sql.SQLException;
-import java.util.List;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Map;
 
-import Metier.entities.login;
+import org.semanticweb.owlapi.model.OWLException;
+
+
 
 
 public class Test {
 
-	public static void main(String[] args) throws SQLException {
-    InterfaceImpDAO imp = new InterfaceImpDAO();
+	public static void main(String[] args)  {
+    InterfaceImpDAOntologie imp = new InterfaceImpDAOntologie();
 		
-		/***********Ajouter Provider*****************/
-           login newUser= new login();
-           newUser.setNom("Azure"); 
-           newUser.setEmail("yamrouni74@gmail.com");
-           newUser.setTelephone("0556610834");
+		// Verify FF
+        try {
+        	 Map<String,ArrayList<String>> FFTokens= imp.UpdateFF();
+        	System.out.println(FFTokens);
+		} catch (OWLException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  
            
-           newUser.setMotdepasse("Aa02148mk");
-           newUser.setNom_entreprise("Google");
-           newUser.setPays("France");
-          
-         
-          imp.insertProvider(newUser);        
+    
    
 	}
 
