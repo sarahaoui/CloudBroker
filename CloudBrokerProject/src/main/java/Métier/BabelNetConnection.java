@@ -143,10 +143,12 @@ public class BabelNetConnection {
 		  for (Object object : Dictionary) {System.out.println(object);}
  }*/
 	/**** Create DictionaryCloud ****/
-	public static JSONArray createDictionaryCloud(ArrayList<String> Tokens,JSONArray Dictionary,String FF) {
-		  for (int i=0;i<Tokens.size();i++) {
-		    String[] parts= Tokens.get(i).split(";");
-			ArrayList<String>Concepts= new ArrayList<>();
+	public static JSONArray createDictionaryCloud(ArrayList<ArrayList<String>> Tokens,JSONArray Dictionary,String FF) {
+	for (int j = 0; j < Tokens.size(); j++) {
+		for (int i=0;i<Tokens.get(j).size();i++) {
+			if(!SreachTermInDictionary(Dictionary, Tokens.get(j).get(i)) && NumerOfServiceTerm(Tokens.get(j).get(i), Tokens)>=0.2) {   //check if term not exist in CloudDictionary and term exist in 20% of services 
+		    String[] parts= Tokens.get(j).get(i).split(";");
+		    ArrayList<String>Concepts= new ArrayList<>();
 			ArrayList<String>Entitys= new ArrayList<>();
 		    BabelNetQuery query = new BabelNetQuery.Builder(parts[0])
 		        .from(Language.EN)
@@ -175,10 +177,34 @@ public class BabelNetConnection {
 		    tokenDetails.put("Entity", Entitys);
 		
 		    JSONObject tokenObject = new JSONObject();
-		    tokenObject.put(Tokens.get(i), tokenDetails);
+		    tokenObject.put(Tokens.get(j).get(i), tokenDetails);
 		    Dictionary.add(tokenObject);
-    }
+    }}
+	} 
+		
+		  
 	return Dictionary;	  
  }
-
+	public static Boolean  SreachTermInDictionary(JSONArray Dictionnary,String term) {
+		 
+         for (int i = 0; i < Dictionnary.size(); i++)
+        { 
+            JSONObject item = (JSONObject) Dictionnary.get(i);
+            if (item.keySet().contains(term))
+            {return true;}
+        }
+		return false;
+         }
+	
+	 public static Double NumerOfServiceTerm(String Term ,ArrayList<ArrayList<String>>list) {
+		 double count=0;
+		  for (int i = 0; i < list.size(); i++) {
+			if(list.get(i).contains(Term)) {
+				count++;
+			}
+		}
+		int lenght= list.size();
+		return (count/lenght);
+	  }
 }
+ 

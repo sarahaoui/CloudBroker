@@ -27,7 +27,7 @@ public class DefaultPreprocessor implements Preprocessor {
     }
 
     // for print output
-    public List<List<String>> getFrequentItemsetWithLabels(List<List<String>> frequentItemsets) {
+    public  List<List<String>> getFrequentItemsetWithLabels(List<List<String>> frequentItemsets) {
         List<List<String>> output = new ArrayList<List<String>>();
         for (List<String> itemset : frequentItemsets) {
             List<String> newItemset = new ArrayList<String>();

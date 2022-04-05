@@ -16,13 +16,13 @@ public class Test {
 		
 		// Verify FF
         try {
-        	 Map<String,ArrayList<String>> FFTokens= imp.UpdateFF();
+        	 Map<String,ArrayList<ArrayList<String>>> FFTokens= imp.UpdateFF();
         	System.out.println(FFTokens);
 		} catch (OWLException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}  
-           
+		} 
+    
     
    
 	}

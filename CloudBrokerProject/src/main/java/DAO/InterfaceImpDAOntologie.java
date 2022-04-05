@@ -19,9 +19,9 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 	QuestOWL reasoner = SingletonConnectionOntologie.Reasoner();
 	
 	/****** Start UPDATE WORK *******/
-   public  HashMap<String,ArrayList<String>> UpdateFF() throws OWLException, IOException {
+   public  HashMap<String,ArrayList<ArrayList<String>>> UpdateFF() throws OWLException, IOException {
 	   
-	   HashMap<String, ArrayList<String>> FFTokens = new HashMap<String, ArrayList<String>>();
+	   HashMap<String,ArrayList<ArrayList<String>>> FFTokens = new HashMap<String,ArrayList<ArrayList<String>>>();
 	   ArrayList<String>FFInstnaces= VerifyFF(); 
 	   ArrayList<String>ExisteFFList= FindRealFF(FFInstnaces);  
 	   QuestOWLStatement st = conn.createStatement();
@@ -45,7 +45,7 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 	            System.out.println(FF);
 	            System.out.println("************");
 	            System.out.println(InstancesFF);
-				ArrayList<String> SLATokensList=GetSLATokensInstance(InstancesFF,FF);
+	            ArrayList<ArrayList<String>> SLATokensList=GetSLATokensInstance(InstancesFF,FF);
 				FFTokens.put(FF, SLATokensList);
 	            }
 			
@@ -67,7 +67,7 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 	   
    }
    
-   public  ArrayList<String> VerifyFF() throws OWLException, IOException {
+   public ArrayList<String> VerifyFF() throws OWLException, IOException {
 		
 	    ArrayList<String> FFInstnaces= new ArrayList<String>(); 
 		QuestOWLStatement st = conn.createStatement();
@@ -113,9 +113,11 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 		return ExisteFFList;
 	}
 	
-  public ArrayList<String> GetSLATokensInstance(ArrayList<String> instancesFF, String FF) throws OWLException {
-	 ArrayList<String> SLATokensList= new ArrayList<String>();
+  public ArrayList<ArrayList<String>> GetSLATokensInstance(ArrayList<String> instancesFF, String FF) throws OWLException {
+	  ArrayList<ArrayList<String>> SLATokensList= new ArrayList<ArrayList<String>>();
+	  
 	for (int i = 0; i < instancesFF.size(); i++) {
+		ArrayList<String>Tokens=new ArrayList<String>();
 		   QuestOWLStatement st = conn.createStatement();
 	        String sparqlQuery = "PREFIX dc: <http://www.protege.org/CloudFNF#> \r\n"
 	        		+ "SELECT ?SLATokens\r\n"
@@ -131,9 +133,17 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 	               
 	            OWLObject instURI=	res.getOWLObject("SLATokens");	
 	          	String SLATokens = instURI.toString();
-	          	SLATokensList.add(SLATokens);
+	          	SLATokens = SLATokens.substring(SLATokens.indexOf('"')+1);
+	          	SLATokens= SLATokens.substring(0,SLATokens.indexOf('"'));
+	          	 String[] parts= SLATokens.split(",");
+	          	 for (int j = 0; j < parts.length; j++) {
+	          		 Tokens.add(parts[j]);
+	          		
+				}
+	          	
 
-	            }  
+	            }
+	            SLATokensList.add(Tokens);
 			
 	}
 	return SLATokensList;

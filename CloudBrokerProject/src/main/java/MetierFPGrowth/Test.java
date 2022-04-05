@@ -15,7 +15,7 @@ public class Test {
 	public static void main(String[] args) {
 		  double minSupport = 0.6;
 	        
-	        File file = new File("C:\\Users\\pc-click\\Desktop\\tokens.txt");
+	        File file = new File("C:\\Users\\pc-click\\Desktop\\Tokens.txt");
 	        Preprocessor preprocessor = new DefaultPreprocessor();
 	        try {
 	            FileReader fileReader = new FileReader(file);

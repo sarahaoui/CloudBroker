@@ -60,4 +60,19 @@ public class UnifiedTerms {
         
 	    return Synonyms;
 	}
+	public static ArrayList<ArrayList<String>> GenerateListes(ArrayList<String>list, int[]size){
+		ArrayList<ArrayList<String>> listOfTokens = new ArrayList<ArrayList<String>>();	
+		for (int i = 0; i < size.length; i++) {
+			ArrayList<String> Tokens = new ArrayList<String>();
+			int count=0;
+			while( count<size[i]) {
+				Tokens.add(list.get(0));
+				list.remove(0);
+				count++;
+			}
+			listOfTokens.add(Tokens);
+		}
+		return listOfTokens;
+		
+	}
 }
