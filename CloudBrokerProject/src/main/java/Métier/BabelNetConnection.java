@@ -83,66 +83,6 @@ public class BabelNetConnection {
 	}
 	
 	/**** Create DictionaryCloud ****/
-	/*public void createDictionaryCloud(ArrayList<String> Tokens,JSONArray Dictionary,String FF) {
-		ArrayList <String> synonymsList= new ArrayList<>();
-		
-		 //Get FF Synonyms
-	      synonymsList=SynonymsFF(FF);
-		  for (int i=0;i<Tokens.size();i++) {
-		    String[] parts= Tokens.get(i).split(";");
-			ArrayList<String>Concepts= new ArrayList<>();
-			ArrayList<String>Entitys= new ArrayList<>();
-		    BabelNetQuery query = new BabelNetQuery.Builder(parts[0])
-		        .from(Language.EN)
-		        .build();
-		    List<BabelSynset> byl = bn.getSynsets(query);
-		    for (BabelSynset babelSynset : byl) {
-		      //Get Synset Domain
-		      HashMap<Domain,Double> domains= babelSynset.getDomains();
-		      ArrayList <Domain> KeysString= new ArrayList<>();
-		      Set <Domain> keys=domains.keySet();
-		      KeysString.addAll(keys);
-		      System.out.println(KeysString);
-		      Boolean Existe = false;
-		      int j=0;
-		      while (Existe==false && j<KeysString.size()) {
-			     if(synonymsList.contains(KeysString.get(j).toString())) {
-			    	 Existe=true;
-			    	 System.out.println("Domain Existe !!");
-					if(babelSynset.getType().toString().equals("Concept")) {
-				    List<BabelSense> senses=babelSynset.getSenses();
-					for (BabelSense sense : senses) {
-						if(!Concepts.contains(sense.getNormalizedLemma().toString())) {
-						 Concepts.add(sense.getNormalizedLemma().toString());}
-						}
-						
-					 }else {
-					 List<BabelSense> senses=babelSynset.getSenses();
-				     for (BabelSense sense : senses) {
-					   if(!Entitys.contains(sense.getNormalizedLemma().toString())) {
-					   Entitys.add(sense.getNormalizedLemma().toString());}
-						}
-					 }
-
-		         }else {
-		        	 System.out.println("Domain Not Existe !!");
-		        	 j++;
-		         }
-			     
-			  }
-		  }	
-		    JSONObject tokenDetails= new JSONObject();
-		    tokenDetails.put("CloudDomainName", FF);
-		    tokenDetails.put("Concept", Concepts);
-		    tokenDetails.put("Entity", Entitys);
-		
-		    JSONObject tokenObject = new JSONObject();
-		    tokenObject.put(Tokens.get(i), tokenDetails);
-		    Dictionary.add(tokenObject);
-    }
-		  for (Object object : Dictionary) {System.out.println(object);}
- }*/
-	/**** Create DictionaryCloud ****/
 	public static JSONArray createDictionaryCloud(ArrayList<ArrayList<String>> Tokens,JSONArray Dictionary,String FF) {
 	for (int j = 0; j < Tokens.size(); j++) {
 		for (int i=0;i<Tokens.get(j).size();i++) {
