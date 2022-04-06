@@ -12,17 +12,18 @@ import it.unibz.krdb.obda.owlrefplatform.core.QuestPreferences;
 import it.unibz.krdb.obda.owlrefplatform.owlapi3.QuestOWL;
 import it.unibz.krdb.obda.owlrefplatform.owlapi3.QuestOWLConnection;
 import it.unibz.krdb.obda.owlrefplatform.owlapi3.QuestOWLFactory;
-import it.unibz.krdb.obda.owlrefplatform.owlapi3.QuestOWLResultSet;
-import it.unibz.krdb.obda.owlrefplatform.owlapi3.QuestOWLStatement;
 
-import java.io.BufferedReader;
+
+
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.sql.Connection;
 
+import java.io.IOException;
+
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.util.FileManager;
 import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.model.OWLObject;
+
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
@@ -33,14 +34,29 @@ public class SingletonConnectionOntologie  {
 	
 	private static QuestOWL reasoner; 
 	private static QuestOWLConnection conn;
+	private static String DefaultNameSpace="http://www.livre.com/ontologies/livre.owl#" ;
+	private static Model model=null;
 	
-    
+	
+	
+	
 
     static  {
     	
     	final String owlFile = "D:/CloudFNF.owl";
     	final String obdaFile = "D:/CloudFNF.obda";
         OWLOntology ontology;
+    	
+        model=ModelFactory.createOntologyModel();  
+		java.io.InputStream in=FileManager.get().open("D:/CloudFNF.owl");  
+		if(in==null) {
+			throw new IllegalArgumentException("fichier ontologie intruovable");  }
+		else {
+			model.read(in,DefaultNameSpace); 
+		
+		}
+    	
+    	
 		try {
 			ontology = loadOWLOntology(owlFile);
 			 OBDAModel obdaModel = loadOBDA(obdaFile);
@@ -96,7 +112,10 @@ public class SingletonConnectionOntologie  {
     public static QuestOWL Reasoner() {
 		return reasoner;
 	}
-
+    
+    public static Model getModel() {
+		return model;
+	}
 
 }
 

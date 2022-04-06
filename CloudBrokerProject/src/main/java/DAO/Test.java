@@ -1,9 +1,23 @@
 package DAO;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Map;
 
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
+
+import org.json.simple.JSONArray;
 import org.semanticweb.owlapi.model.OWLException;
 
 
@@ -12,18 +26,11 @@ import org.semanticweb.owlapi.model.OWLException;
 public class Test {
 
 	public static void main(String[] args)  {
-    InterfaceImpDAOntologie imp = new InterfaceImpDAOntologie();
+    
 		
-		// Verify FF
-        try {
-        	 Map<String,ArrayList<ArrayList<String>>> FFTokens= imp.UpdateFF();
-        	System.out.println(FFTokens);
-		} catch (OWLException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-    
-    
+			
+		
+
    
 	}
 

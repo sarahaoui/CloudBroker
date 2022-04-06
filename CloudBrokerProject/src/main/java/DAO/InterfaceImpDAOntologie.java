@@ -1,13 +1,27 @@
 package DAO;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.jena.query.Query;
+import org.apache.jena.query.QueryExecution;
+import org.apache.jena.query.QueryExecutionFactory;
+import org.apache.jena.query.QueryFactory;
+import org.apache.jena.query.QuerySolution;
+import org.apache.jena.query.ResultSet;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.update.UpdateAction;
 import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLOntology;
 
+import it.unibz.krdb.obda.model.OBDAModel;
 import it.unibz.krdb.obda.owlrefplatform.owlapi3.QuestOWL;
 import it.unibz.krdb.obda.owlrefplatform.owlapi3.QuestOWLConnection;
 import it.unibz.krdb.obda.owlrefplatform.owlapi3.QuestOWLResultSet;
@@ -15,14 +29,17 @@ import it.unibz.krdb.obda.owlrefplatform.owlapi3.QuestOWLStatement;
 
 public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 
-	QuestOWLConnection conn= SingletonConnectionOntologie.getConnection();
-	QuestOWL reasoner = SingletonConnectionOntologie.Reasoner();
+	static QuestOWLConnection conn= SingletonConnectionOntologie.getConnection();
+	static QuestOWL reasoner = SingletonConnectionOntologie.Reasoner();
+	static Model model= SingletonConnectionOntologie.getModel();
+	
 	
 	/****** Start UPDATE WORK *******/
    public  HashMap<String,ArrayList<ArrayList<String>>> UpdateFF() throws OWLException, IOException {
 	   
 	   HashMap<String,ArrayList<ArrayList<String>>> FFTokens = new HashMap<String,ArrayList<ArrayList<String>>>();
 	   ArrayList<String>FFInstnaces= VerifyFF(); 
+	   System.out.println(FFInstnaces);
 	   ArrayList<String>ExisteFFList= FindRealFF(FFInstnaces);  
 	   QuestOWLStatement st = conn.createStatement();
 	   try {
@@ -82,7 +99,7 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
            while (res.nextRow()) {    
            OWLObject instURI=	res.getOWLObject("instURI");	
          	String instURIString = instURI.toString();
-         
+            
          	 FFInstnaces.add(instURIString);
            }
            return FFInstnaces;
@@ -128,7 +145,8 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 	        		+ "                   }";
 
 	        
-	        	QuestOWLResultSet res = st.executeTuple(sparqlQuery); 
+	        	QuestOWLResultSet res = st.executeTuple(sparqlQuery);
+	        	
 	            while (res.nextRow()) {
 	               
 	            OWLObject instURI=	res.getOWLObject("SLATokens");	
@@ -148,7 +166,61 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 	}
 	return SLATokensList;
  }
- 
+  
+  public static void UpdateKeyWords(String key, String properties,String Type) throws OWLException {
+	  
+	  String sparqlQuery = "PREFIX dc: <http://www.protege.org/CloudFNF#> \r\n"
+	       		+ "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\n"
+	       		+ "PREFIX owl: <http://www.w3.org/2002/07/owl#>\r\n"
+	       		+ "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\r\n"
+	       		+ "DELETE {dc:"+key+" dc:isDefinedBy"+Type+"Keywords ?o.}"
+	       		+"INSERT { dc:"+key+" dc:isDefinedBy"+Type+"Keywords \""+properties+"\".}"
+	 
+	       		+ "WHERE {"
+	       		+ "dc:"+key+" dc:isDefinedBy"+Type+"Keywords ?o.}";
+
+	  
+	              UpdateAction.parseExecute(sparqlQuery, model);
+	  		    try {
+	  	 			model.write(new FileOutputStream("D:/CloudFNF.owl"), "RDF/XML");
+	  	 			
+	  	 		} catch (FileNotFoundException e) {
+	  	 			e.printStackTrace();
+	  	 		}
+	              
+		  	        	
+  }
+  public static void GetProprties(String Key) throws OWLException {
+	        String sparqlQuery = "PREFIX dc: <http://www.protege.org/CloudFNF#> \r\n"
+	        		+ "SELECT ?Unique ?Merged \r\n"
+	        		+ "\r\n"
+	        		+ "    WHERE { dc:"+Key+" dc:isDefinedByUniqueKeywords ?Unique;\r\n"
+	        				+ "    dc:isDefinedByUniqueKeywords ?Merged."
+	        		+ "                      }";
+	  
+	        Query query= QueryFactory.create(sparqlQuery);  
+			QueryExecution queryExecution= QueryExecutionFactory.create(query,model);  
+			 
+			try {
+				ResultSet response=queryExecution.execSelect(); 
+				while(response.hasNext()) {
+					QuerySolution sol= response.nextSolution();
+					RDFNode Unique=sol.get("?Unique");
+					RDFNode Merged=sol.get("?Merged");
+					if(Unique==null || Merged ==null){
+						System.out.println("there are no data");
+					}else {
+						String UniqueString= Unique.toString();
+						String MergedString= Merged.toString();
+						System.out.println("Unique: "+UniqueString+ " Merged: "+MergedString);
+					}
+					}}
+				finally {
+					
+					queryExecution.close();
+				}
+  }	
+}
   
    
-}
+
