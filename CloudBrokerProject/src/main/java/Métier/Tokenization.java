@@ -17,10 +17,10 @@ import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
 
 public class Tokenization {
-	public ArrayList<String> TokanizationTag(ArrayList<String>keywords)throws InvalidFormatException, IOException {
+	public static ArrayList<String> TokanizationTag(ArrayList<String>keywords)throws InvalidFormatException, IOException {
 		  
-	      FileInputStream tokenModelIn = new FileInputStream("en-token.bin");
-	      FileInputStream posModelIn = new FileInputStream("en-pos-maxent.bin");
+	      FileInputStream tokenModelIn = new FileInputStream("D:/en-token.bin");
+	      FileInputStream posModelIn = new FileInputStream("D:/en-pos-maxent.bin");
 	      TokenizerModel tokenModel = new TokenizerModel(tokenModelIn);
 	      Tokenizer tokenizer = new TokenizerME(tokenModel);
 	      // loading the parts-of-speech model from stream

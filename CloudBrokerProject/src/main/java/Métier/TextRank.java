@@ -25,7 +25,7 @@ import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
 
 public class TextRank {
-	public ArrayList<String>  sentenceDetect(String paragraph) throws InvalidFormatException, IOException {
+	public static ArrayList<String>sentenceDetect(String paragraph) throws InvalidFormatException, IOException {
     	int k = 2;                 //window size/2
         float d = 0.85f;
         final int max_iter = 100;  //Maximum number of iterations
@@ -39,9 +39,9 @@ public class TextRank {
         List<String> keyWords = new ArrayList<>();
         
    
-        InputStream is = new FileInputStream("en-sent.bin");
-        tokenModelIn = new FileInputStream("en-token.bin");
-        posModelIn = new FileInputStream("en-pos-maxent.bin");
+        InputStream is = new FileInputStream("D:/en-sent.bin");
+        tokenModelIn = new FileInputStream("D:/en-token.bin");
+        posModelIn = new FileInputStream("D:/en-pos-maxent.bin");
         
         TokenizerModel tokenModel = new TokenizerModel(tokenModelIn);
         Tokenizer tokenizer = new TokenizerME(tokenModel);
@@ -202,7 +202,7 @@ public class TextRank {
     }
     
     
-    public ArrayList<String> KeyPhrases(ArrayList<ArrayList<String>>words,ArrayList<String> result,Tokenizer tokenizer) {
+    public static ArrayList<String> KeyPhrases(ArrayList<ArrayList<String>>words,ArrayList<String> result,Tokenizer tokenizer) {
     	ArrayList<String>Final= new ArrayList<String>();
     	for(int i=0;i<words.size();i++) {
     		String word="";
@@ -231,7 +231,7 @@ public class TextRank {
     	}
 
 
-	private void CheckWord(Tokenizer tokenizer, String word, ArrayList<String> Final) {
+	private static void CheckWord(Tokenizer tokenizer, String word, ArrayList<String> Final) {
 		String[]tokens = tokenizer.tokenize(word);
 		String Finall[]= new String[Final.size()];
 		Finall= Final.toArray(Finall);

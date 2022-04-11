@@ -3,6 +3,7 @@ package Métier;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+
 import java.util.Set;
 
 import org.json.simple.JSONArray;
@@ -20,10 +21,11 @@ public class BabelNetConnection {
 	List<BabelSynset> byl =null;
 	static BabelNet bn = BabelNet.getInstance();
 	
+	
 	/**** 	First Test *****/
-	public void Connection(ArrayList<String> keywords) {
-		for(int i=0;i<keywords.size();i++) {
-			
+	public static  void Connection(ArrayList<String> keywords) {
+		
+		for(int i=0;i<keywords.size();i++) {	
 		BabelNetQuery query = new BabelNetQuery.Builder(keywords.get(i))
 		        .from(Language.EN)
 		        .build();
@@ -40,7 +42,8 @@ public class BabelNetConnection {
 		}
 	
 	/**** 	Second Test *****/
-	public ArrayList<String> Connection2(ArrayList<String> keywords) {
+	public static  ArrayList<String> Connection2(ArrayList<String> keywords) {
+		
 		ArrayList<String> tokens=new ArrayList<>();
 		for(int j=0;j<keywords.size();j++) {
 			tokens.add(keywords.get(j));
@@ -62,7 +65,7 @@ public class BabelNetConnection {
 		}
 	/**** Get Synonyms For FF ******/
 	public ArrayList<String> SynonymsFF(String FF){
-
+		
 		Set<String> sensesSet= new HashSet<>();
 		ArrayList <String> sensesList= new ArrayList<>();
 		BabelNetQuery query = new BabelNetQuery.Builder(FF)
@@ -84,7 +87,8 @@ public class BabelNetConnection {
 	
 	/**** Create DictionaryCloud ****/
 	public static JSONArray createDictionaryCloud(ArrayList<ArrayList<String>> Tokens,JSONArray Dictionary,String FF) {
-	for (int j = 0; j < Tokens.size(); j++) {
+		
+		for (int j = 0; j < Tokens.size(); j++) {
 		for (int i=0;i<Tokens.get(j).size();i++) {
 			if(!SreachTermInDictionary(Dictionary, Tokens.get(j).get(i)) && NumerOfServiceTerm(Tokens.get(j).get(i), Tokens)>=0.2) {   //check if term not exist in CloudDictionary and term exist in 20% of services 
 		    String[] parts= Tokens.get(j).get(i).split(";");

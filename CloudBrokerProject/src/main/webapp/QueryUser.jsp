@@ -24,7 +24,7 @@
         <form method="POST" class="register-form" id="register-form" action="Inscrire.php">
                 <div class="form-group">
                   <label for="email"><i class="zmdi zmdi-email"></i></label>         
-                  <textarea id="msg" name="user_message" placeholder="Enter your Query here"></textarea>
+                  <textarea id="msg" name="user_message" placeholder="Enter your Query here..."></textarea>
                 </div>
                 <div class="form-group form-button">         
                   <input 

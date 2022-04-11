@@ -112,6 +112,7 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 				conn.close();
 			}
 			reasoner.dispose();
+			
 		}
        
 	}
@@ -166,7 +167,8 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 	}
 	return SLATokensList;
  }
-  
+
+  /*** UpdateKeywords ***/
   public static void UpdateKeyWords(String key, String properties,String Type) throws OWLException {
 	  
 	  String sparqlQuery = "PREFIX dc: <http://www.protege.org/CloudFNF#> \r\n"
@@ -190,13 +192,14 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 	              
 		  	        	
   }
-  public static void GetProprties(String Key) throws OWLException {
+  
+  /*** GetProperties ***/
+  public static String GetKeywords(String Key ,String Type) throws OWLException {
+	  String keywordString="";
 	        String sparqlQuery = "PREFIX dc: <http://www.protege.org/CloudFNF#> \r\n"
-	        		+ "SELECT ?Unique ?Merged \r\n"
+	        		+ "SELECT ?keywords \r\n"
 	        		+ "\r\n"
-	        		+ "    WHERE { dc:"+Key+" dc:isDefinedByUniqueKeywords ?Unique;\r\n"
-	        				+ "    dc:isDefinedByUniqueKeywords ?Merged."
-	        		+ "                      }";
+	        		+ "    WHERE { dc:"+Key+" dc:isDefinedBy"+Type+"Keywords ?keywords.}";             
 	  
 	        Query query= QueryFactory.create(sparqlQuery);  
 			QueryExecution queryExecution= QueryExecutionFactory.create(query,model);  
@@ -205,21 +208,116 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 				ResultSet response=queryExecution.execSelect(); 
 				while(response.hasNext()) {
 					QuerySolution sol= response.nextSolution();
-					RDFNode Unique=sol.get("?Unique");
-					RDFNode Merged=sol.get("?Merged");
-					if(Unique==null || Merged ==null){
+					RDFNode keyword=sol.get("?keywords");
+					if(keyword==null ){
 						System.out.println("there are no data");
 					}else {
-						String UniqueString= Unique.toString();
-						String MergedString= Merged.toString();
-						System.out.println("Unique: "+UniqueString+ " Merged: "+MergedString);
+						keywordString= keyword.toString();
+						
 					}
 					}}
 				finally {
 					
 					queryExecution.close();
 				}
+			return keywordString;
   }	
+  
+  /*** GetSubClasses ***/
+  public static ArrayList<String> GetChildren(String FF) {
+	 
+	 ArrayList<String> childs= new ArrayList<>();
+	  String sparqlQuery = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\n"
+	  		+ "PREFIX owl: <http://www.w3.org/2002/07/owl#>\r\n"
+	  		+ "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\r\n"
+	  		+ "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\r\n"
+	  		+ "PREFIX dc: <http://www.protege.org/CloudFNF#>\r\n"
+	  		+ "SELECT ?child \r\n"
+	  		+ " WHERE { ?child rdfs:subClassOf dc:"+FF+"\r\n"
+	  		+ " MINUS { ?child rdfs:subClassOf ?othersub .\r\n"
+	  		+ "                     ?othersub rdfs:subClassOf dc:"+FF+".\r\n"
+	  		+ "                      FILTER (?child != ?othersub)"
+	  		+ "                      FILTER (?othersub != dc:"+FF+"). } }";
+      		
+
+      Query query= QueryFactory.create(sparqlQuery);  
+		QueryExecution queryExecution= QueryExecutionFactory.create(query,model);
+		try {
+			ResultSet response=queryExecution.execSelect(); 
+			while(response.hasNext()) {
+				QuerySolution sol= response.nextSolution();
+				RDFNode child=sol.get("?child");
+				if(child==null){
+					System.out.println("there are no data");
+				}else {
+					String childString= child.toString();
+					childString = childString.substring(childString.indexOf("#")+1);
+					if(!childString.equals(FF)) {
+                    childs.add(childString);}
+				}
+				}}
+			finally {
+				
+				queryExecution.close();
+			}
+		return childs;
+	  
+  }
+  
+  public static void DFSbasedMergingKeyWords(String Node) throws OWLException{
+	  
+	  ArrayList<String> children= new ArrayList<>();
+	  ArrayList<String> VisitedNode= new ArrayList<>();
+	  children= GetChildren(Node);
+	  VisitedNode.add(Node);   //to avoid the cyclic mode
+	  
+	  for (String child : children) {
+		
+		 if(!VisitedNode.contains(child)) 
+			  DFSbasedMergingKeyWords(child);
+		 String NodeKeyWords= GetKeywords(Node, "Merged");
+		 String ChildKeyWords= GetKeywords(child, "Merged");
+		 String mergedKeywords= Merge(NodeKeyWords,ChildKeyWords);
+         
+		  String sparqlQuery = "PREFIX dc: <http://www.protege.org/CloudFNF#> \r\n"
+		       		+ "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\n"
+		       		+ "PREFIX owl: <http://www.w3.org/2002/07/owl#>\r\n"
+		       		+ "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\r\n"
+		       		+ "DELETE {dc:"+Node+" dc:isDefinedByMergedKeywords ?o.}"
+		       		+"INSERT { dc:"+Node+" dc:isDefinedByMergedKeywords \""+ mergedKeywords+"\".}"
+		 
+		       		+ "WHERE {"
+		       		+ "dc:"+Node+" dc:isDefinedByMergedKeywords ?o.}";
+
+		  
+		              UpdateAction.parseExecute(sparqlQuery, model);
+		  		    try {
+		  	 			model.write(new FileOutputStream("D:/CloudFNF.owl"), "RDF/XML");
+		  	 			
+		  	 		} catch (FileNotFoundException e) {
+		  	 			e.printStackTrace();
+		  	 		}
+		  
+		  
+	}
+	  
+	  
+	  
+  }
+
+private static String Merge(String nodeKeyWords, String childKeyWords) {
+	String mergedKeywords="";
+	if(nodeKeyWords.equals("") && childKeyWords.equals("")) {
+		mergedKeywords="";
+	}else if(nodeKeyWords.equals("")) {
+		mergedKeywords=childKeyWords;
+	}else if(childKeyWords.equals("")) {
+		mergedKeywords=childKeyWords;
+	} else{
+		mergedKeywords= nodeKeyWords+","+childKeyWords;
+	}
+	return mergedKeywords;
+}
 }
   
    

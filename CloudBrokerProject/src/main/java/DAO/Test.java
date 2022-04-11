@@ -26,9 +26,14 @@ import org.semanticweb.owlapi.model.OWLException;
 public class Test {
 
 	public static void main(String[] args)  {
-    
+		try {
+			InterfaceImpDAOntologie.DFSbasedMergingKeyWords("Computing");
+		} catch (OWLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	//System.out.println(InterfaceImpDAOntologie.GetChildren("MapReduce"));
 		
-			
 		
 
    

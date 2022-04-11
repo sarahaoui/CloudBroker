@@ -128,8 +128,8 @@ public class UpdateKeyWords  {
 	      System.out.println("************ADD Properties**************");
 	        InterfaceImpDAOntologie.UpdateKeyWords(key,propString,"Unique");
 	        InterfaceImpDAOntologie.UpdateKeyWords(key,propString,"Merged");
-	        InterfaceImpDAOntologie.GetProprties(key);
 	        
+	        /*** Update Merged Keywords ***/
 	   	}
 	   
       

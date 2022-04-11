@@ -17,11 +17,11 @@ import opennlp.tools.tokenize.TokenizerModel;
 public class WordNetConnection {
 	
 	
-	public void WordnetConnection(ArrayList<String> Tokens) throws IOException {
+	public static void WordnetConnection(ArrayList<String> Tokens) throws IOException {
 		System.setProperty("wordnet.database.dir", "C:\\Users\\pc-click\\Desktop\\PFE Ressources\\WordNet-3.0\\dict");
 		WordNetDatabase database = WordNetDatabase.getFileInstance();
-		FileInputStream tokenModelIn = new FileInputStream("en-token.bin");
-	    FileInputStream posModelIn = new FileInputStream("en-pos-maxent.bin");
+		FileInputStream tokenModelIn = new FileInputStream("D:/en-token.bin");
+	    FileInputStream posModelIn = new FileInputStream("D:/en-pos-maxent.bin");
 	    TokenizerModel tokenModel = new TokenizerModel(tokenModelIn);
 	    Tokenizer tokenizer = new TokenizerME(tokenModel);
 	    // loading the parts-of-speech model from stream
