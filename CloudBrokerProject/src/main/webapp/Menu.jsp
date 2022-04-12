@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <div class="sidebar close">
     <div class="logo-details">
       <i class='bx bx-menu'></i>
@@ -19,31 +20,31 @@
             <i class='bx bx-folder-open'></i>
             <span class="link_name">Services</span>
           </a>
-          <i class='bx bxs-chevron-down arrow' ></i>
+        <!--   <i class='bx bxs-chevron-down arrow' ></i> -->
         </div>
-        <ul class="sub-menu">
+     <!--   <ul class="sub-menu">
           <li><a class="link_name" href="#">Services</a></li>
-          <li><a href="">Vm</a></li>
+           <li><a href="">Vm</a></li>
           <li><a href="">Storage Space</a></li>
           <li><a href="">PaaS</a></li>
-          <li><a href="">SaaS</a></li>
-        </ul>
+          <li><a href="">SaaS</a></li>  
+        </ul> -->
       </li>
      <li>
         <div class="iocn-link">
-          <a href="#">
+          <a href="DP1.jsp">
            <i class='bx bx-folder-plus'></i>
-            <span class="link_name">Ajouter</span>
+            <span class="link_name" href="DP1.jsp">Ajouter</span>
           </a>
-          <i class='bx bxs-chevron-down arrow' ></i>
+      <!--     <i class='bx bxs-chevron-down arrow' ></i> -->
         </div>
-        <ul class="sub-menu">
-          <li><a class="link_name" href="#">Ajouter</a></li>
-          <li><a href="">Vm</a></li>
+    <!--    <ul class="sub-menu">
+          <li><a class="link_name" href="DP1.jsp">Ajouter</a></li>
+     <li><a href="">Vm</a></li>
           <li><a href="">Storage Space</a></li>
           <li><a href="">PaaS</a></li>
-          <li><a href="">SaaS</a></li>
-        </ul>
+          <li><a href="">SaaS</a></li> 
+        </ul>  -->
       </li>
       
       <li>
@@ -94,15 +95,22 @@
       <li>
     <div class="profile-details">
       <div class="profile-content">
-       <a href="compte.php" ><img src="images/compte.png "  alt="profileImg" ></a>
+       <a href="WebSite.jsp" ><img src="images/compte.png "  alt="profileImg" ></a>
       </div>
       <div class="name-job">
         <div class="profile_name">
-      
+      <c:if test="${!empty sessionScope.nom}">
+		${ sessionScope.nom}
+		</c:if>
         </div>
-        <div class="job"></div>
+        <div class="job">
+        <c:if test="${!empty sessionScope.email}">
+		 ${ sessionScope.email}
+		</c:if>
+        </div>
+        
       </div>
-      <a href=""><i class='bx bx-log-out' ></i></a>
+      <a href="WebSite.jsp"><i class='bx bx-log-out' ></i></a>
     </div>
   </li>
 </ul>

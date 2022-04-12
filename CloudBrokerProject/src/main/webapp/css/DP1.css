@@ -19,20 +19,35 @@
 	flex-direction: column;
 }
 
-form .corps-formulaire,
-.corps-formulaire2,
-.corps-formulaire3 {
-	display: flex;
+
+form .corps-formulaire1{
+	
+    display: flex;
 	flex-wrap: wrap;
 	margin-left: 90px;
+
 }
+
+form .corps-formulaire2, .corps-formulaire3, .corps-formulaire4, p {
+ 	display: flex;
+	flex-wrap: wrap;
+	margin-left: 90px;
+	border-left: 2px solid black;
+    border-right: 2px solid black;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+	background-color: #F2F2F2;
+    border-color:  #F2F2F2;
+    border-width: 50px;
+}
+
 .boite {
 	margin-top: 25px;
 	display: flex;
 	flex-direction: column;
 }
 input {
-	width: 261px;
+	width: 200px;
 	margin-top: 5px;
 	padding: 10px 100px 10px 10px;
 	border-radius: 10px;
@@ -40,19 +55,28 @@ input {
 	outline-color: #083e6f;
 	background-color: #fafafa;
 }
+.import {
+	width: 261px;
+	border-radius: none;
+	border: none;
+	background-color: white;
+}
+
 .right1,
-.right2 {
+.right2,
+.right3,
+.right4 {
 	margin-left: 80px;
 }
-form .corps-formulaire2,
-.corps-formulaire3 {
+form .corps-formulaire2, .corps-formulaire3, .corps-formulaire4{
 	margin-top: 40px;
 }
-form .corps-formulaire .right1 .boite {
+
+form .corps-formulaire1 .right1 .boite {
 	height: 100%;
 }
 
-form .corps-formulaire .right1 .boite textarea {
+form .corps-formulaire1 .right1 .boite textarea {
 	margin-top: 5px;
 	padding: 5px;
 	border: 1px solid #c9c9c9;
@@ -69,44 +93,12 @@ select {
 	background: white;
 	font-size: 14px;
 	color: #0a1732;
-	padding: 10px 110px 10px 10px;
+	padding: 10px 110px 10px 80px;
 	border-radius: 10px;
 	margin-top: 5px;
 	background-color: #fafafa;
 }
-.corps-formulaire2 .left2 select{
-	outline: none;
-	border: 1px solid #c9c9c9;
-	background: white;
-	font-size: 14px;
-	color: #0a1732;
-	padding: 10px 0px 10px 10px;
-	border-radius: 10px;
-	margin-top: 5px;
-	background-color: #fafafa;
-}
-.corps-formulaire .left1 select{
-	outline: none;
-	border: 1px solid #c9c9c9;
-	background: white;
-	font-size: 14px;
-	color: #0a1732;
-	padding: 10px 85px 10px 10px;
-	border-radius: 10px;
-	margin-top: 5px;
-	background-color: #fafafa;
-}
-.corps-formulaire3 .left2 select , .corps-formulaire3 .right2 select{
-	outline: none;
-	border: 1px solid #c9c9c9;
-	background: white;
-	font-size: 14px;
-	color: #0a1732;
-	padding: 10px 208px 10px 10px;
-	border-radius: 10px;
-	margin-top: 5px;
-	background-color: #fafafa;
-}
+
 select option {
 	margin: 40px;
 	color: #0a1732;
@@ -145,24 +137,7 @@ select option {
 .pied-formulaire button:hover {
 	transform: scale(0.9);
 }
-.xml button {
-	margin-bottom: 20px;
-	margin-top: 60px;
-	padding: 7px 100px;
-	text-align: center;
-	border-radius: 10px;
-	border: none;
-	background: #083e6f;
-	color: #fff;
-	cursor: pointer;
-	position: relative;
-	font-size: 15px;
-	box-shadow: 2px 5px 5px 2px rgba(24, 32, 109, 0.1);
-	transition: transform 0.5s;
-}
-.xml button:hover {
-	transform: scale(0.9);
-}
+
 
 .sidebar {
 	position: fixed;
@@ -383,5 +358,13 @@ h1{
 	font-weight: normal;
 	font-size: 20px;
 	text-align: left;
-	margin-right: 530px;
+	margin-right: 480px;
 	margin-bottom: 25px;}
+
+
+p{
+color:black;
+font-weight:bold;
+margin-bottom: -150px;
+margin-top: 50px;
+}

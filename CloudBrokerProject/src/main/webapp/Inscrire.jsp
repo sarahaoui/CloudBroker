@@ -26,69 +26,40 @@
 						<div class="signup-form">
 							<h2 class="form-title">SignUp</h2>
 						
-							<form method="POST" class="register-form" id="register-form" action="Inscrire.php">
+									<form method="POST" class="register-form" id="register-form" action="Inscrire.php">
 							
 								<div class="form-group">
-									<label for="name"
-										><i class="zmdi zmdi-account material-icons-name"></i
-									></label>
+									<label for="name"> <i class="zmdi zmdi-account material-icons-name"> </i> </label>
 									<input
-										type="text" name="nom" id="name"  placeholder="Nom d'utilisateur"
-									/>
+										type="text" name="nom" id="nom"  placeholder="Username" />
 								
 								</div>
 								<div class="form-group">
 									<label for="pass"><i class="zmdi zmdi-lock"></i></label>
-									<input
-										type="password"
-										name="motdepasse"
-										id="pass"
-										placeholder="Mot de passe" 
-									/>
+									<input type="password" name="motdepasse" id="motdepasse" placeholder="Password" />
 								</div>
 								<div class="form-group">
 									<label for="email"><i class="zmdi zmdi-email"></i></label>
-									<input
-										type="email"
-										name="email"
-										id="email"
-										placeholder="Email"
-									/>
+									<input type="email" name="email" id="email" placeholder="E-mail" />
 								</div>
 								<div class="form-group">
 									<label for="tlf"><i class="zmdi zmdi-phone"></i></label>
 									<input
-										type="text"
-										name="telephone"
-										id="tlf"
-										placeholder="Téléphone"
-									/>
+										type="text" name="telephone" id="telephone" placeholder="telephone" />
 								</div>
 								<div class="form-group">
 									<label for="name"><i class="zmdi zmdi-case"></i></label>
-									<input
-										type="text"
-										name="nom_entreprise"
-										id="name"
-										placeholder="Nom d'entréprise"
-									/>
+									<input type="text" name="nom_entreprise" id="nom_entreprise" placeholder="Company name" />
 								</div>
 								<div class="form-group">
-									<label for="pays"
-										><i class="zmdi zmdi-google-maps"></i
-									></label>
-									<input type="text" name="pays" id="pays" placeholder="Pays" />
+									<label for="pays"><i class="zmdi zmdi-google-maps"> </i> </label>
+									<input type="text" name="pays" id="pays" placeholder="Country"  />
 								</div>
 								<div class="form-group form-button">
 								
-									<input 
-										type="submit"
-										name="signup"
-										id="signup"
-										class="form-submit"
-										value="Créer un compte" />
+									<input type="submit" name="signup" id="signup" class="form-submit" value="Create an account"/>
 								</div>
-								<p>Vous avez déjà un compte? <a href="Connexion.jsp"> Login </a></p>
+								<p>Already have an account? <a href="Connexion.jsp"> Login </a></p>
 							</form>
 						</div>
 					</div>

@@ -24,39 +24,28 @@
 				<div class="container">
 					<div class="signup-content">
 						<div class="signup-form">
-							<h2 class="form-title">Connexion</h2>
-							<form method="POST" class="register-form" id="register-form" action="Connexionn.php">
+							<h2 class="form-title">Login</h2>
+							<form method="POST" class="register-form" id="register-form" action="Connexion.php">
 								<div class="form-group">
 									<label for="name"
 										><i class="zmdi zmdi-account material-icons-name"></i
 									></label>
 									<input
 										type="text"
-										name="name"
+										name="Nom"
 										id="name"
-										placeholder="Nom d'utilisateur"
+										placeholder="Username"
 									/>
 								</div>
 								<div class="form-group">
 									<label for="pass"><i class="zmdi zmdi-lock"></i></label>
-									<input
-										type="password"
-										name="pass"
-										id="pass"
-										placeholder="Mot de passe"
-									/>
+									<input type="password" name="Motdepasse" id="pass" placeholder="Password" />
 								</div>
 
 								<div class="form-group form-button">
-									<input
-										type="submit"
-										name="signup"
-										id="signup"
-										class="form-submit"
-										value="Connexion"
-									/>
+									<input type="submit" name="signup" id="signup" class="form-submit" value="Login" />
 								</div>
-	                            <p> <a href="Inscrire.jsp"> Créer un nouveau compte </a></p>
+	                            <p> <a href="Inscrire.jsp"> Create a new account </a></p>
 							</form>
 						</div>
 					</div>

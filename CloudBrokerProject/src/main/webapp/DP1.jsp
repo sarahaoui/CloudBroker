@@ -28,92 +28,299 @@
 			
 			<div class="description">
 				<h1> General Paramaters : </h1>
-				<form>
-					<div class="corps-formulaire">
+				
+		 	<form method="POST" class="register-form" id="register-form" action="DP1.php"> 
+				
+					<div class="corps-formulaire1">
 						<div class="left1">
 							<div class="boite">
-								<label for="">Service Ttile :</label>
-								<input type="text" />
+								<label for="">Service Title :</label>
+								<input type="text" name="title" />
 							</div>
 							<div class="boite">
 								<label for="">SubscriptionFee :</label>
-								<input type="text" />
+								<input type="text" name="fee" />
 							</div>
 							<div class="boite">
 								<label for="">Version :</label>
-								<input type="text" />
+								<input type="text" name="version" />
 							</div>	
 						</div>
 						<div class="right1">
 							<div class="boite">
 								<label for="">Short Description :</label>
-								<textarea></textarea>
+								<textarea name="description"></textarea>
 							</div>
 							
 						</div>
 					</div>
-					<div class="corps-formulaire2">
-						<div class="left2">
+					<div class="corps-formulaire1">
+						<div class="left1">
 							<div class="boite">
 								<label for="">Service URL :</label>
-								<input type="text" />
-							</div>
+								<input type="text" name="url" />
+							</div>							
+						</div>
+						<div class="right1">
+							<div class="boite">						
+								<label>Import SLA : </label>
+									<input type="file" name="import" class="import" />
+							</div>						
+						</div>
+					</div>
+			    <div class="corps-formulairee">
+                   <p>Payement Model :</p>
+
+					<div class="corps-formulaire2">
+						<div class="left2">
+							
 							<div class="boite">
-								<label for="">Payement Model :</label>
-								<select name="Contrainte" id="Contrainte">
+								<label for="">Free :</label>
+								<select name="free" id="Contrainte">
 									<option selected disabled></option>
-									<option value="Contrainte1">Contrainte 1</option>
+									<option value="Support">Support</option>
+									<option value="Not Support">Not Support</option>
 								</select>
 							</div>
 							<div class="boite">
-								<label for="">Intended User :</label>
-								<select name="Contrainte" id="Contrainte">
+								<label for="">PerUnit :</label>
+								<select name="unit" id="Contrainte">
 									<option selected disabled></option>
-									<option value="Contrainte1">Contrainte 1</option>
+									<option value="Support">Support</option>
+									<option value="Not Support">Not Support</option>
 								</select>
 							</div>
-							<div class="boite">
-								<label for="">Service Interface :</label>
-								<select name="Contrainte" id="Contrainte">
-									<option selected disabled></option>
-									<option value="Contrainte1">Contrainte 1</option>
-								</select>
-							</div>
+							
 						</div>
 						<div class="right2">
 							<div class="boite">
-								
-								<label>Import SLA : </label>
-									<input type="file" />
-							</div>
-							<div class="boite">
-								<label for="">License Type :</label>
-								<select name="Contrainte" id="Contrainte">
+								<label for="">Tiered :</label>
+								<select name="tie" id="Contrainte">
 									<option selected disabled></option>
-									<option value="Contrainte1">Contrainte 1</option>
+									<option value="Support">Support</option>
+									<option value="Not Support">Not Support</option>
 								</select>
 							</div>
 							<div class="boite">
-								<label for="">Openness :</label>
-								<select name="Contrainte" id="Contrainte">
+								<label for="">Subscription :</label>
+								<select name="sub" id="Contrainte">
 									<option selected disabled></option>
-									<option value="Contrainte1">Contrainte 1</option>
+									<option value="Support">Support</option>
+									<option value="Not Support">Not Support</option>
 								</select>
 							</div>
-							<div class="boite">
-								<label for="">Location :</label>
-								<select name="Contrainte" id="Contrainte">
-									<option selected disabled></option>
-									<option value="Contrainte1">Contrainte 1</option>
-								</select>
 							</div>
+							
 						</div>
 					</div>
+			
 
 					<!--/////-->
+					
+                   <p>Openness :</p>
+
+					<div class="corps-formulaire3">
+						<div class="left3">
+							
+							<div class="boite">
+								<label for="">LimitedLevel :</label>
+								<select name="limited" id="Contrainte">
+									<option selected disabled></option>
+									<option value="Support">Support</option>
+									<option value="Not Support">Not Support</option>
+								</select>
+							</div>
+							<div class="boite">
+								<label for="">CompleteLevel :</label>
+								<select name="complete" id="Contrainte">
+									<option selected disabled></option>
+									<option value="Support">Support</option>
+									<option value="Not Support">Not Support</option>
+								</select>
+							</div>
+							
+							
+						</div>
+						<div class="right3">
+							<div class="boite">
+								<label for="">BasicLevel :</label>
+								<select name="basic" id="Contrainte">
+									<option selected disabled></option>
+									<option value="Support">Support</option>
+									<option value="Not Support">Not Support</option>
+								</select>
+							</div>
+							<div class="boite">
+								<label for="">ModerateLevel :</label>
+								<select name="moderate" id="Contrainte">
+									<option selected disabled></option>
+									<option value="Support">Support</option>
+									<option value="Not Support">Not Support</option>
+								</select>
+							</div>
+							</div>
+							
+						</div>
+								<!--/////-->
+					
+                   <p>Service Interface :</p>
+
+					<div class="corps-formulaire4">
+						<div class="left4">
+							
+							<div class="boite">
+								<label for="">WebPortal :</label>
+								<select name="web" id="Contrainte">
+									<option selected disabled></option>
+									<option value="Support">Support</option>
+									<option value="Not Support">Not Support</option>
+								</select>
+							</div>
+							<div class="boite">
+								<label for="">API :</label>
+								<select name="api" id="Contrainte">
+									<option selected disabled></option>
+									<option value="Support">Support</option>
+									<option value="Not Support">Not Support</option>
+								</select>
+							</div>
+							
+							
+						</div>
+						<div class="right4">
+							<div class="boite">
+								<label for="">CLI :</label>
+								<select name="cli" id="Contrainte">
+									<option selected disabled></option>
+									<option value="Support">Support</option>
+									<option value="Not Support">Not Support</option>
+								</select>
+							</div>
+							
+							</div>
+							
+						</div>
+				
+
+				<!-- -->
+				<p>Location :</p>
+
+					<div class="corps-formulaire4">
+						<div class="left4">
+							
+							<div class="boite">
+								<label for="">Africa :</label>
+								<select name="africa" id="Contrainte">
+									<option selected disabled></option>
+									<option value="Support">Support</option>
+									<option value="Not Support">Not Support</option>
+								</select>
+							</div>
+							<div class="boite">
+								<label for="">Australlia :</label>
+								<select name="australlia" id="Contrainte">
+									<option selected disabled></option>
+									<option value="Support">Support</option>
+									<option value="Not Support">Not Support</option>
+								</select>
+							</div>
+							<div class="boite">
+								<label for="">MiddleeastNorthAfrica :</label>
+								<select name="north" id="Contrainte">
+									<option selected disabled></option>
+									<option value="Support">Support</option>
+									<option value="Not Support">Not Support</option>
+								</select>
+							</div>
+							
+							
+						</div>
+						<div class="right4">
+							<div class="boite">
+								<label for="">Asia :</label>
+								<select name="asia" id="Contrainte">
+									<option selected disabled></option>
+									<option value="Support">Support</option>
+									<option value="Not Support">Not Support</option>
+								</select>
+							</div>
+							<div class="boite">
+								<label for="">Europe_UK :</label>
+								<select name="uk" id="Contrainte">
+									<option selected disabled></option>
+									<option value="Support">Support</option>
+									<option value="Not Support">Not Support</option>
+								</select>
+							</div> 
+							<div class="boite">
+								<label for="">US_Canada :</label>
+								<select name="us" id="Contrainte">
+									<option selected disabled></option>
+									<option value="Support">Support</option>
+									<option value="Not Support">Not Support</option>
+								</select>
+							</div> 
+						</div>
+					</div>
+							
+							<!-- -->
+							<p>License Type :</p>
+
+					<div class="corps-formulaire4">
+						<div class="left4">
+							
+							<div class="boite">
+								<label for="">Proprietary :</label>
+								<select name="prop" id="Contrainte">
+									<option selected disabled></option>
+									<option value="Support">Support</option>
+									<option value="Not Support">Not Support</option>
+								</select>
+							</div>
+							
+							
+						</div>
+						<div class="right4">
+							<div class="boite">
+								<label for="">Open Source :</label>
+								<select name="open" id="Contrainte">
+									<option selected disabled></option>
+									<option value="Support">Support</option>
+									<option value="Not Support">Not Support</option>
+								</select>
+							</div> </div></div>
+							<!-- -->
+							<!-- -->
+							<p>Intended User :</p>
+
+					<div class="corps-formulaire4">
+						<div class="left4">
+							
+							<div class="boite">
+								<label for="">Individuals :</label>
+								<select name="individu" id="Contrainte">
+									<option selected disabled></option>
+									<option value="Support">Support</option>
+									<option value="Not Support">Not Support</option>
+								</select>
+							</div>
+							
+							
+						</div>
+						<div class="right4">
+							<div class="boite">
+								<label for="">Organizations :</label>
+								<select name="orga" id="Contrainte">
+									<option selected disabled></option>
+									<option value="Support">Support</option>
+									<option value="Not Support">Not Support</option>
+								</select>
+							</div> </div></div>
 					<div class="pied-formulaire">
-						<button type="submit">Cancel</button>
-						<button type="reset">Next</button>
+					<!--  	<button type="submit">Cancel</button> -->
+						<button type="reset" name="signup" id="signup" class="form-submit" value="Cancel"> Cancel </button>
+						<button type="submit" name="signup" id="signup" class="form-submit" value="Next"> Next </button>
+					<!--        <button type="reset"> Next </button> -->
 					</div>
 				</form>
 			</div>	

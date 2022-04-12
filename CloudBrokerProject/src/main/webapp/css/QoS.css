@@ -19,28 +19,11 @@
 	flex-direction: column;
 }
 
-
 form .corps-formulaire {
 	display: flex;
 	flex-wrap: wrap;
-	margin-left: 200px;
-}
 
-
-form .corps-formulairee
-.corps-formulaire2,
-.corps-formulaire3, .corps-formulaire4, p{
-	display: flex;
-	flex-wrap: wrap;
-	margin-left: 190px;	
-	border-left: 2px solid black;
-    border-right: 2px solid black;
-    border-top: 2px solid black;
-    border-bottom: 2px solid black;
-    background-color: #F2F2F2;
-    border-color:  #F2F2F2;
-    border-width: 50px;
-
+	margin-left: 90px;
 }
 .boite {
 	margin-top: 25px;
@@ -48,37 +31,23 @@ form .corps-formulairee
 	flex-direction: column;
 }
 input {
-	width: 200px;
+	width: 261px;
 	margin-top: 5px;
 	padding: 10px 100px 10px 10px;
 	border-radius: 10px;
 	border: 1px solid #c9c9c9;
 	outline-color: #083e6f;
-	background-color: white;
-}
-.right1,
-.right2 {
-	margin-left: 80px;
-}
-form .corps-formulaire2,
-.corps-formulaire3, .corps-formulaire4 {
-	margin-top: 40px;
-}
-form .corps-formulaire .right1 .boite {
-	height: 100%;
-}
-
-form .corps-formulaire .right1 .boite textarea {
-	margin-top: 5px;
-	padding: 5px;
-	border: 1px solid #c9c9c9;
-	outline-color: #083e6f;
-	border-radius: 10px;
-	resize: none;
-	height: 52%;
-	width: 275px;
 	background-color: #fafafa;
 }
+
+.right {
+	margin-left: 80px;
+}
+form .corps-formulaire {
+	margin-top:none;
+	margin-bottom: -56px;
+}
+
 select {
 	outline: none;
 	border: 1px solid #c9c9c9;
@@ -88,43 +57,7 @@ select {
 	padding: 10px 110px 10px 10px;
 	border-radius: 10px;
 	margin-top: 5px;
-	background-color: #fafafa;
-}
-
-.corps-formulaire2 .left2 select{
-	outline: none;
-	border: 1px solid #c9c9c9;
-	background: white;
-	font-size: 14px;
-	color: #0a1732;
-	padding: 10px 150px 10px 10px;
-	border-radius: 10px;
-	margin-top: 5px;
-	background-color: #fafafa;
-}
-
-.corps-formulaire .left1 select{
-	outline: none;
-	border: 1px solid #c9c9c9;
-	background: white;
-	font-size: 14px;
-	color: #0a1732;
-	padding: 10px 85px 10px 10px;
-	border-radius: 10px;
-	margin-top: 5px;
-	background-color: #fafafa;
-}
-.corps-formulaire3 .left2 , .corps-formulaire3 .right2 {
-	font-size: 14px;
-	color: yellow;
-	padding: 5px;
-	border-radius: 5px;
-	margin-top: 5px;
-	background-color: none;
-}
-select option {
-	margin: 40px;
-	color: #0a1732;
+	width: 270px;
 }
 .radio {
 	display: inline-block;
@@ -160,6 +93,7 @@ select option {
 .pied-formulaire button:hover {
 	transform: scale(0.9);
 }
+
 
 .sidebar {
 	position: fixed;
@@ -380,11 +314,5 @@ h1{
 	font-weight: normal;
 	font-size: 20px;
 	text-align: left;
-	margin-right: 250px;
+	margin-right: 500px;
 	margin-bottom: 25px;}
-
-p{
-color:black;
-font-weight:bold;
-margin-bottom: -150px;
-margin-top: 50px;}

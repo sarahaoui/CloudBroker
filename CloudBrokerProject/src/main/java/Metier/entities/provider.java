@@ -1,8 +1,8 @@
 package Metier.entities;
 
-public class login {
- private String nom;
- private String motdepasse;
+public class provider {
+ private static String Nom;
+ private String Motdepasse;
  private String email;
  private String telephone;
  private String nom_entreprise;
@@ -10,14 +10,14 @@ public class login {
  
  
  
- public login() {
+ public provider() {
 	 super();
 	}
 	
-	public login(String nom, String motdepasse, String email, String telephone, String nom_entreprise, String pays) {
+	public provider(String Nom, String Motdepasse, String email, String telephone, String nom_entreprise, String pays) {
 		super();
-		this.nom = nom;
-		this.motdepasse = motdepasse;
+		this.Nom = Nom;
+		this.Motdepasse = Motdepasse;
 		this.email = email;
 		this.telephone = telephone;
 		this.nom_entreprise = nom_entreprise;
@@ -26,17 +26,17 @@ public class login {
 
 
 
-public String getNom() {
-	return nom;
+public static String getNom() {
+	return Nom;
 }
-public void setNom(String nom) {
-	this.nom = nom;
+public void setNom(String Nom) {
+	this.Nom = Nom;
 }
 public String getMotdepasse() {
-	return motdepasse;
+	return Motdepasse;
 }
-public void setMotdepasse(String motdepasse) {
-	this.motdepasse = motdepasse;
+public void setMotdepasse(String Motdepasse) {
+	this.Motdepasse = Motdepasse;
 }
 public String getEmail() {
 	return email;
