@@ -27,7 +27,7 @@ import Metier.entities.provider;
 import Metier.entities.service_interface;
 
 public interface InterfaceDAO {
-	public void insertProvider(provider provider);  //done
+	public int insertProvider(provider provider);  //done
     public void insertDP(DP DP);  //done  
     public int getMAXIDProvider();  //done
     public int getIDLicenseType(license_type license_type);   //done

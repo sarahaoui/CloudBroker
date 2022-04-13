@@ -36,16 +36,17 @@ import Metier.entities.provider;
 import Metier.entities.service_interface;
 
 import java.sql.SQLException;
+import java.sql.Statement;
 
 
 public class InterfaceImpDAO implements InterfaceDAO{
 	static Connection connection= SingletonConnection.getConnection();
 
-	public void insertProvider(provider provider){
-
+	public int insertProvider(provider provider){
+		int key=0;
 		try {
 			String INSERT_USERS = "INSERT INTO `Provider`(`Nom`, `Motdepasse`, `Email`, `Telephone`, `Nom_entreprise`, `Pays`) VALUES (?,?,?,?,?,?);";
-			PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USERS);			
+			PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USERS,Statement.RETURN_GENERATED_KEYS);			
 			preparedStatement.setString(1, provider.getNom());
 			preparedStatement.setString(2, provider.getMotdepasse());
 			preparedStatement.setString(3, provider.getEmail());
@@ -55,9 +56,17 @@ public class InterfaceImpDAO implements InterfaceDAO{
 			System.out.println(preparedStatement);
 			preparedStatement.executeUpdate();
 			
+			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+			if(generatedKeys.next()) {
+				 key=(generatedKeys.getInt(1));
+			}else {
+				System.out.println("Creating user failed , no ID obtained !!");
+			}
+			
 		} catch (SQLException e) {
 		//	printSQLException(e);
 			}
+		return key;
 	}
 	
 	   ////////////////////////////////////////////////////////////////

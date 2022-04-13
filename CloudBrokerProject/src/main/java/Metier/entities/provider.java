@@ -7,6 +7,7 @@ public class provider {
  private String telephone;
  private String nom_entreprise;
  private String pays;
+ private int ID;
  
  
  
@@ -14,7 +15,7 @@ public class provider {
 	 super();
 	}
 	
-	public provider(String Nom, String Motdepasse, String email, String telephone, String nom_entreprise, String pays) {
+	public provider(int ID,String Nom, String Motdepasse, String email, String telephone, String nom_entreprise, String pays) {
 		super();
 		this.Nom = Nom;
 		this.Motdepasse = Motdepasse;
@@ -22,9 +23,18 @@ public class provider {
 		this.telephone = telephone;
 		this.nom_entreprise = nom_entreprise;
 		this.pays = pays;
+		this.ID= ID;
 	}
 
 
+
+public int getID() {
+		return ID;
+	}
+
+	public void setID(int iD) {
+		ID = iD;
+	}
 
 public static String getNom() {
 	return Nom;

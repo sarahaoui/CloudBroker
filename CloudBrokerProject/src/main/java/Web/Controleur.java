@@ -107,7 +107,9 @@ public class Controleur extends HttpServlet {
 			newUser.setNom_entreprise(nom_entreprise);
 			newUser.setPays(pays);
 			
-			imp.insertProvider(newUser);
+			int key=imp.insertProvider(newUser);
+			newUser.setID(key);
+			System.out.println(key);
 			response.sendRedirect("DP1.jsp");
 			
 		/******************DP1.php ******************/	
