@@ -39,8 +39,9 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 	   
 	   HashMap<String,ArrayList<ArrayList<String>>> FFTokens = new HashMap<String,ArrayList<ArrayList<String>>>();
 	   ArrayList<String>FFInstnaces= VerifyFF(); 
-	   System.out.println(FFInstnaces);
 	   ArrayList<String>ExisteFFList= FindRealFF(FFInstnaces);  
+	   
+	  
 	   QuestOWLStatement st = conn.createStatement();
 	   try {
 	   for (int i = 0; i < ExisteFFList.size(); i++) {
@@ -312,7 +313,7 @@ private static String Merge(String nodeKeyWords, String childKeyWords) {
 	}else if(nodeKeyWords.equals("")) {
 		mergedKeywords=childKeyWords;
 	}else if(childKeyWords.equals("")) {
-		mergedKeywords=childKeyWords;
+		mergedKeywords=nodeKeyWords;
 	} else{
 		mergedKeywords= nodeKeyWords+","+childKeyWords;
 	}

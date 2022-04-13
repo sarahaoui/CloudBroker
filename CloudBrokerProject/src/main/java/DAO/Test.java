@@ -26,9 +26,10 @@ import org.semanticweb.owlapi.model.OWLException;
 public class Test {
 
 	public static void main(String[] args)  {
+		InterfaceImpDAOntologie imp = new InterfaceImpDAOntologie();
 		try {
-			InterfaceImpDAOntologie.DFSbasedMergingKeyWords("Computing");
-		} catch (OWLException e) {
+		System.out.println(imp.UpdateFF());	
+		} catch (OWLException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

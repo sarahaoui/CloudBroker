@@ -125,11 +125,12 @@ public class UpdateKeyWords  {
 	      System.out.println(propString);
 	        
 	        /*** Add Properties to FF Unique Merged Keywords ***/
-	      System.out.println("************ADD Properties**************");
-	        InterfaceImpDAOntologie.UpdateKeyWords(key,propString,"Unique");
-	        InterfaceImpDAOntologie.UpdateKeyWords(key,propString,"Merged");
+	          System.out.println("************ADD Properties**************");
+	          InterfaceImpDAOntologie.UpdateKeyWords(key,propString,"Unique");
+	          InterfaceImpDAOntologie.UpdateKeyWords(key,propString,"Merged");
 	        
 	        /*** Update Merged Keywords ***/
+	          InterfaceImpDAOntologie.DFSbasedMergingKeyWords("OFFs");
 	   	}
 	   
       
