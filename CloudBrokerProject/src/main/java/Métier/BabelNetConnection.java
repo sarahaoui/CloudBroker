@@ -90,7 +90,7 @@ public class BabelNetConnection {
 		
 		for (int j = 0; j < Tokens.size(); j++) {
 		for (int i=0;i<Tokens.get(j).size();i++) {
-			if(!SreachTermInDictionary(Dictionary, Tokens.get(j).get(i)) && NumerOfServiceTerm(Tokens.get(j).get(i), Tokens)>=0.2) {   //check if term not exist in CloudDictionary and term exist in 20% of services 
+			if(!SreachTermInDictionary(Dictionary, Tokens.get(j).get(i),FF) && NumerOfServiceTerm(Tokens.get(j).get(i), Tokens)>=0.2) {   //check if term not exist in CloudDictionary and term exist in 20% of services 
 		    String[] parts= Tokens.get(j).get(i).split(";");
 		    ArrayList<String>Concepts= new ArrayList<>();
 			ArrayList<String>Entitys= new ArrayList<>();
@@ -129,14 +129,19 @@ public class BabelNetConnection {
 		  
 	return Dictionary;	  
  }
-	public static Boolean  SreachTermInDictionary(JSONArray Dictionnary,String term) {
-		 
+	public static Boolean  SreachTermInDictionary(JSONArray Dictionnary,String term,String FF) {
+		JSONObject value = null;
+		String Domain=null;
          for (int i = 0; i < Dictionnary.size(); i++)
         { 
-            JSONObject item = (JSONObject) Dictionnary.get(i);
-            if (item.keySet().contains(term))
-            {return true;}
-        }
+            JSONObject item = (JSONObject) Dictionnary.get(i);      
+            if (item.keySet().contains(term)){
+            	value = (JSONObject) item.get(term);
+            	Domain = (String) value.get("CloudDomainName");
+            	System.out.println(Domain);
+                if (Domain.equals(FF) )
+                   {return true;}
+        }}
 		return false;
          }
 	

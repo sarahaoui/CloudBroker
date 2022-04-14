@@ -82,7 +82,7 @@ public class Matching {
 		ArrayList<String>TokenCheckedList = new ArrayList<String>();
 		int[]index= new int[terms.size()];
 		int i=0;
-		int TotalCount=0;
+		Double TotalCount=0.0;
 		Double Pi,Entropy=0.0;
 		for (String term : terms) {
 			int termCount =GetCount(term, serviceSLATokens);
@@ -94,7 +94,7 @@ public class Matching {
 		}
 		for (int j = 0; j < terms.size(); j++) {
 			if(index[j]>0) {
-				Pi= (double) (index[i]/TotalCount);
+				Pi=(index[j]/TotalCount);
 				Entropy+=(Pi * Math.log(Pi))/Math.log(terms.size());
 			}
 		}

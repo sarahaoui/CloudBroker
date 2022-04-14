@@ -331,16 +331,21 @@ private static String Merge(String nodeKeyWords, String childKeyWords) {
 	  for (String child : children) {
 		if(!VisitedNode.contains(child)) {
 			String UniqueKeyWords= GetKeywords(child, "Unique");
+			System.out.println("Unique:"+UniqueKeyWords);
 			if(!UniqueKeyWords.equals("")) {
 				Hrel= Matching.RelativeEntropy(UniqueKeyWords, serviceSLATokens, child, Dictionnary);
-				if(Hrel>=0.6)
-					matchedChildren.add(child);
+				System.out.println(Hrel);
+				if(Hrel>=0.5)
+					matchedChildren.add(child);}
 				String MergedKeywords = GetKeywords(child, "Merged");
+				System.out.println("Merged:"+MergedKeywords);
 				if(!MergedKeywords .equals("")) {
 				Hrel=Matching.RelativeEntropy(MergedKeywords, serviceSLATokens, child, Dictionnary);
-				if(Hrel>=0.6)
+				System.out.println(Hrel);
+				if(Hrel>=0.5)
 					BFSbasedMatchingKeywords(child, serviceSLATokens, Dictionnary, VisitedNode, matchedChildren);		
-			}}
+			}
+				
 		}
 	}
   }

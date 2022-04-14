@@ -16,6 +16,7 @@ import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.semanticweb.owlapi.model.OWLException;
 
 import DAO.InterfaceImpDAOntologie;
@@ -37,20 +38,18 @@ public class UpdateKeyWords  {
 
 	   	/*** Get CloudDictionary ***/
 	   	System.out.println("************GetCloudDictionary**************");
-	   	try 
+	   	try (FileReader reader = new FileReader("C:\\Users\\pc-click\\Desktop\\CloudDictionary.json"))
         {
-	   		File reader = new File("C:\\Users\\pc-click\\Desktop\\CloudDictionary.json");
-			BufferedReader br = new BufferedReader(new FileReader(reader));
-			if(br.readLine()== null && reader.length()==0) {
-				System.out.println("vide");
-			}else {
-				
-            Object obj = jsonParser.parse(br);
-             Dictionnary = (JSONArray) obj;
-             }
-        } catch (Exception e) {
-	    e.getStackTrace();
-      }
+            //Read JSON file
+            Object obj = jsonParser.parse(reader);
+            Dictionnary = (JSONArray) obj;
+            //System.out.println(Dictionnary);
+  
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 	   	/*** Add Terms to CloudDictionary ***/
 	   	/*for (String key : FFTokens.keySet()) {
 	   			BabelNetConnection.createDictionaryCloud(FFTokens.get(key), Dictionnary, key);	
