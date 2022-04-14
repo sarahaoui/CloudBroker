@@ -17,9 +17,7 @@ public class Test2 {
 		} catch (OWLException | IOException e) {
 			e.printStackTrace();
 		}
-		
-		
-		
+	
 		/*String Description= "We describe TriNet as our HR solution and we like to call them our mentors - people who help us with our HR processes, accounting, payroll, and all the reporting"
 				+ " and compliance required for our business ... I want to focus on my business and TriNet helps me support "
 				+ "my business plans, and my HR requirements in ways I could have never done. "

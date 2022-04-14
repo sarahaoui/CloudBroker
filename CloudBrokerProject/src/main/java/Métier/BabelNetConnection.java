@@ -150,5 +150,7 @@ public class BabelNetConnection {
 		int lenght= list.size();
 		return (count/lenght);
 	  }
+	 
+	 
 }
  

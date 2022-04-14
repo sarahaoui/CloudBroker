@@ -17,10 +17,12 @@ import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.update.UpdateAction;
+import org.json.simple.JSONArray;
 import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
 
+import Métier.Matching;
 import it.unibz.krdb.obda.model.OBDAModel;
 import it.unibz.krdb.obda.owlrefplatform.owlapi3.QuestOWL;
 import it.unibz.krdb.obda.owlrefplatform.owlapi3.QuestOWLConnection;
@@ -265,17 +267,16 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 	  
   }
   
-  public static void DFSbasedMergingKeyWords(String Node) throws OWLException{
+  public static void DFSbasedMergingKeyWords(String Node ,ArrayList<String> VisitedNode) throws OWLException{
 	  
 	  ArrayList<String> children= new ArrayList<>();
-	  ArrayList<String> VisitedNode= new ArrayList<>();
 	  children= GetChildren(Node);
 	  VisitedNode.add(Node);   //to avoid the cyclic mode
 	  
 	  for (String child : children) {
 		
 		 if(!VisitedNode.contains(child)) 
-			  DFSbasedMergingKeyWords(child);
+			  DFSbasedMergingKeyWords(child,VisitedNode);
 		 String NodeKeyWords= GetKeywords(Node, "Merged");
 		 String ChildKeyWords= GetKeywords(child, "Merged");
 		 String mergedKeywords= Merge(NodeKeyWords,ChildKeyWords);
@@ -319,6 +320,31 @@ private static String Merge(String nodeKeyWords, String childKeyWords) {
 	}
 	return mergedKeywords;
 }
+ 
+
+  public static void BFSbasedMatchingKeywords(String Node ,ArrayList<String>serviceSLATokens,JSONArray Dictionnary,ArrayList<String> VisitedNode,ArrayList<String> matchedChildren) throws OWLException {
+	  
+	  ArrayList<String> children= new ArrayList<>();
+	  children= GetChildren(Node); 
+	  VisitedNode.add(Node);  //to avoid the cyclic mode
+	  Double Hrel=0.0;
+	  for (String child : children) {
+		if(!VisitedNode.contains(child)) {
+			String UniqueKeyWords= GetKeywords(child, "Unique");
+			if(!UniqueKeyWords.equals("")) {
+				Hrel= Matching.RelativeEntropy(UniqueKeyWords, serviceSLATokens, child, Dictionnary);
+				if(Hrel>=0.6)
+					matchedChildren.add(child);
+				String MergedKeywords = GetKeywords(child, "Merged");
+				if(!MergedKeywords .equals("")) {
+				Hrel=Matching.RelativeEntropy(MergedKeywords, serviceSLATokens, child, Dictionnary);
+				if(Hrel>=0.6)
+					BFSbasedMatchingKeywords(child, serviceSLATokens, Dictionnary, VisitedNode, matchedChildren);		
+			}}
+		}
+	}
+  }
+
 }
   
    

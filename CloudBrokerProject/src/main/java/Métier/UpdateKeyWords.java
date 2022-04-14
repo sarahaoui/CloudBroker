@@ -130,7 +130,8 @@ public class UpdateKeyWords  {
 	          InterfaceImpDAOntologie.UpdateKeyWords(key,propString,"Merged");
 	        
 	        /*** Update Merged Keywords ***/
-	          InterfaceImpDAOntologie.DFSbasedMergingKeyWords("OFFs");
+	          ArrayList<String> VisitedNode= new ArrayList<String>();
+	          InterfaceImpDAOntologie.DFSbasedMergingKeyWords("OFFs",VisitedNode);
 	   	}
 	   
       
