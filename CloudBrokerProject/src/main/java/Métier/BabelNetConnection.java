@@ -139,7 +139,6 @@ public class BabelNetConnection {
             if (item.keySet().contains(term)){
             	value = (JSONObject) item.get(term);
             	Domain = (String) value.get("CloudDomainName");
-            	System.out.println(Domain);
                 if (Domain.equals(FF) )
                    {return true;}
         }}
