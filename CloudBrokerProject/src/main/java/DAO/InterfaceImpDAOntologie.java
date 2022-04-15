@@ -87,6 +87,7 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 	   
    }
    
+   /*** VerifyFF ***/
    public ArrayList<String> VerifyFF() throws OWLException, IOException {
 		
 	    ArrayList<String> FFInstnaces= new ArrayList<String>(); 
@@ -120,6 +121,7 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
        
 	}
 	
+    /*** FindRealFF ***/
 	public ArrayList<String>  FindRealFF(ArrayList<String>FFInstnace) throws OWLException {
 		
 		ArrayList<String>ExisteFFList = new ArrayList<String>();
@@ -133,7 +135,8 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 		}
 		return ExisteFFList;
 	}
-	
+
+  /*** Get SLA Tokens ***/
   public ArrayList<ArrayList<String>> GetSLATokensInstance(ArrayList<String> instancesFF, String FF) throws OWLException {
 	  ArrayList<ArrayList<String>> SLATokensList= new ArrayList<ArrayList<String>>();
 	  
@@ -267,6 +270,7 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 	  
   }
   
+  /*** DFS Based Merging Keywords ***/
   public static void DFSbasedMergingKeyWords(String Node ,ArrayList<String> VisitedNode) throws OWLException{
 	  
 	  ArrayList<String> children= new ArrayList<>();
@@ -307,7 +311,8 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 	  
   }
 
-private static String Merge(String nodeKeyWords, String childKeyWords) {
+ /*** Merge ***/
+ private static String Merge(String nodeKeyWords, String childKeyWords) {
 	String mergedKeywords="";
 	if(nodeKeyWords.equals("") && childKeyWords.equals("")) {
 		mergedKeywords="";
@@ -321,7 +326,7 @@ private static String Merge(String nodeKeyWords, String childKeyWords) {
 	return mergedKeywords;
 }
  
-
+  /*** BFS Based Matching Keywords ***/
   public static void BFSbasedMatchingKeywords(String Node ,ArrayList<String>serviceSLATokens,JSONArray Dictionnary,ArrayList<String> VisitedNode,ArrayList<String> matchedChildren) throws OWLException {
 	  
 	  ArrayList<String> children= new ArrayList<>();
@@ -331,18 +336,18 @@ private static String Merge(String nodeKeyWords, String childKeyWords) {
 	  for (String child : children) {
 		if(!VisitedNode.contains(child)) {
 			String UniqueKeyWords= GetKeywords(child, "Unique");
-			System.out.println("Unique:"+UniqueKeyWords);
+			System.out.println("Child: "+child+" Unique: "+UniqueKeyWords);
 			if(!UniqueKeyWords.equals("")) {
 				Hrel= Matching.RelativeEntropy(UniqueKeyWords, serviceSLATokens, child, Dictionnary);
 				System.out.println(Hrel);
-				if(Hrel>=0.5)
+				if(Hrel>=0.6)
 					matchedChildren.add(child);}
 				String MergedKeywords = GetKeywords(child, "Merged");
-				System.out.println("Merged:"+MergedKeywords);
+				System.out.println("Child: "+child+" Merged: "+MergedKeywords);
 				if(!MergedKeywords .equals("")) {
 				Hrel=Matching.RelativeEntropy(MergedKeywords, serviceSLATokens, child, Dictionnary);
 				System.out.println(Hrel);
-				if(Hrel>=0.5)
+				if(Hrel>=0.6)
 					BFSbasedMatchingKeywords(child, serviceSLATokens, Dictionnary, VisitedNode, matchedChildren);		
 			}
 				

@@ -18,7 +18,7 @@ public class TFWeight {
 			ArrayList<String>tokens= new ArrayList<String>();
 			for(int j=0;j<list.size();j++) {
 				Double weight=TFWeight(list, list.get(j));
-				if(weight>=0.05) {    //change Weight
+				if(weight>=0.005) {    //change Weight
 					tokens.add(list.get(j));
 				}
 			}

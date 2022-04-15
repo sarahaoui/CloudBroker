@@ -1,5 +1,6 @@
 package Web;
 
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -12,7 +13,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.semanticweb.owlapi.model.OWLException;
+
 import DAO.InterfaceImpDAO;
+import DAO.InterfaceImpDAOntologie;
 import Metier.entities.DP;
 import Metier.entities.DataRedundancySupport;
 import Metier.entities.DataStorageParam;
@@ -569,10 +576,11 @@ public class Controleur extends HttpServlet {
 			ArrayList<String> Tokens = new ArrayList<String>();
 			ArrayList<String> FinalKeywords = new ArrayList<String>();
 			
-			/*** Text Rank ***/
+			
 			try {
+				/*** Text Rank ***/
 				keywords=TextRank.sentenceDetect(Description);
-				
+				System.out.println("Keywords :\n\r"+keywords);
 				/*** Babelnet Elimination ***/
 				BabelNetConnection.Connection(keywords);
 				
@@ -587,15 +595,39 @@ public class Controleur extends HttpServlet {
 				
 				/*** Babelnet Verification ***/
 				FinalKeywords=BabelNetConnection.Connection2(Tokens);
-				
-				System.out.println("Keywords :");
+				System.out.println("Keywords:");
 				System.out.println(FinalKeywords);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			/*** Get CloudDictionary ***/
+		   	    System.out.println("************GetCloudDictionary**************");
+		   	    JSONParser jsonParser = new JSONParser();
+			    JSONArray Dictionnary = new JSONArray();
 			
-			/*** Matching Keywords ***/
+		   	    try (FileReader reader = new FileReader("C:\\Users\\pc-click\\Desktop\\CloudDictionary.json"))
+	            {
+	               //Read JSON file
+	                Object obj = jsonParser.parse(reader);
+	                Dictionnary = (JSONArray) obj;
+	                //System.out.println(Dictionnary);
+	  
+	             } catch (IOException e) {
+	                e.printStackTrace();
+	             } catch (ParseException e) {
+	                e.printStackTrace();
+	             }
+			
+			   /*** Matching Keywords ***/
+			    ArrayList<String> VisitedNode= new ArrayList<String>();
+			    ArrayList<String> matchedChildren= new ArrayList<String>();
+			    try {
+					InterfaceImpDAOntologie.BFSbasedMatchingKeywords("OFFs", FinalKeywords, Dictionnary, VisitedNode, matchedChildren);
+				} catch (OWLException e) {
+					e.printStackTrace();
+				}	
+			    System.out.println("FFS Matched:"+matchedChildren);
+			
 			
 			
 		}

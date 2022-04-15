@@ -129,6 +129,7 @@ public class BabelNetConnection {
 		  
 	return Dictionary;	  
  }
+	/*** Sreach Term in Dictionnary ***/
 	public static Boolean  SreachTermInDictionary(JSONArray Dictionnary,String term,String FF) {
 		JSONObject value = null;
 		String Domain=null;

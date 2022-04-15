@@ -10,20 +10,18 @@ import org.json.simple.JSONObject;
 
 public class Matching {
 	
-	
+	/*** Tracking Synonyms ***/
 	public static String TrakingSynonymss(ArrayList<String>TokenCheckedList,JSONArray Dictionnary,ArrayList<String> serviceSLATokens,String term,String FF) {
 		
 		if(TokenCheckedList.contains(term))
 			return null;
-		TokenCheckedList.add(term);
-		
+		TokenCheckedList.add(term);	
 		JSONObject value = null;
         JSONArray array = new JSONArray();
        
          for (int i = 0; i < Dictionnary.size(); i++)
         {
-            JSONObject item = (JSONObject) Dictionnary.get(i);
-            
+            JSONObject item = (JSONObject) Dictionnary.get(i); 
             if (item.keySet().contains(term))
             {
                 value = (JSONObject) item.get(term);
@@ -65,6 +63,8 @@ public class Matching {
 		 return null;
 		 
 	 }
+	
+	/*** Get Count ***/
 	public static int GetCount(String synonym, ArrayList<String> serviceSLATokens) {
 		int count =0;
 		for (String term : serviceSLATokens) {
@@ -76,6 +76,7 @@ public class Matching {
 		
 	}
 	
+	/*** Relative Entropy ***/
 	public static Double RelativeEntropy(String Keywords, ArrayList<String> serviceSLATokens ,String FF , JSONArray Dictionnary) {
 		String[] termsString = Keywords.split(",");
 		List<String> terms= new LinkedList<String>(Arrays.asList(termsString));

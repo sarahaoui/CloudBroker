@@ -35,7 +35,7 @@ public class UpdateKeyWords  {
 		/*** Get FF with SLATokens ***/
 		System.out.println("************GetFFTokens**************");
 	   	HashMap<String,ArrayList<ArrayList<String>>> FFTokens= imp.UpdateFF();
-
+        System.out.println(FFTokens);
 	   	/*** Get CloudDictionary ***/
 	   	System.out.println("************GetCloudDictionary**************");
 	   	try (FileReader reader = new FileReader("C:\\Users\\pc-click\\Desktop\\CloudDictionary.json"))
@@ -43,7 +43,6 @@ public class UpdateKeyWords  {
             //Read JSON file
             Object obj = jsonParser.parse(reader);
             Dictionnary = (JSONArray) obj;
-            //System.out.println(Dictionnary);
   
         } catch (IOException e) {
             e.printStackTrace();
@@ -51,7 +50,7 @@ public class UpdateKeyWords  {
             e.printStackTrace();
         }
 	   	/*** Add Terms to CloudDictionary ***/
-	   	/*for (String key : FFTokens.keySet()) {
+	   	for (String key : FFTokens.keySet()) {
 	   			BabelNetConnection.createDictionaryCloud(FFTokens.get(key), Dictionnary, key);	
 		}
 	   	try (FileWriter file = new FileWriter("C:\\Users\\pc-click\\Desktop\\CloudDictionary.json",false)) {
@@ -62,7 +61,7 @@ public class UpdateKeyWords  {
  
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
+        }
 	   	/*** for each FF ***/
 	   	for (String key : FFTokens.keySet()) {
 	   		/*** Unified Terms ***/
@@ -79,11 +78,13 @@ public class UpdateKeyWords  {
 	        	size[i]=FFTokens.get(key).get(i).size();
 	        }
 	        ArrayList<ArrayList<String>>TokensList =UnifiedTerms.GenerateListes(AllKeywords, size);
+	        System.out.println(TokensList);
 	        /*** TF Weight ****/
 	        System.out.println("************TFWeight**************");
 	        for (int i = 0; i < TokensList.size(); i++) {
 			  TokensList.set(i, TFWeight.CalculateTFWeight(TokensList.get(i)));
 			}
+	        System.out.println(TokensList);
 	        /*** FPGrowth ***/
 	        System.out.println("************FPGrowth**************");
 	        ArrayList<String[]>Listt= new ArrayList<String[]>();
@@ -102,8 +103,7 @@ public class UpdateKeyWords  {
 	                new ArrayList<String>(),
 	                ((int) minSupport * Listt.size())
 	            ));
-	        //System.out.println(output);
- 
+	        
 	        ArrayList<String>Properties= new ArrayList<String>();
 	        for (int i = 0; i < output.size(); i++) {
 				for(int j=0;j<output.get(i).size();j++) {

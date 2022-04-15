@@ -12,5 +12,5 @@ public interface InterfaceDAOntologie {
 	public  ArrayList<String> VerifyFF() throws OWLException, IOException;
 	public ArrayList<String>  FindRealFF(ArrayList<String>FFInstnace) throws OWLException;
 	public ArrayList<ArrayList<String>> GetSLATokensInstance(ArrayList<String> instancesFF, String FF) throws OWLException;
-
+    
 }
