@@ -48,6 +48,7 @@ public class Test2 {
 		/*** Text Rank ***/
 		keywords=TextRank.sentenceDetect(Description);
 		System.out.println("Keywords: "+keywords);
+		
 		/*** Babelnet Elimination ***/
 		BabelNetConnection.Connection(keywords);
 		
@@ -80,8 +81,7 @@ public class Test2 {
 	     } catch (IOException e) {
 	        e.printStackTrace();
 	     } catch (ParseException e) {
-	        e.printStackTrace();
-	     }
+	        e.printStackTrace();	     }
 
 	   /*** Matching Keywords ***/
 	    ArrayList<String> VisitedNode= new ArrayList<String>();
