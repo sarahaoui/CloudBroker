@@ -2,6 +2,7 @@ package Metier.entities;
 
 
 public class DP {
+ private int ID;
  private String ServiceTitle;
  private String ProviderName;
  private String SubscriptionFee;
@@ -25,8 +26,9 @@ public class DP {
 	 super();
 	}
 	
-	public DP(String ServiceTitle, String ProviderName, String SubscriptionFee, String SLA, String Version, String ServiceURL, String SLATokens, String ShortDescription, String PaymentModelID, String IntendedUserID, String LicenseTypeID, String LocationID, String OpennessID, String ServiceInterfaceID) {
+	public DP(int ID, String ServiceTitle, String ProviderName, String SubscriptionFee, String SLA, String Version, String ServiceURL, String SLATokens, String ShortDescription, String PaymentModelID, String IntendedUserID, String LicenseTypeID, String LocationID, String OpennessID, String ServiceInterfaceID) {
 		super();
+		this.ID = ID;
 		this.ServiceTitle = ServiceTitle;
 		this.ProviderName = ProviderName;
 		this.SubscriptionFee = SubscriptionFee;
@@ -43,12 +45,13 @@ public class DP {
 		this.ServiceInterfaceID = ServiceInterfaceID;
 	}
 
-	public String getServiceTitle() {
-		return ServiceTitle;
+	
+	public int getID() {
+		return ID;
 	}
 
-	public void setServiceTitle(String serviceTitle) {
-		ServiceTitle = serviceTitle;
+	public void setID(int iD) {
+		ID = iD;
 	}
 
 	public String getProviderName() {
@@ -57,6 +60,14 @@ public class DP {
 
 	public void setProviderName(String providerName) {
 		ProviderName = providerName;
+	}
+
+	public String getServiceTitle() {
+		return ServiceTitle;
+	}
+
+	public void setServiceTitle(String serviceTitle) {
+		ServiceTitle = serviceTitle;
 	}
 
 	public String getSubscriptionFee() {

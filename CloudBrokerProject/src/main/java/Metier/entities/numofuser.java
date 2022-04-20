@@ -1,6 +1,7 @@
 package Metier.entities;
 
 public class numofuser {
+	 private int ID; 
 	 private String UpTo10;
 	 private String UpTo50;
 	 private String UpTo100;
@@ -12,14 +13,23 @@ public class numofuser {
 		 super();
 		}
 
-  public numofuser(String UpTo10, String UpTo50, String UpTo100, String UpTo500, String UpTo1000) {
+  public numofuser(int ID, String UpTo10, String UpTo50, String UpTo100, String UpTo500, String UpTo1000) {
 	        super();
+	        this.ID = ID;
 			this.UpTo10 = UpTo10;
 			this.UpTo50 = UpTo50;
 			this.UpTo100 = UpTo100;
 			this.UpTo100 = UpTo500;
 			this.UpTo50 = UpTo1000;
 		}
+
+public int getID() {
+	return ID;
+}
+
+public void setID(int iD) {
+	ID = iD;
+}
 
 public String getUpTo10() {
 	return UpTo10;

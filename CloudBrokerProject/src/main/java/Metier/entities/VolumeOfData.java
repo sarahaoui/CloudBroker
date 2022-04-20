@@ -2,6 +2,7 @@ package Metier.entities;
 
 
 public class VolumeOfData {
+private int ID;
  private String UpTo50GB;
  private String UpTo100GB;
  private String UpTo200GB;
@@ -17,17 +18,25 @@ public class VolumeOfData {
 	 super();
 	}
 	
-	public VolumeOfData(String UpTo50GB, String UpTo100GB, String UpTo200GB, String UpTo400GB, String UpTo800GB, String UpTo1TB, String UpTo2TB) {
+	public VolumeOfData(int ID, String UpTo50GB, String UpTo100GB, String UpTo200GB, String UpTo400GB, String UpTo800GB, String UpTo1TB, String UpTo2TB) {
 		super();
+		this.ID = ID;
 		this.UpTo50GB = UpTo50GB;
 		this.UpTo100GB = UpTo100GB;
 		this.UpTo200GB = UpTo200GB;	
 		this.UpTo400GB = UpTo400GB;
-		this.UpTo800GB = UpTo800GB;	
-		
+		this.UpTo800GB = UpTo800GB;		
 		this.UpTo1TB = UpTo1TB;
 		this.UpTo2TB = UpTo2TB;
 
+	}
+
+	public int getID() {
+		return ID;
+	}
+
+	public void setID(int iD) {
+		ID = iD;
 	}
 
 	public String getUpTo50GB() {

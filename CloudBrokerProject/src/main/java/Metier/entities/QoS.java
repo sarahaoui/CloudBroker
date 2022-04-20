@@ -1,6 +1,7 @@
 package Metier.entities;
 
 public class QoS {
+private int ID;
  private String ConsumabilityEfforts;
  private String FaultToleranceEfforts;
  private String MigrationabilityEfforts;
@@ -15,8 +16,9 @@ public class QoS {
 	 super();
 	}
 	
-	public QoS(String ConsumabilityEfforts, String FaultToleranceEfforts, String MigrationabilityEfforts, String Performance, String ReliabilityEfforts, String RuntimeTunning, String ScalabilityEfforts, String SecurityEfforts, String StandardizedEfforts) {
-		super();
+	public QoS(int ID, String ConsumabilityEfforts, String FaultToleranceEfforts, String MigrationabilityEfforts, String Performance, String ReliabilityEfforts, String RuntimeTunning, String ScalabilityEfforts, String SecurityEfforts, String StandardizedEfforts) {
+		super();		
+		this.ID = ID;		
 		this.ConsumabilityEfforts = ConsumabilityEfforts;
 		this.FaultToleranceEfforts = FaultToleranceEfforts;
 		this.MigrationabilityEfforts = MigrationabilityEfforts;	
@@ -26,6 +28,14 @@ public class QoS {
 		this.ScalabilityEfforts = ScalabilityEfforts;
 		this.SecurityEfforts = SecurityEfforts;		
 		this.StandardizedEfforts = StandardizedEfforts;
+	}
+
+	public int getID() {
+		return ID;
+	}
+
+	public void setID(int iD) {
+		ID = iD;
 	}
 
 	public String getConsumabilityEfforts() {

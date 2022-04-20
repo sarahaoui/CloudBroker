@@ -1,6 +1,7 @@
 package Metier.entities;
 
 public class numofsession {
+	private int ID;
 	 private String UpTo1;
 	 private String UpTo5;
 	 private String UpTo10;
@@ -12,14 +13,23 @@ public class numofsession {
 		 super();
 		}
 
-  public numofsession(String UpTo1, String UpTo5, String UpTo10, String UpTo20, String UpTo50) {
+  public numofsession(int ID, String UpTo1, String UpTo5, String UpTo10, String UpTo20, String UpTo50) {
 	        super();
+	        this.ID = ID;
 			this.UpTo1 = UpTo1;
 			this.UpTo5 = UpTo5;
 			this.UpTo10 = UpTo10;
 			this.UpTo20 = UpTo20;
 			this.UpTo50 = UpTo50;
 		}
+
+public int getID() {
+	return ID;
+}
+
+public void setID(int iD) {
+	ID = iD;
+}
 
 public String getUpTo1() {
 	return UpTo1;

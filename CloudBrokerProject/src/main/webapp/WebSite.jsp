@@ -5,11 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
-    <link
-      href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="shortcut icon" href="images/logo.png" />   
     <title>CloudBroker</title>
 
     <script src="https://unpkg.com/ionicons@5.5.2/dist/ionicons.js"></script>
@@ -37,9 +35,7 @@
             <a class="nav__link" href="#section--4">Contact Us</a>
           </li>
           <li class="nav__item">
-            <a class="nav__link nav__link--btn btn--show-modal" href="#">
-              Register</a
-            >
+            <a class="nav__link nav__link--btn btn--show-modal" href="Connexion.jsp"> Register</a>
           </li>
         </ul>
       </nav>

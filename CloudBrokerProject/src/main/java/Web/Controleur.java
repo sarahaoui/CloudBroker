@@ -4,10 +4,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -45,6 +47,7 @@ import Metier.entities.numofuser;
 import Metier.entities.openness;
 import Metier.entities.payement;
 import Metier.entities.service_interface;
+import Model.Model;
 import Métier.BabelNetConnection;
 import Métier.TextRank;
 import Métier.Tokenization;
@@ -55,7 +58,11 @@ import Métier.WordNetConnection;
 public class Controleur extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	InterfaceImpDAO imp;
-       
+	
+      int idprovider, idqos, iddp, idhrm_nff, idsm_nff, idssd, idhdd, idsas, iddatastorageparam, iddataredsupport, idvolumeofdata;
+      int idqte, iddiskspace, iddisktransferrate;
+      int idnumofsession, idnumofuser, idnumofoperation;
+      String nomm, emailll;
     
     public Controleur() {
         super();
@@ -67,19 +74,13 @@ public class Controleur extends HttpServlet {
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-	}
-	
+		doPost(request, response);
+	}	
 		
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		String name = request.getParameter("nom");
-		String emaill = request.getParameter("email");
-		
-		HttpSession session = request.getSession();
-		session.setAttribute("nom",name);
-		session.setAttribute("email",emaill);
-		
-		
+		final	HttpSession session = request.getSession();
+	  
+		  ArrayList<String> matchedChildren= new ArrayList<String>();
           String path =request.getServletPath();
           
           /******************Connexion.php ******************/	
@@ -90,38 +91,59 @@ public class Controleur extends HttpServlet {
   		Nom = request.getParameter("Nom");
   		Motdepasse = request.getParameter("Motdepasse");
   		String msg =   InterfaceImpDAO.authenticateUser(Nom, Motdepasse);
+  		
   		if(msg.equals("success")) {
-  			request.getRequestDispatcher("DP1.jsp").forward(request, response);
+  			
+            provider newUser = new  provider();
+  			String nom = request.getParameter("Nom");
+			String motdepasse = request.getParameter("Motdepasse");
+			newUser.setNom(nom);
+			newUser.setMotdepasse(motdepasse);
+  			idprovider =   imp.getIDProvider(newUser);
+  			nomm =   imp.getName(newUser);
+  			emailll =   imp.getEmail(newUser);  			
+			System.out.println(idprovider);
+			System.out.println(nomm);
+			System.out.println(emailll);
+			session.setAttribute("nom",nomm);
+	        session.setAttribute("email",emailll);
+	        request.getRequestDispatcher("Home.jsp").forward(request, response);
   		} else {
   			response.sendRedirect("Connexion.jsp");
-  		}
-		
-
+  		}}
+  		
 		/******************Inscription.php ******************/	
-  		} else if(path.equals("/Inscrire.php")) {
+         if(path.equals("/Inscrire.php")) {
 			
-			provider newUser = new  provider();			
+             provider newUser = new  provider();
+		
 			String nom = request.getParameter("nom");
 			String motdepasse = request.getParameter("motdepasse");
-			String email = request.getParameter("email");
+			String emaill = request.getParameter("email");
 			String telephone = request.getParameter("telephone");
 			String nom_entreprise = request.getParameter("nom_entreprise");
 			String pays = request.getParameter("pays");			
 			newUser.setNom(nom);
 			newUser.setMotdepasse(motdepasse);
-			newUser.setEmail(email);
+			newUser.setEmail(emaill);
 			newUser.setTelephone(telephone);
 			newUser.setNom_entreprise(nom_entreprise);
 			newUser.setPays(pays);
 			
-			int key=imp.insertProvider(newUser);
-			newUser.setID(key);
-			System.out.println(key);
-			response.sendRedirect("DP1.jsp");
+			newUser.setID(imp.insertProvider(newUser));
+			idprovider = newUser.getID();
+			nomm = newUser.getNom();			 
+			emailll = newUser.getEmail();
+			System.out.println(idprovider);
+			response.sendRedirect("Home.jsp");
 			
+			session.setAttribute("nom",nomm);
+	         session.setAttribute("email",emailll);}
+         
+         
+         	
 		/******************DP1.php ******************/	
-		}else if(path.equals("/DP1.php")) {
-			
+		 if(path.equals("/DP1.php")) {
 			license_type lc = new license_type();
 			String Proprietary = request.getParameter("prop");
 			String OpenSource = request.getParameter("open");
@@ -169,8 +191,7 @@ public class Controleur extends HttpServlet {
 			op.setModerateLevel(ModerateLevel);
 			int IDopenness=(imp.getIDOpenness(op));
 			
-			
-			
+					
 			location loc = new location();
 			String Africa = request.getParameter("africa");
 			String Asia = request.getParameter("asia");	
@@ -185,10 +206,8 @@ public class Controleur extends HttpServlet {
 			loc.setUS_Canada(US_Canada);
 			loc.setMiddleeastNorthAfrica(MiddleeastNorthAfrica);
 			int IDlocation=(imp.getIDLocation(loc));
-
-						
-			DP dp = new DP();
-			int IDprovider=(imp.getMAXIDProvider());		
+		
+	        DP dp = new DP();		
 			String title = request.getParameter("title");
 			String fee = request.getParameter("fee");
 			String version = request.getParameter("version");
@@ -196,7 +215,7 @@ public class Controleur extends HttpServlet {
 			String url = request.getParameter("url");
 			String impor = request.getParameter("import");	
 			dp.setServiceTitle(title);
-			dp.setProviderName(String.valueOf(IDprovider));
+			dp.setProviderName(String.valueOf(idprovider));	
 			dp.setSubscriptionFee(fee);
 			dp.setSLA(impor);
 			dp.setVersion(version);
@@ -208,12 +227,17 @@ public class Controleur extends HttpServlet {
 			dp.setLocationID(String.valueOf(IDlocation));	
 			dp.setOpennessID(String.valueOf(IDopenness));
 			dp.setServiceInterfaceID(String.valueOf(IDservice_interface));			
-			imp.insertDP(dp);
+			
+			
+			
+			dp.setID(imp.insertDP(dp));
+			iddp = dp.getID();
+			System.out.println(iddp);
 			
 			response.sendRedirect("QoS.jsp");
 			
 		/******************QoS.php ******************/	
-		}else if(path.equals("/QoS.php")) {
+		}if(path.equals("/QoS.php")) {
 			
 		QoS QoS = new QoS();
 		
@@ -237,26 +261,30 @@ public class Controleur extends HttpServlet {
 		QoS.setSecurityEfforts(Security);
 		QoS.setStandardizedEfforts(Standardized);
 			
-		imp.insertQoS(QoS);
 		
-		response.sendRedirect("Choisir.jsp");
+		QoS.setID(imp.insertQoS(QoS));
+		idqos = QoS.getID();
+		System.out.println(idqos);
 		
+		response.sendRedirect("ChoisirForm.php");}
 			
 			/******************DP2.php ******************/	
 			
-	}else if(path.equals("/DP2.php")) { 
+	      if(path.equals("/DP2.php")) { 
 			numofuser numuser = new numofuser();
-			String UpTo10 = request.getParameter("10");
-			String UpTo50 = request.getParameter("50");
-			String UpTo100 = request.getParameter("100");
-			String UpTo500 = request.getParameter("500");
-			String UpTo1000 = request.getParameter("1000");
+			String UpTo10 = request.getParameter("upto10");
+			String UpTo50 = request.getParameter("upto50");
+			String UpTo100 = request.getParameter("upto100");
+			String UpTo500 = request.getParameter("upto500");
+			String UpTo1000 = request.getParameter("upto1000");
 			numuser.setUpTo10(UpTo10);
 			numuser.setUpTo50(UpTo50);
 			numuser.setUpTo100(UpTo100);
 			numuser.setUpTo500(UpTo500);
 			numuser.setUpTo1000(UpTo1000);
-			imp.insertNumOfUser(numuser);
+			numuser.setID(imp.insertNumOfUser(numuser));
+			idnumofuser = numuser.getID();
+			System.out.println(idnumofuser);
 			
 			
 			numofoperation numoperation = new numofoperation();
@@ -272,7 +300,9 @@ public class Controleur extends HttpServlet {
 			numoperation.setUpTo500(UpTo500ope);
 			numoperation.setUpTo1000(UpTo1000ope);
 			numoperation.setUpTo1500(UpTo1500ope);
-			imp.insertNumOfOperation(numoperation);
+			numoperation.setID(imp.insertNumOfOperation(numoperation));
+			idnumofoperation = numoperation.getID();
+			System.out.println(idnumofoperation);
 			
 			
 			numofsession numsession = new numofsession();
@@ -286,35 +316,35 @@ public class Controleur extends HttpServlet {
 			numsession.setUpTo10(UpTo10sess);
 			numsession.setUpTo20(UpTo20sess);
 			numsession.setUpTo50(UpTo50sess);
-			imp.insertNumOfSession(numsession);
+			numsession.setID(imp.insertNumOfSession(numsession));
+			idnumofsession = numsession.getID();
+			System.out.println(idnumofsession);
 			
 			
-			int maxsession=(imp.getMaxNumOfSession());
-			int maxoperation=(imp.getMaxNumOfOperation());
-			int maxuser=(imp.getMaxNumOfUser());		
+		
 			HRM_NFF hrm = new HRM_NFF();	
-			hrm.setNumOfSessionsPerUserID(String.valueOf(maxsession));
-			hrm.setNumOfOperationsPerSessionID(String.valueOf(maxoperation));
-			hrm.setNumOfUsersID(String.valueOf(maxuser));
-			imp.insertHRM_NFF(hrm);
+			hrm.setNumOfSessionsPerUserID(String.valueOf(idnumofsession));
+			hrm.setNumOfOperationsPerSessionID(String.valueOf(idnumofoperation));
+			hrm.setNumOfUsersID(String.valueOf(idnumofuser));
+			
+			hrm.setID(imp.insertHRM_NFF(hrm));
+			idhrm_nff = hrm.getID();
+			System.out.println(idhrm_nff);
 			
 			
-			int maxQoS=(imp.getMaxQoS());
-			int maxDP=(imp.getMaxDP());
-			int maxHRM_NFF=(imp.getMaxHRM_NFF());	
 			HRM hrmm = new HRM();	
-			hrmm.setDeploymentParameters_DP_NFFsID(String.valueOf(maxDP));
-			hrmm.setHumanResourceManagement_HRM_NFFsID(String.valueOf(maxHRM_NFF));
-			hrmm.setQoSID(String.valueOf(maxQoS));
+			hrmm.setDeploymentParameters_DP_NFFsID(String.valueOf(iddp));
+			hrmm.setHumanResourceManagement_HRM_NFFsID(String.valueOf(idhrm_nff));
+			hrmm.setQoSID(String.valueOf(idqos));
 			imp.insertHRM(hrmm);
 			
-			response.sendRedirect("Choisir.jsp");
+			response.sendRedirect("ChoisirForm.php");}
 
 			
 		
 		/******************DP3.php ******************/	
 		
-	     }else if(path.equals("/DP3.php")) { 
+	     if(path.equals("/DP3.php")) { 
 		
 	    DataRedundancySupport data = new DataRedundancySupport();
 		String premium = request.getParameter("premium");
@@ -325,7 +355,10 @@ public class Controleur extends HttpServlet {
 		data.setHOT(hot);
 		data.setCOOL(cool);
 		data.setARCHIVE(archive);
-		imp.insertDataRedundancySupport(data);
+		
+		data.setID(imp.insertDataRedundancySupport(data));
+		iddataredsupport = data.getID();
+		System.out.println(iddataredsupport);
 		
 		
 		VolumeOfData volume = new VolumeOfData();
@@ -343,7 +376,10 @@ public class Controleur extends HttpServlet {
 		volume.setUpTo800GB(volume800);
 		volume.setUpTo1TB(volume1t);
 		volume.setUpTo2TB(volume2t);
-		imp.insertVolumeOfData(volume);
+		
+		volume.setID(imp.insertVolumeOfData(volume));
+		idvolumeofdata = data.getID();
+		System.out.println(idvolumeofdata);
 		
 		QuantityOfOperations Qte = new QuantityOfOperations();
 		String UpTo5KOperationsPerMonth = request.getParameter("Qte1");
@@ -366,26 +402,28 @@ public class Controleur extends HttpServlet {
 		Qte.setUpTo1MOperationsPerMonth(UpTo1MOperationsPerMonth);
 		Qte.setUpTo2MOperationsPerMonth(UpTo2MOperationsPerMonth);
 		Qte.setUpTo5MOperationsPerMonth(UpTo5MOperationsPerMonth);	
-		imp.insertQuantityOfOperations(Qte);
+		Qte.setID(imp.insertQuantityOfOperations(Qte));
+		idqte = data.getID();
+		System.out.println(idqte);
 	
 		
-		response.sendRedirect("DataStorageParamaters.jsp");
+		response.sendRedirect("DataStorageParamaters.jsp");}
 
 		
   		/******************Inscription.php ******************/	
-		} else if(path.equals("/DataStorage.php")) {
+		if(path.equals("/DataStorage.php")) {
 			String data = request.getParameter("data");
 			if(data.equals("SAS")){				 
 				    DiskSpace diskspace = new DiskSpace();
-					String Space_UpTo2GB = request.getParameter("2GB");
-					String Space_UpTo4GB = request.getParameter("4GB");
-					String Space_UpTo8GB = request.getParameter("8GB");
-					String Space_UpTo16GB = request.getParameter("16GB");
-					String Space_UpTo32GB = request.getParameter("32GB");
-					String Space_UpTo64GB = request.getParameter("64GB");
-					String Space_UpTo128GB = request.getParameter("128GB");
-					String Space_UpTo256GB = request.getParameter("256GB");
-					String Space_UpTo512GB = request.getParameter("512GB");
+					String Space_UpTo2GB = request.getParameter("to2GB");
+					String Space_UpTo4GB = request.getParameter("to4GB");
+					String Space_UpTo8GB = request.getParameter("to8GB");
+					String Space_UpTo16GB = request.getParameter("to16GB");
+					String Space_UpTo32GB = request.getParameter("to32GB");
+					String Space_UpTo64GB = request.getParameter("to64GB");
+					String Space_UpTo128GB = request.getParameter("to128GB");
+					String Space_UpTo256GB = request.getParameter("to256GB");
+					String Space_UpTo512GB = request.getParameter("to512GB");
 					diskspace.setSpace_UpTo2GB(Space_UpTo2GB);
 					diskspace.setSpace_UpTo4GB(Space_UpTo4GB);
 					diskspace.setSpace_UpTo8GB(Space_UpTo8GB);
@@ -396,16 +434,19 @@ public class Controleur extends HttpServlet {
 					diskspace.setSpace_UpTo256GB(Space_UpTo256GB);
 					diskspace.setSpace_UpTo512GB(Space_UpTo512GB);
 					imp.insertDiskSpace(diskspace);
+					diskspace.setID(imp.insertDiskSpace(diskspace));
+					iddiskspace = diskspace.getID();
+					System.out.println(iddiskspace);
 
 				    DiskTransferRate disktransferrate = new DiskTransferRate();
-				    String TransferRate_UpTo50MBps = request.getParameter("50MB");
-					String TransferRate_UpTo100MBps = request.getParameter("100MB");
-					String TransferRate_UpTo200MBps = request.getParameter("200MB");
-					String TransferRate_UpTo400MBps = request.getParameter("400MB");
-					String TransferRate_UpTo600MBps = request.getParameter("600MB");
-					String TransferRate_UpTo1200MBps = request.getParameter("1200MB");
-					String TransferRate_UpTo2400MBps = request.getParameter("2400MB");
-					String TransferRate_UpTo3000MBps = request.getParameter("3000MB");
+				        String TransferRate_UpTo50MBps = request.getParameter("to50MB");
+					String TransferRate_UpTo100MBps = request.getParameter("to100MB");
+					String TransferRate_UpTo200MBps = request.getParameter("to200MB");
+					String TransferRate_UpTo400MBps = request.getParameter("to400MB");
+					String TransferRate_UpTo600MBps = request.getParameter("to600MB");
+					String TransferRate_UpTo1200MBps = request.getParameter("to1200MB");
+					String TransferRate_UpTo2400MBps = request.getParameter("to2400MB");
+					String TransferRate_UpTo3000MBps = request.getParameter("to3000MB");
 					disktransferrate.setTransferRate_UpTo3000MBps(TransferRate_UpTo3000MBps);
 					disktransferrate.setTransferRate_UpTo2400MBps(TransferRate_UpTo2400MBps);
 					disktransferrate.setTransferRate_UpTo1200MBps(TransferRate_UpTo1200MBps);
@@ -414,29 +455,33 @@ public class Controleur extends HttpServlet {
 					disktransferrate.setTransferRate_UpTo200MBps(TransferRate_UpTo200MBps);
 					disktransferrate.setTransferRate_UpTo100MBps(TransferRate_UpTo100MBps);
 					disktransferrate.setTransferRate_UpTo50MBps(TransferRate_UpTo50MBps);
-					imp.insertDiskTransferRate(disktransferrate);
+					disktransferrate.setID(imp.insertDiskTransferRate(disktransferrate));
+					iddisktransferrate = disktransferrate.getID();
+					System.out.println(iddisktransferrate);
 					
-					
-					int maxdiskspace=(imp.getMaxDiskSpaceID());
-					int maxdisktransferrate=(imp.getMaxDiskTransferRateID());
+				
 					SAS sas = new SAS();	
-					sas.setDiskSpaceID(String.valueOf(maxdiskspace));
-					sas.setDiskTransferRateID(String.valueOf(maxdisktransferrate));				
+					sas.setDiskSpaceID(String.valueOf(iddiskspace));
+					sas.setDiskTransferRateID(String.valueOf(iddisktransferrate));				
 					imp.insertSAS(sas);
+					
+					sas.setID(imp.insertSAS(sas));
+					idsas = sas.getID();
+					System.out.println(idsas);
 					response.sendRedirect("DataStorageParamaters.jsp");
 					
 				 				 
 			 }  else if(data.equals("SSD")){			 
-				    DiskSpace diskspace = new DiskSpace();
-					String Space_UpTo2GB = request.getParameter("2GB");
-					String Space_UpTo4GB = request.getParameter("4GB");
-					String Space_UpTo8GB = request.getParameter("8GB");
-					String Space_UpTo16GB = request.getParameter("16GB");
-					String Space_UpTo32GB = request.getParameter("32GB");
-					String Space_UpTo64GB = request.getParameter("64GB");
-					String Space_UpTo128GB = request.getParameter("128GB");
-					String Space_UpTo256GB = request.getParameter("256GB");
-					String Space_UpTo512GB = request.getParameter("512GB");
+				        DiskSpace diskspace = new DiskSpace();
+					String Space_UpTo2GB = request.getParameter("to2GB");
+					String Space_UpTo4GB = request.getParameter("to4GB");
+					String Space_UpTo8GB = request.getParameter("to8GB");
+					String Space_UpTo16GB = request.getParameter("to16GB");
+					String Space_UpTo32GB = request.getParameter("to32GB");
+					String Space_UpTo64GB = request.getParameter("to64GB");
+					String Space_UpTo128GB = request.getParameter("to128GB");
+					String Space_UpTo256GB = request.getParameter("to256GB");
+					String Space_UpTo512GB = request.getParameter("to512GB");
 					diskspace.setSpace_UpTo2GB(Space_UpTo2GB);
 					diskspace.setSpace_UpTo4GB(Space_UpTo4GB);
 					diskspace.setSpace_UpTo8GB(Space_UpTo8GB);
@@ -447,16 +492,19 @@ public class Controleur extends HttpServlet {
 					diskspace.setSpace_UpTo256GB(Space_UpTo256GB);
 					diskspace.setSpace_UpTo512GB(Space_UpTo512GB);
 					imp.insertDiskSpace(diskspace);
+					diskspace.setID(imp.insertDiskSpace(diskspace));
+					iddiskspace = diskspace.getID();
+					System.out.println(iddiskspace);
 
 				    DiskTransferRate disktransferrate = new DiskTransferRate();
-				    String TransferRate_UpTo50MBps = request.getParameter("50MB");
-					String TransferRate_UpTo100MBps = request.getParameter("100MB");
-					String TransferRate_UpTo200MBps = request.getParameter("200MB");
-					String TransferRate_UpTo400MBps = request.getParameter("400MB");
-					String TransferRate_UpTo600MBps = request.getParameter("600MB");
-					String TransferRate_UpTo1200MBps = request.getParameter("1200MB");
-					String TransferRate_UpTo2400MBps = request.getParameter("2400MB");
-					String TransferRate_UpTo3000MBps = request.getParameter("3000MB");
+				        String TransferRate_UpTo50MBps = request.getParameter("to50MB");
+					String TransferRate_UpTo100MBps = request.getParameter("to100MB");
+					String TransferRate_UpTo200MBps = request.getParameter("to200MB");
+					String TransferRate_UpTo400MBps = request.getParameter("to400MB");
+					String TransferRate_UpTo600MBps = request.getParameter("to600MB");
+					String TransferRate_UpTo1200MBps = request.getParameter("to1200MB");
+					String TransferRate_UpTo2400MBps = request.getParameter("to2400MB");
+					String TransferRate_UpTo3000MBps = request.getParameter("to3000MB");
 					disktransferrate.setTransferRate_UpTo3000MBps(TransferRate_UpTo3000MBps);
 					disktransferrate.setTransferRate_UpTo2400MBps(TransferRate_UpTo2400MBps);
 					disktransferrate.setTransferRate_UpTo1200MBps(TransferRate_UpTo1200MBps);
@@ -465,29 +513,31 @@ public class Controleur extends HttpServlet {
 					disktransferrate.setTransferRate_UpTo200MBps(TransferRate_UpTo200MBps);
 					disktransferrate.setTransferRate_UpTo100MBps(TransferRate_UpTo100MBps);
 					disktransferrate.setTransferRate_UpTo50MBps(TransferRate_UpTo50MBps);
-					imp.insertDiskTransferRate(disktransferrate);
+					disktransferrate.setID(imp.insertDiskTransferRate(disktransferrate));
+					iddisktransferrate = disktransferrate.getID();
+					System.out.println(iddisktransferrate);
 					
 					
-					int maxdiskspace=(imp.getMaxDiskSpaceID());
-					int maxdisktransferrate=(imp.getMaxDiskTransferRateID());
 					SSD ssd = new SSD();	
-					ssd.setDiskSpaceID(String.valueOf(maxdiskspace));
-					ssd.setDiskTransferRateID(String.valueOf(maxdisktransferrate));				
-					imp.insertSSD(ssd);
+					ssd.setDiskSpaceID(String.valueOf(iddiskspace));
+					ssd.setDiskTransferRateID(String.valueOf(iddisktransferrate));				
+					ssd.setID(imp.insertSSD(ssd));
+					idssd = ssd.getID();
+					System.out.println(idssd);
 					response.sendRedirect("DataStorageParamaters.jsp");
 					
 				 				 
 			 } else if(data.equals("HDD")){			 
-				    DiskSpace diskspace = new DiskSpace();
-					String Space_UpTo2GB = request.getParameter("2GB");
-					String Space_UpTo4GB = request.getParameter("4GB");
-					String Space_UpTo8GB = request.getParameter("8GB");
-					String Space_UpTo16GB = request.getParameter("16GB");
-					String Space_UpTo32GB = request.getParameter("32GB");
-					String Space_UpTo64GB = request.getParameter("64GB");
-					String Space_UpTo128GB = request.getParameter("128GB");
-					String Space_UpTo256GB = request.getParameter("256GB");
-					String Space_UpTo512GB = request.getParameter("512GB");
+				        DiskSpace diskspace = new DiskSpace();
+					String Space_UpTo2GB = request.getParameter("to2GB");
+					String Space_UpTo4GB = request.getParameter("to4GB");
+					String Space_UpTo8GB = request.getParameter("to8GB");
+					String Space_UpTo16GB = request.getParameter("to16GB");
+					String Space_UpTo32GB = request.getParameter("to32GB");
+					String Space_UpTo64GB = request.getParameter("to64GB");
+					String Space_UpTo128GB = request.getParameter("to128GB");
+					String Space_UpTo256GB = request.getParameter("to256GB");
+					String Space_UpTo512GB = request.getParameter("to512GB");
 					diskspace.setSpace_UpTo2GB(Space_UpTo2GB);
 					diskspace.setSpace_UpTo4GB(Space_UpTo4GB);
 					diskspace.setSpace_UpTo8GB(Space_UpTo8GB);
@@ -497,17 +547,19 @@ public class Controleur extends HttpServlet {
 					diskspace.setSpace_UpTo128GB(Space_UpTo128GB);
 					diskspace.setSpace_UpTo256GB(Space_UpTo256GB);
 					diskspace.setSpace_UpTo512GB(Space_UpTo512GB);
-					imp.insertDiskSpace(diskspace);
+					diskspace.setID(imp.insertDiskSpace(diskspace));
+					iddiskspace = diskspace.getID();
+					System.out.println(iddiskspace);
 
 				    DiskTransferRate disktransferrate = new DiskTransferRate();
-				    String TransferRate_UpTo50MBps = request.getParameter("50MB");
-					String TransferRate_UpTo100MBps = request.getParameter("100MB");
-					String TransferRate_UpTo200MBps = request.getParameter("200MB");
-					String TransferRate_UpTo400MBps = request.getParameter("400MB");
-					String TransferRate_UpTo600MBps = request.getParameter("600MB");
-					String TransferRate_UpTo1200MBps = request.getParameter("1200MB");
-					String TransferRate_UpTo2400MBps = request.getParameter("2400MB");
-					String TransferRate_UpTo3000MBps = request.getParameter("3000MB");
+				        String TransferRate_UpTo50MBps = request.getParameter("to50MB");
+					String TransferRate_UpTo100MBps = request.getParameter("to100MB");
+					String TransferRate_UpTo200MBps = request.getParameter("to200MB");
+					String TransferRate_UpTo400MBps = request.getParameter("to400MB");
+					String TransferRate_UpTo600MBps = request.getParameter("to600MB");
+					String TransferRate_UpTo1200MBps = request.getParameter("to1200MB");
+					String TransferRate_UpTo2400MBps = request.getParameter("to2400MB");
+					String TransferRate_UpTo3000MBps = request.getParameter("to3000MB");
 					disktransferrate.setTransferRate_UpTo3000MBps(TransferRate_UpTo3000MBps);
 					disktransferrate.setTransferRate_UpTo2400MBps(TransferRate_UpTo2400MBps);
 					disktransferrate.setTransferRate_UpTo1200MBps(TransferRate_UpTo1200MBps);
@@ -516,60 +568,80 @@ public class Controleur extends HttpServlet {
 					disktransferrate.setTransferRate_UpTo200MBps(TransferRate_UpTo200MBps);
 					disktransferrate.setTransferRate_UpTo100MBps(TransferRate_UpTo100MBps);
 					disktransferrate.setTransferRate_UpTo50MBps(TransferRate_UpTo50MBps);
-					imp.insertDiskTransferRate(disktransferrate);
-					
-					
-					int maxdiskspace=(imp.getMaxDiskSpaceID());
-					int maxdisktransferrate=(imp.getMaxDiskTransferRateID());
+					disktransferrate.setID(imp.insertDiskTransferRate(disktransferrate));
+					iddisktransferrate = disktransferrate.getID();
+					System.out.println(iddisktransferrate);
+				
+				
 					HDD hdd = new HDD();	
-					hdd.setDiskSpaceID(String.valueOf(maxdiskspace));
-					hdd.setDiskTransferRateID(String.valueOf(maxdisktransferrate));				
-					imp.insertHDD(hdd);
-					
-					int maxHDD=(imp.getMaxHDD());
-					int maxSAS=(imp.getMaxSAS());
-					int maxSSD=(imp.getMaxSSD());
+					hdd.setDiskSpaceID(String.valueOf(iddiskspace));
+					hdd.setDiskTransferRateID(String.valueOf(iddisktransferrate));			
+					hdd.setID(imp.insertHDD(hdd));
+					idhdd = hdd.getID();
+					System.out.println(idhdd);
+				
 					DataStorageParam dataStorageParam = new DataStorageParam();	
-					dataStorageParam.setHDDStorageID(String.valueOf(maxHDD));
-					dataStorageParam.setSASStorageID(String.valueOf(maxSAS));
-					dataStorageParam.setSSDStorageID(String.valueOf(maxSSD));				
-					imp.insertDataStorageParam(dataStorageParam);
+					dataStorageParam.setHDDStorageID(String.valueOf(idhdd));
+					dataStorageParam.setSASStorageID(String.valueOf(idsas));
+					dataStorageParam.setSSDStorageID(String.valueOf(idssd));				
+					dataStorageParam.setID(imp.insertDataStorageParam(dataStorageParam));
+					iddatastorageparam = dataStorageParam.getID();
+					System.out.println(iddatastorageparam);
 					
-					int dataParam=(imp.getMaxDataStorageParam());						
-					int dataredun=(imp.getMaxDataRedundancySupport());
-					int volumeofdata=(imp.getMaxVolumeOfData());
-					int Qteoperation=(imp.getMaxQuantityOfOperations());	
+				
 					SM_NFF sm_nff = new SM_NFF();	
-					sm_nff.setQuantityOfOperationsID(String.valueOf(Qteoperation));
-					sm_nff.setVolumeOfDataID(String.valueOf(volumeofdata));
-					sm_nff.setDataRedundancySupportID(String.valueOf(dataredun));
-					sm_nff.setDataStorageParamID(String.valueOf(dataParam));
-					imp.insertSM_NFF(sm_nff);
+					sm_nff.setQuantityOfOperationsID(String.valueOf(idqte));
+					sm_nff.setVolumeOfDataID(String.valueOf(idvolumeofdata));
+					sm_nff.setDataRedundancySupportID(String.valueOf(iddataredsupport));
+					sm_nff.setDataStorageParamID(String.valueOf(iddatastorageparam));
 					
-					int maxQoS=(imp.getMaxQoS());
-					int maxDP=(imp.getMaxDP());
-					int maxHRM_NFF=(imp.getMaxSM_NFF());	
+					sm_nff.setID(imp.insertSM_NFF(sm_nff));
+					idsm_nff = sm_nff.getID();
+					System.out.println(idsm_nff);
+					
+					
 					SM sm = new SM();	
-					sm.setDeploymentParameters_DP_NFFsID(String.valueOf(maxDP));
-					sm.setStreamingAndMultimedia_SM_NFFsID(String.valueOf(maxHRM_NFF));
-					sm.setQoSID(String.valueOf(maxQoS));
+					sm.setDeploymentParameters_DP_NFFsID(String.valueOf(iddp));
+					sm.setStreamingAndMultimedia_SM_NFFsID(String.valueOf(idsm_nff));
+					sm.setQoSID(String.valueOf(idqos));
 					imp.insertSM(sm);
 					
 					
-					response.sendRedirect("Choisir.jsp");
+					response.sendRedirect("ChoisirForm.php");
 					
 				 				 
-			 } 		
+			 	}	}
+		if(path.equals("/ChoisirForm.php")) {
+			Model model = new Model();
+			ArrayList<String> FFlist= new ArrayList<>();
+			Cookie[]cookies= request.getCookies();
+			if(cookies!=null) {
+				for(int i=0;i<cookies.length;i++) {
+					if(cookies[i].getName().equals("FFList")) {
+						String[] coo= cookies[i].getValue().split(",");
+						for (int j = 0; j < coo.length; j++) {
+							FFlist.add(coo[j]);
+						}
+			         
+					}
+				}
+			}
+		    model.setFF(FFlist);
+		    request.setAttribute("model", model);
+		    System.out.println(model.getFF());
+		    request.getRequestDispatcher("Choisir.jsp").forward(request, response);
+
+		}
 			/******************Choisir.php ******************/	
-		} else if(path.equals("/Choisir.php")) {
+		if(path.equals("/Choisir.php")) {
 			String choisir = request.getParameter("choisir");
-			if(choisir.equals("Human Resource Management")){		
+			if(choisir.equals("HumanRessourceManagement_HRM")){		
 			response.sendRedirect("HRM.jsp"); }
 			else if(choisir.equals("Streaming And Multimedia")){		
 				response.sendRedirect("SM.jsp"); }
 
 		}
-  		/******************DescriptionQuery.php ******************/	
+                /******************DescriptionQuery.php ******************/	
 		else if(path.equals("/DescriptionQuery.php")) {
 			String Description= request.getParameter("user_message");
 			ArrayList<String> keywords = new ArrayList<String>();
@@ -620,19 +692,30 @@ public class Controleur extends HttpServlet {
 			
 			   /*** Matching Keywords ***/
 			    ArrayList<String> VisitedNode= new ArrayList<String>();
-			    ArrayList<String> matchedChildren= new ArrayList<String>();
 			    try {
 					InterfaceImpDAOntologie.BFSbasedMatchingKeywords("OFFs", FinalKeywords, Dictionnary, VisitedNode, matchedChildren);
 				} catch (OWLException e) {
 					e.printStackTrace();
 				}	
 			    System.out.println("FFS Matched:"+matchedChildren);
-			
+			    String Cookies="";
+			    for (int i=0;i<matchedChildren.size();i++) {
+			    	if(Cookies.equals("")) {
+			    		Cookies= matchedChildren.get(i);	
+			    	}else {
+			    		Cookies=Cookies+","+matchedChildren.get(i);
+			    	}
+			    	
+				}
+			    Cookie cookie = new Cookie("FFList",Cookies);
+		    	response.addCookie(cookie);
+			    request.getRequestDispatcher("DP1.jsp").forward(request, response);
+			   
 			
 			
 		}
 			
-		doGet(request, response);
+		
 	}
 
 }

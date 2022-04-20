@@ -1,15 +1,17 @@
 package Model;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
-import Métier.BabelNetConnection;
-import Métier.TextRank;
-import Métier.Tokenization;
-import Métier.WordNetConnection;
 
 public class Model {
-	
+	private List<String> FF= new ArrayList<String>();
+
+	public List<String> getFF() {
+		return FF;
+	}
+
+	public void setFF(List<String> fF) {
+		FF = fF;
+	}
 }

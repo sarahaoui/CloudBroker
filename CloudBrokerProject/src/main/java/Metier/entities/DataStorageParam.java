@@ -2,6 +2,7 @@ package Metier.entities;
 
 
 public class DataStorageParam {
+ private int ID;
  private String SSDStorageID;
  private String SASStorageID;
  private String HDDStorageID;
@@ -11,11 +12,20 @@ public class DataStorageParam {
 	 super();
 	}
 	
-	public DataStorageParam(String SSDStorageID, String SASStorageID, String HDDStorageID) {
+	public DataStorageParam(int ID, String SSDStorageID, String SASStorageID, String HDDStorageID) {
 		super();
+		this.ID = ID;
 		this.SSDStorageID = SSDStorageID;
 		this.SASStorageID = SASStorageID;
 		this.HDDStorageID = HDDStorageID;		
+	}
+
+	public int getID() {
+		return ID;
+	}
+
+	public void setID(int iD) {
+		ID = iD;
 	}
 
 	public String getSSDStorageID() {

@@ -1,6 +1,7 @@
 package Metier.entities;
 
 public class DiskTransferRate {
+private int ID;
  private String TransferRate_UpTo3000MBps;
  private String TransferRate_UpTo2400MBps;
  private String TransferRate_UpTo1200MBps;
@@ -14,8 +15,9 @@ public class DiskTransferRate {
 	 super();
 	}
 	
-	public DiskTransferRate(String TransferRate_UpTo3000MBps, String TransferRate_UpTo2400MBps, String TransferRate_UpTo1200MBps, String TransferRate_UpTo600MBps, String TransferRate_UpTo400MBps, String TransferRate_UpTo200MBps, String TransferRate_UpTo100MBps, String TransferRate_UpTo50MBps) {
+	public DiskTransferRate(int ID, String TransferRate_UpTo3000MBps, String TransferRate_UpTo2400MBps, String TransferRate_UpTo1200MBps, String TransferRate_UpTo600MBps, String TransferRate_UpTo400MBps, String TransferRate_UpTo200MBps, String TransferRate_UpTo100MBps, String TransferRate_UpTo50MBps) {
 		super();
+		this.ID = ID;
 		this.TransferRate_UpTo3000MBps = TransferRate_UpTo3000MBps;
 		this.TransferRate_UpTo2400MBps = TransferRate_UpTo2400MBps;
 		this.TransferRate_UpTo1200MBps = TransferRate_UpTo1200MBps;	
@@ -24,6 +26,14 @@ public class DiskTransferRate {
 		this.TransferRate_UpTo200MBps = TransferRate_UpTo200MBps;
 		this.TransferRate_UpTo100MBps = TransferRate_UpTo100MBps;
 		this.TransferRate_UpTo50MBps = TransferRate_UpTo50MBps;		
+	}
+
+	public int getID() {
+		return ID;
+	}
+
+	public void setID(int iD) {
+		ID = iD;
 	}
 
 	public String getTransferRate_UpTo3000MBps() {

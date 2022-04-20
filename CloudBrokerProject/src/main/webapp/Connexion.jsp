@@ -2,12 +2,9 @@
 <html>
 	<head>
 		<meta charset="UTF-8" />
-		<title>Inscription</title>
-		<!-- Font Icon -->
-		<link
-			rel="stylesheet"
-			href="fonts/material-icon/css/material-design-iconic-font.min.css"
-		/>
+		<title>Login</title>
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
 		<link
 			href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap"
 			rel="stylesheet"
@@ -27,25 +24,18 @@
 							<h2 class="form-title">Login</h2>
 							<form method="POST" class="register-form" id="register-form" action="Connexion.php">
 								<div class="form-group">
-									<label for="name"
-										><i class="zmdi zmdi-account material-icons-name"></i
-									></label>
-									<input
-										type="text"
-										name="Nom"
-										id="name"
-										placeholder="Username"
-									/>
+									<label for="name"> <span class="material-icons">person</span></label>
+									<input type="text" name="Nom" id="name" placeholder="Username" />
 								</div>
 								<div class="form-group">
-									<label for="pass"><i class="zmdi zmdi-lock"></i></label>
+									<label for="pass"><span class="material-icons">lock</span></label>
 									<input type="password" name="Motdepasse" id="pass" placeholder="Password" />
 								</div>
 
 								<div class="form-group form-button">
 									<input type="submit" name="signup" id="signup" class="form-submit" value="Login" />
 								</div>
-	                            <p> <a href="Inscrire.jsp"> Create a new account </a></p>
+	                            <p> <a href="Inscrire.jsp"> Create a new account ? </a></p>
 							</form>
 						</div>
 					</div>

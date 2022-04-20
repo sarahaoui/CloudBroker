@@ -1,6 +1,7 @@
 package Metier.entities;
 
 public class DiskSpace {
+ private int ID;
  private String Space_UpTo2GB;
  private String Space_UpTo4GB;
  private String Space_UpTo8GB;
@@ -15,8 +16,9 @@ public class DiskSpace {
 	 super();
 	}
 	
-	public DiskSpace(String Space_UpTo2GB, String Space_UpTo4GB, String Space_UpTo8GB, String Space_UpTo16GB, String Space_UpTo32GB, String Space_UpTo64GB, String Space_UpTo128GB, String Space_UpTo256GB, String Space_UpTo512GB) {
+	public DiskSpace(int ID, String Space_UpTo2GB, String Space_UpTo4GB, String Space_UpTo8GB, String Space_UpTo16GB, String Space_UpTo32GB, String Space_UpTo64GB, String Space_UpTo128GB, String Space_UpTo256GB, String Space_UpTo512GB) {
 		super();
+		this.ID = ID;
 		this.Space_UpTo2GB = Space_UpTo2GB;
 		this.Space_UpTo4GB = Space_UpTo4GB;
 		this.Space_UpTo8GB = Space_UpTo8GB;	
@@ -26,6 +28,14 @@ public class DiskSpace {
 		this.Space_UpTo128GB = Space_UpTo128GB;
 		this.Space_UpTo256GB = Space_UpTo256GB;		
 		this.Space_UpTo512GB = Space_UpTo512GB;
+	}
+
+	public int getID() {
+		return ID;
+	}
+
+	public void setID(int iD) {
+		ID = iD;
 	}
 
 	public String getSpace_UpTo2GB() {

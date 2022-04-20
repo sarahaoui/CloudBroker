@@ -24,12 +24,12 @@
 		/>
 	</head>
 	<body>
-		<div class="content">
+		
 			
 			<div class="description">
 				<h1> Quality Of Service Paramaters : </h1>
 
-		 	<form method="POST" class="register-form" id="register-form" action="QoS.php"> 
+		 	<form method="POST" action="QoS.php" name="myForm" onsubmit="return validateForm()"> 
 					
 					<div class="corps-formulaire">
 						<div class="left">
@@ -41,6 +41,7 @@
 									<option value="Strong">Average</option>
 									<option value="Strong">Weak</option>
 								</select>
+								<span class="error" id="Consumability"></span>
 							</div>
 							<div class="boite">
 								<label for="">FaultToleranceEfforts :</label>
@@ -50,6 +51,7 @@
 									<option value="Strong">Average</option>
 									<option value="Strong">Weak</option>
 								</select>
+								<span class="error" id="FaultTolerance"></span>
 							</div>
 							<div class="boite">
 								<label for="">MigrationabilityEfforts :</label>
@@ -59,6 +61,7 @@
 									<option value="Strong">Average</option>
 									<option value="Strong">Weak</option>
 								</select>
+								<span class="error" id="Migrationability"></span>
 							</div>
 							<div class="boite">
 								<label for="">Performance :</label>
@@ -68,6 +71,7 @@
 									<option value="Strong">Average</option>
 									<option value="Strong">Weak</option>
 								</select>
+								<span class="error" id="Performance"></span>
 							</div>
 							<div class="boite">
 								<label for="">ReliabilityEfforts :</label>
@@ -77,6 +81,7 @@
 									<option value="Strong">Average</option>
 									<option value="Strong">Weak</option>
 								</select>
+								<span class="error" id="Reliability"></span>
 							</div>
 						</div>
 						<div class="right">
@@ -89,6 +94,7 @@
 									<option value="Strong">Average</option>
 									<option value="Strong">Weak</option>
 								</select>
+								<span class="error" id="RuntimeTunning"></span>
 
 							</div>
 							<div class="boite">
@@ -99,6 +105,7 @@
 									<option value="Strong">Average</option>
 									<option value="Strong">Weak</option>
 								</select>
+								<span class="error" id="Scalability"></span>
 
 							</div>
 							<div class="boite">
@@ -109,6 +116,7 @@
 									<option value="Strong">Average</option>
 									<option value="Strong">Weak</option>
 								</select>
+								<span class="error" id="Security"></span>
 							</div>
 							<div class="boite">
 								<label for="">StandardizedEfforts :</label>
@@ -118,6 +126,7 @@
 									<option value="Strong">Average</option>
 									<option value="Strong">Weak</option>
 								</select>
+								<span class="error" id="Standardized"></span>
 							</div>
 						</div>
 					</div>
@@ -147,5 +156,110 @@
     sidebar.classList.toggle("close");
   });
   </script>
+
+<script> 
+            function validateForm()                                    
+{  
+    var Consumability = document.forms["myForm"]["Consumability"];
+    var FaultTolerance = document.forms["myForm"]["FaultTolerance"];
+    var Migrationability = document.forms["myForm"]["Migrationability"];
+    var Performance = document.forms["myForm"]["Performance"];
+    var Reliability = document.forms["myForm"]["Reliability"]; 
+    var RuntimeTunning = document.forms["myForm"]["RuntimeTunning"];
+    var Scalability = document.forms["myForm"]["Scalability"];
+    var Security = document.forms["myForm"]["Security"];
+    var Standardized = document.forms["myForm"]["Standardized"];
+   
+    ////////////////////////////////
+    if (Consumability.value == "")                                  
+    { 
+        document.getElementById('Consumability').innerHTML="Enter the ConsumabilityEfforts";  
+        Consumability.focus(); 
+        return false; 
+    }else{
+        document.getElementById('Consumability').innerHTML="";  
+    }
+
+    ////////////////////////////////
+    if (FaultTolerance.value == "")                                  
+    { 
+        document.getElementById('FaultTolerance').innerHTML="Enter the FaultToleranceEfforts";  
+        FaultTolerance.focus(); 
+        return false; 
+    }else{
+        document.getElementById('FaultTolerance').innerHTML="";  
+    }
+
+
+    ///////////////////////
+    if (Migrationability.value == "")                                  
+    { 
+        document.getElementById('Migrationability').innerHTML="Enter the MigrationabilityEfforts";  
+        Migrationability.focus(); 
+        return false; 
+    }else{
+        document.getElementById('Migrationability').innerHTML="";  
+    } 
+
+    ///////////////////////
+
+    if (Performance.value == "")                                  
+    { 
+        document.getElementById('Performance').innerHTML="Enter the Performance";  
+        Performance.focus(); 
+        return false; 
+    }else{
+        document.getElementById('Performance').innerHTML="";  
+    }   
+    /////////////////////////////////
+   if (Reliability.value == "")                                  
+    { 
+        document.getElementById('Reliability').innerHTML="Enter the ReliabilityEfforts";  
+        Reliability.focus(); 
+        return false; 
+    }else{
+        document.getElementById('Reliability').innerHTML="";  
+    }
+        /////////////////////////////////
+   if (RuntimeTunning.value == "")                                  
+    { 
+        document.getElementById('RuntimeTunning').innerHTML="Enter the RuntimeTunning";  
+        RuntimeTunning.focus(); 
+        return false; 
+    }else{
+        document.getElementById('RuntimeTunning').innerHTML="";  
+    }
+            /////////////////////////////////
+   if (Scalability.value == "")                                  
+    { 
+        document.getElementById('Scalability').innerHTML="Enter the ScalabilityEfforts";  
+        Scalability.focus(); 
+        return false; 
+    }else{
+        document.getElementById('Scalability').innerHTML="";  
+    }
+                /////////////////////////////////
+   if (Security.value == "")                                  
+    { 
+        document.getElementById('Security').innerHTML="Enter the SecurityEfforts";  
+        Security.focus(); 
+        return false; 
+    }else{
+        document.getElementById('Security').innerHTML="";  
+    }
+                    /////////////////////////////////
+   if (Standardized.value == "")                                  
+    { 
+        document.getElementById('Standardized').innerHTML="Enter the StandardizedEfforts";  
+        Standardized.focus(); 
+        return false; 
+    }else{
+        document.getElementById('Standardized').innerHTML="";  
+    }
+
+
+}
+   </script>
+
 	</body>
 </html>

@@ -1,6 +1,7 @@
 package Metier.entities;
 
 public class numofoperation {
+	private int ID;
 	 private String UpTo50;
 	 private String UpTo100;
 	 private String UpTo300;
@@ -13,8 +14,9 @@ public class numofoperation {
 		 super();
 		}
 
-  public numofoperation(String UpTo50, String UpTo100, String UpTo300, String UpTo500, String UpTo1000, String UpTo1500) {
+  public numofoperation(int ID, String UpTo50, String UpTo100, String UpTo300, String UpTo500, String UpTo1000, String UpTo1500) {
 	        super();
+	        this.ID = ID ;
 			this.UpTo50 = UpTo50;
 			this.UpTo100 = UpTo100;
 			this.UpTo300 = UpTo300;
@@ -22,6 +24,14 @@ public class numofoperation {
 			this.UpTo50 = UpTo1000;
 			this.UpTo100 = UpTo1500;
 		}
+
+public int getID() {
+	return ID;
+}
+
+public void setID(int iD) {
+	ID = iD;
+}
 
 public String getUpTo50() {
 	return UpTo50;

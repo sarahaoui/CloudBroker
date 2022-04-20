@@ -167,7 +167,7 @@ for(let i=0 ;i<=cards.length;i++){
    icon[i].style["boxShadow"] = "0 5px 12px 0 rgba(0, 0, 0, 0.2)";
    ionicon[i].style.color="#ffffff"
 
-});r
+});
  cards[i].addEventListener("mouseleave",function(){
 
    icon[i].style.backgroundColor = '#f5f0f0';

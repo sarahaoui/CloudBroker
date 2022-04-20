@@ -2,6 +2,7 @@ package Metier.entities;
 
 
 public class HRM_NFF {
+private int ID;	
  private String NumOfUsersID;
  private String NumOfSessionsPerUserID;
  private String NumOfOperationsPerSessionID;
@@ -11,11 +12,21 @@ public class HRM_NFF {
 	 super();
 	}
 	
-	public HRM_NFF(String NumOfUsersID, String NumOfSessionsPerUserID, String NumOfOperationsPerSessionID) {
+	public HRM_NFF(int ID, String NumOfUsersID, String NumOfSessionsPerUserID, String NumOfOperationsPerSessionID) {
 		super();
+		this.ID = ID;
 		this.NumOfUsersID = NumOfUsersID;
 		this.NumOfSessionsPerUserID = NumOfSessionsPerUserID;
 		this.NumOfOperationsPerSessionID = NumOfOperationsPerSessionID;		
+	}
+
+
+	public int getID() {
+		return ID;
+	}
+
+	public void setID(int iD) {
+		ID = iD;
 	}
 
 	public String getNumOfUsersID() {

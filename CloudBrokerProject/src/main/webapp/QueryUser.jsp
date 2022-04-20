@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
 
-    <title>Acceuil</title>
+    <title>Sreach Service</title>
     <link rel="stylesheet" href="css/Acceuil.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,7 +21,7 @@
      
     <!--Body part-->
         <div class="description">  
-        <form method="POST" class="register-form" id="register-form" action="Inscrire.php">
+        <form method="GET" class="register-form" id="register-form" action="Inscrire.php">
                 <div class="form-group">
                   <label for="email"><i class="zmdi zmdi-email"></i></label>         
                   <textarea id="msg" name="user_message" placeholder="Enter your Query here"></textarea>

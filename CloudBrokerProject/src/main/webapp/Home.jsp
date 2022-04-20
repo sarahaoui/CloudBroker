@@ -1,7 +1,37 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    <div class="sidebar close">
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Home</title>
+    <link rel="stylesheet" href="css/Acceuil.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="shortcut icon" href="images/logo.png" />
+    <link
+			href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"
+			rel="stylesheet"
+		/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+</head>
+<body>
+    <div class="content">
+     
+    <!--Body part-->
+        <div class="description">  
+           <center>
+           <h1>Hello</h1>
+           <p>What do you want to do today ? </p>
+       </center>
+    </div>
+
+    <!--side bar section-->
+
+      <div class="sidebar">
     <div class="logo-details">
-      <i class='bx bx-menu'></i>
+ 
     </div>
     <ul class="nav-links">
       <li>
@@ -34,11 +64,11 @@
         
           <a href="DescriptionProvider.jsp">
            <i class='bx bx-folder-plus'></i>
-            <span class="link_name">Add</span>
+            <span class="link_name" href="DP1.jsp">Add</span>
           </a>
       <!--     <i class='bx bxs-chevron-down arrow' ></i> -->
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="DescriptionProvide.jsp">Add</a></li>
+          <li><a class="link_name" href="DescriptionProvider.jsp">Add</a></li>
            </ul>
      <!--<li><a href="">Vm</a></li>
           <li><a href="">Storage Space</a></li>
@@ -115,3 +145,21 @@
   </li>
 </ul>
   </div>
+
+      <!-- Script part-->      
+            <script>
+  let arrow = document.querySelectorAll(".arrow");
+  for (var i = 0; i < arrow.length; i++) {
+    arrow[i].addEventListener("click", (e)=>{
+   let arrowParent = e.target.parentElement.parentElement;//selecting main parent of arrow
+   arrowParent.classList.toggle("showMenu");
+    });
+  }
+  let sidebar = document.querySelector(".sidebar");
+  let sidebarBtn = document.querySelector(".bx-menu");
+  console.log(sidebarBtn);
+  
+  </script>
+</body>
+
+</html>

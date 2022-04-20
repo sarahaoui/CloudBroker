@@ -2,6 +2,7 @@ package Metier.entities;
 
 
 public class SM_NFF {
+private int ID;
  private String QuantityOfOperationsID;
  private String VolumeOfDataID;
  private String DataRedundancySupportID;
@@ -12,13 +13,22 @@ public class SM_NFF {
 	 super();
 	}
 	
-	public SM_NFF(String QuantityOfOperationsID, String VolumeOfDataID, String DataRedundancySupportID, String DataStorageParamID) {
+	public SM_NFF(int ID, String QuantityOfOperationsID, String VolumeOfDataID, String DataRedundancySupportID, String DataStorageParamID) {
 		super();
+		this.ID = ID;
 		this.QuantityOfOperationsID = QuantityOfOperationsID;
 		this.VolumeOfDataID = VolumeOfDataID;
 		this.DataRedundancySupportID = DataRedundancySupportID;
 		this.DataStorageParamID = DataStorageParamID;		
 
+	}
+
+	public int getID() {
+		return ID;
+	}
+
+	public void setID(int iD) {
+		ID = iD;
 	}
 
 	public String getQuantityOfOperationsID() {

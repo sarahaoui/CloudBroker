@@ -2,6 +2,7 @@ package Metier.entities;
 
 
 public class QuantityOfOperations {
+ private int ID;
  private String UpTo5KOperationsPerMonth;
  private String UpTo10KOperationsPerMonth;
  private String UpTo25KOperationsPerMonth;
@@ -19,21 +20,28 @@ public class QuantityOfOperations {
 	 super();
 	}
 	
-	public QuantityOfOperations(String UpTo5KOperationsPerMonth, String UpTo10KOperationsPerMonth, String UpTo25KOperationsPerMonth, String UpTo50KOperationsPerMonth, String UpTo100KOperationsPerMonth, String UpTo250KOperationsPerMonth, String UpTo500KOperationsPerMonth, String UpTo1MOperationsPerMonth, String UpTo2MOperationsPerMonth, String UpTo5MOperationsPerMonth) {
+	public QuantityOfOperations(int ID, String UpTo5KOperationsPerMonth, String UpTo10KOperationsPerMonth, String UpTo25KOperationsPerMonth, String UpTo50KOperationsPerMonth, String UpTo100KOperationsPerMonth, String UpTo250KOperationsPerMonth, String UpTo500KOperationsPerMonth, String UpTo1MOperationsPerMonth, String UpTo2MOperationsPerMonth, String UpTo5MOperationsPerMonth) {
 		super();
+		this .ID = ID;
 		this.UpTo5KOperationsPerMonth = UpTo5KOperationsPerMonth;
 		this.UpTo10KOperationsPerMonth = UpTo10KOperationsPerMonth;
 		this.UpTo25KOperationsPerMonth = UpTo25KOperationsPerMonth;	
 		this.UpTo50KOperationsPerMonth = UpTo50KOperationsPerMonth;
-		this.UpTo100KOperationsPerMonth = UpTo100KOperationsPerMonth;	
-		
+		this.UpTo100KOperationsPerMonth = UpTo100KOperationsPerMonth;		
 		this.UpTo250KOperationsPerMonth = UpTo250KOperationsPerMonth;
 		this.UpTo500KOperationsPerMonth = UpTo500KOperationsPerMonth;
-		this.UpTo1MOperationsPerMonth = UpTo1MOperationsPerMonth;
-		
+		this.UpTo1MOperationsPerMonth = UpTo1MOperationsPerMonth;	
 		this.UpTo2MOperationsPerMonth = UpTo2MOperationsPerMonth;
 		this.UpTo5MOperationsPerMonth = UpTo5MOperationsPerMonth;	
 
+	}
+
+	public int getID() {
+		return ID;
+	}
+
+	public void setID(int iD) {
+		ID = iD;
 	}
 
 	public String getUpTo5KOperationsPerMonth() {

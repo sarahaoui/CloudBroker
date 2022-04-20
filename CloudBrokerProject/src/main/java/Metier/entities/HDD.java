@@ -1,6 +1,7 @@
 package Metier.entities;
 
 public class HDD {
+private int ID;
  private String DiskSpaceID;
  private String DiskTransferRateID;
  
@@ -9,10 +10,19 @@ public class HDD {
 	 super();
 	}
 	
-	public HDD(String DiskSpaceID, String DiskTransferRateID) {
+	public HDD(int ID, String DiskSpaceID, String DiskTransferRateID) {
 		super();
+		this.ID = ID;
 		this.DiskSpaceID = DiskSpaceID;
 		this.DiskTransferRateID = DiskTransferRateID;	
+	}
+
+	public int getID() {
+		return ID;
+	}
+
+	public void setID(int iD) {
+		ID = iD;
 	}
 
 	public String getDiskSpaceID() {

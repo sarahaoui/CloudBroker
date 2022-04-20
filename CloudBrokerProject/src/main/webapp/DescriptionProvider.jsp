@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
 
-    <title>Acceuil</title>
+    <title>Add Service</title>
     <link rel="stylesheet" href="css/Acceuil.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,15 +16,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 </head>
+
 <body>
-    <div class="content">
-     
+ 
     <!--Body part-->
         <div class="description">  
-        <form method="POST" class="register-form" id="register-form" action="DescriptionQuery.php">
+        <form method="get" class="register-form" id="register-form" action="DescriptionQuery.php">
                 <div class="form-group">
                   <label for="email"><i class="zmdi zmdi-email"></i></label>         
-                  <textarea id="msg" name="user_message" placeholder="Enter your description here..."></textarea>
+                  <textarea id="msg" name="user_message" placeholder="Enter your description here"></textarea>
                 </div>
                 <div class="form-group form-button">         
                   <input 
