@@ -5,8 +5,12 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
@@ -18,10 +22,12 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.update.UpdateAction;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
 
+import Metier.entities.FFInstance;
 import Métier.Matching;
 import it.unibz.krdb.obda.model.OBDAModel;
 import it.unibz.krdb.obda.owlrefplatform.owlapi3.QuestOWL;
@@ -354,7 +360,162 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 		}
 	}
   }
+  
+  /*** Services Retrieval ***/ 
+  public  JSONObject ServicesRetrieval (ArrayList<String>RequiredFFsList) throws OWLException {
+	 
+	  ArrayList <String> ExistFFsList = new ArrayList<String>();
+	  ArrayList <String> InstancesFF = new ArrayList<String>();
+	  for (String FFname : RequiredFFsList) {
+		  
+		  QuestOWLStatement st = conn.createStatement();
+		  String sparqlQuery = "PREFIX dc: <http://www.protege.org/CloudFNF#> \r\n"
+	        		+ "SELECT *\r\n"
+	        		+ "    WHERE { ?instURI rdf:type dc:"+FFname+".\r\n"
+	        		+ "                   }";
+	        	QuestOWLResultSet res = st.executeTuple(sparqlQuery); 
+	            while (res.nextRow()) {
+	               
+	            OWLObject instURI=	res.getOWLObject("instURI");	
+	          	String URI = instURI.toString();
+				InstancesFF.add(URI);
+	            } 
+	            ExistFFsList=FindRealFF(InstancesFF); 
+	}
+	  return queryCompositionAndExecution(ExistFFsList);
+  }
 
+   /*** QueryComposition And Execution ***/
+   public JSONObject queryCompositionAndExecution(ArrayList<String> existFFsList) throws OWLException {
+	   JSONObject CategorizedServices = new JSONObject ();
+	   for (String FF : existFFsList) { 
+		   JSONArray arr = new JSONArray();
+		   JSONObject OneCategory=new JSONObject();
+		   QuestOWLStatement st = conn.createStatement();
+			  String sparqlQuery = "PREFIX dc: <http://www.protege.org/CloudFNF#> \r\n"
+			  		+ "SELECT *\r\n"
+			  		+ "\r\n"
+			  		+ "{?instURI rdf:type dc:"+FF+" ;\r\n"
+			  		+ "                   dc:"+FF+"_NFFsID ?DT ;\r\n"
+			  		+ "                   dc:DeployementParameters_DP_NFFsID ?DP ;\r\n"
+			  		+ "                   dc:RT_NFFsID ?QoS.}";
+		        	QuestOWLResultSet res = st.executeTuple(sparqlQuery); 
+		        	
+		            while (res.nextRow()) { 
+		            FFInstance instance = new FFInstance();
+		            OWLObject instURI=	res.getOWLObject("instURI");	
+		          	String URI = instURI.toString();
+		          	OWLObject instDT=	res.getOWLObject("DT");	
+		          	String DT = instDT.toString();
+		          	OWLObject instDP=	res.getOWLObject("DP");	
+		          	String DP = instDP.toString();
+		          	OWLObject instQoS=	res.getOWLObject("QoS");	
+		          	String QoS = instQoS.toString();
+		          	instance.setInstURI(URI);
+		          	instance.setDT_URI(DT);
+		          	instance.setDP_URI(DP);
+		          	instance.setQoS_URI(QoS);
+		            
+		            JSONObject OneService = new JSONObject();
+		            JSONObject DP_NFFs = new JSONObject();
+		            JSONObject DT_NFFs=new JSONObject();;
+		            
+		            /********* General Information **************/
+		            String sparqlQueryDP = "PREFIX dc: <http://www.protege.org/CloudFNF#> \r\n"
+		            		+ "SELECT *\r\n"
+		            		+ "    WHERE {        \r\n"
+		            		+ ""+instance.getDP_URI()+"  rdf:type dc:DeploymentParameters_DP_NFFs;\r\n"
+		            		+ "    ?property ?object.\r\n"
+		            		+ "                   \r\n"
+		            		+ "       FILTER(?property != rdf:type ).    \r\n"
+		            		+ " \r\n"
+		            		+ "                 }";
+			String	Title= CollectData(DP_NFFs,"DeploymentParameters_DP_NFFs",sparqlQueryDP);
+				       OneService.put("General Information", DP_NFFs);
+				      
+				     /********* Exclusive NFFs Information **************/
+				       String sparqlQueryDT = "PREFIX dc: <http://www.protege.org/CloudFNF#> \r\n"
+				       		+ "SELECT *\r\n"
+				       		+ "WHERE {    \r\n"
+				       		+ ""+instance.getDT_URI()+" rdf:type dc:HumanRessourceManagement_HRM_NFFs ;\r\n"
+				       		+ " ?property ?object.\r\n"
+				       		+ "       }";
+					       CollectData(DT_NFFs,FF+"_NFFs",sparqlQueryDT);
+					       OneService.put("Exclusive Information", DT_NFFs);
+					       OneCategory.put(Title, OneService);
+					       
+		            }
+		            CategorizedServices.put(FF, OneCategory);  }
+     System.out.println(CategorizedServices);
+	 return CategorizedServices;
+   }
+  public String CollectData(JSONObject postObj, String conceptname, String sparqlQuery) throws OWLException {
+	  QuestOWLStatement st = conn.createStatement();
+	  String Title ="";
+	  QuestOWLResultSet res = st.executeTuple(sparqlQuery); 
+      while (res.nextRow()) {   
+      OWLObject instP=	res.getOWLObject("property");	
+    	String Property = instP.toString();
+    	if(!Property.equals("rdf:type")) {
+    	Property = Property.substring(Property.indexOf("#")+1);
+    	Property= Property.substring(0,Property.indexOf(">"));
+    	OWLObject instO=res.getOWLObject("object");	
+    	String Object = instO.toString();
+    	
+    	if(!Property.endsWith("ID")) {
+    		Object = Object.substring(Object.indexOf("\"")+1);
+    		Object= Object.substring(0,Object.indexOf("\""));
+    		if(Property.equals("ServiceTitle")) {
+    			Title=Object;
+    		}
+    		
+    		postObj.put(Property, Object);
+    		
+    	}else if(Property.endsWith("ID") && !Property.equals(conceptname+"ID")) {
+    		String property = Property.substring(0,Property.indexOf("ID"));
+    		String Query ="PREFIX dc: <http://www.protege.org/CloudFNF#> \r\n"
+    				+ "SELECT *\r\n"
+    				+ "    WHERE {        \r\n"
+    				+ ""+Object+"  rdf:type dc:"+property+";\r\n"
+    				+ "    ?property ?object.\r\n"
+    				+ "                   \r\n"
+    				+ "                 }";
+    		JSONObject tempObj= new JSONObject();
+    		CollectData(tempObj, property, Query);		
+    		postObj.put(property, tempObj);
+    	}}
+      }
+   return Title;   
+  }
+
+  public static JSONObject RankingServices(JSONObject CatedServices, ArrayList<String> RequiredFFsList,JSONArray Dictionnary) throws OWLException {
+	  
+	  JSONObject rankedServices= new JSONObject();
+	  for (Object cat : CatedServices.keySet()) {
+		  JSONObject item= (JSONObject) CatedServices.get(cat);
+		 Set<String>ServicesTitle= item.keySet();
+		 Double THrel=0.0;
+		 for (String Title : ServicesTitle) {
+			JSONObject service= (JSONObject) item.get(Title);
+			JSONObject GeneralInfo= (JSONObject) service.get("General Information");
+			String SLATokens= (String) GeneralInfo.get("SLATokens");
+			String[] termsString = SLATokens.split(",");
+			ArrayList<String> terms= new ArrayList<String>(Arrays.asList(termsString));
+			if(rankedServices.get(Title)==null) {
+				String Keywords= GetKeywords(cat.toString(), "Unique");
+				Double Hrel= Matching.RelativeEntropy(Keywords,terms,cat.toString(),Dictionnary);
+				THrel= THrel+(Hrel * Math.log(Hrel))/Math.log(2);   // RequiredFFsList.size() :if required list size= 1 THrel= infinity xD
+				THrel= -THrel;
+				service.put("THrel", THrel);
+			
+			rankedServices.put(Title, service);
+			}
+		}
+		 
+	}
+	  
+	  return rankedServices;
+  }
 }
   
    
