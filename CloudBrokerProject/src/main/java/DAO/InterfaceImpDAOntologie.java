@@ -29,6 +29,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 
 import Metier.entities.FFInstance;
 import Métier.Matching;
+import Métier.SortedServices;
 import it.unibz.krdb.obda.model.OBDAModel;
 import it.unibz.krdb.obda.owlrefplatform.owlapi3.QuestOWL;
 import it.unibz.krdb.obda.owlrefplatform.owlapi3.QuestOWLConnection;
@@ -489,8 +490,9 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
   }
 
   public static JSONObject RankingServices(JSONObject CatedServices, ArrayList<String> RequiredFFsList,JSONArray Dictionnary) throws OWLException {
-	  
+	  JSONObject RankedCatServices = new JSONObject();
 	  JSONObject rankedServices= new JSONObject();
+	  JSONObject RankedSortServices = new JSONObject();
 	  for (Object cat : CatedServices.keySet()) {
 		  JSONObject item= (JSONObject) CatedServices.get(cat);
 		 Set<String>ServicesTitle= item.keySet();
@@ -511,10 +513,12 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 			rankedServices.put(Title, service);
 			}
 		}
+		 RankedCatServices.put(cat.toString(), rankedServices); 
 		 
 	}
 	  
-	  return rankedServices;
+	  RankedSortServices= SortedServices.sortBasedOnTotalHrel(RankedCatServices);
+	  return RankedSortServices;
   }
 }
   

@@ -24,6 +24,7 @@ import org.json.simple.parser.ParseException;
 import org.semanticweb.owlapi.model.OWLException;
 
 import Métier.BabelNetConnection;
+import Métier.SortedServices;
 
 
 
@@ -49,11 +50,12 @@ public class Test {
      } catch (ParseException e) {
         e.printStackTrace();	     }
 		try {
-	System.out.println(InterfaceImpDAOntologie.RankingServices(imp.ServicesRetrieval(list), list, Dictionnary));
+			System.out.println(InterfaceImpDAOntologie.RankingServices(imp.ServicesRetrieval(list), list, Dictionnary));
 		} catch (OWLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		
 		
 		
