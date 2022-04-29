@@ -228,17 +228,20 @@ body {
 .description{
 	display: flex;
 	align-items: center;
+	justify-content:center;
 	flex-direction: column;
 	margin-bottom: 20px;
+	margin-left: 50px;
 }
 table {
-	width: 80vw;
+	width: 70vw;
 	border-collapse: collapse;
 	border: none;
 	border-collapse: collapse;
 	border-spacing: 0;
 	overflow: hidden;
 	text-align: left;
+	margin-top: 20px;
    
 }
 h1{
@@ -250,14 +253,19 @@ h1{
 	margin-bottom: 25px;}
 
 table td {
-	width:60%;
 	font-size: 15px;
-	word-wrap:none;
+	
 
+}
+td.nowrap{
+	width:100%;
+	word-wrap:none;
+	white-space: nowrap;
 }
 .pied{
 	display: flex;
 	align-items: right;
+	justify-content:right;
 	flex-direction: column;
 	margin-top: 20px;
 }
@@ -273,6 +281,7 @@ button{
 	border-radius: 10px;
     margin-right:80px;
 	cursor: pointer;
+	margin-bottom: 20px;
 }
 .material-icons {
 	font-size: 18px;
