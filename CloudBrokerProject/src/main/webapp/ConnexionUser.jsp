@@ -22,7 +22,7 @@
 					<div class="signup-content">
 						<div class="signup-form">
 							<h2 class="form-title">Login</h2>
-							<form method="POST" class="register-form" id="register-form" action="ConnexionProvider.php">
+							<form method="POST" class="register-form" id="register-form" action="ConnexionUser.php">
 								<div class="form-group">
 									<label for="name"> <span class="material-icons">person</span></label>
 									<input type="text" name="Nom" id="name" placeholder="Username" />
@@ -35,7 +35,7 @@
 								<div class="form-group form-button">
 									<input type="submit" name="signup" id="signup" class="form-submit" value="Login" />
 								</div>
-	                            <p> <a href="Inscrire.jsp"> Create a new account ? </a></p>
+	                            <p> <a href="InscrireUser.jsp"> Create a new account ? </a></p>
 							</form>
 						</div>
 					</div>

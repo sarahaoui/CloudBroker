@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -65,18 +66,20 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 	               
 	            OWLObject instURI=	res.getOWLObject("instURI");	
 	          	String URI = instURI.toString();
+	          	String URI2=instURI.toString();
 	          	URI = URI.substring(URI.indexOf("#")+1);
-	          	URI= URI.substring(0,URI.indexOf(">"));
-				InstancesFF.add(URI);
+				URI= URI.substring(0,URI.indexOf("ID_"));
+				if(URI.equals(ExisteFFList.get(i))) {
+				URI2 = URI2.substring(URI2.indexOf("#")+1);
+				URI2= URI2.substring(0,URI2.indexOf(">"));
+				InstancesFF.add(URI2);
 	            String FF=ExisteFFList.get(i);
 	            System.out.println(FF);
 	            System.out.println("************");
 	            System.out.println(InstancesFF);
 	            ArrayList<ArrayList<String>> SLATokensList=GetSLATokensInstance(InstancesFF,FF);
 				FFTokens.put(FF, SLATokensList);
-	            }
-			
-				
+	            }}	
 			}
 	 }
 	   finally {
@@ -375,11 +378,14 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 	        		+ "    WHERE { ?instURI rdf:type dc:"+FFname+".\r\n"
 	        		+ "                   }";
 	        	QuestOWLResultSet res = st.executeTuple(sparqlQuery); 
-	            while (res.nextRow()) {
-	               
+	            while (res.nextRow()) {   
 	            OWLObject instURI=	res.getOWLObject("instURI");	
 	          	String URI = instURI.toString();
-				InstancesFF.add(URI);
+	          	String URI2 = instURI.toString();
+	          	URI2 = URI2.substring(URI2.indexOf("#")+1);
+				URI2= URI2.substring(0,URI2.indexOf("ID_"));
+				if(URI2.equals(FFname)) {
+				InstancesFF.add(URI);}
 	            } 
 	            ExistFFsList=FindRealFF(InstancesFF); 
 	}
@@ -438,7 +444,7 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 				       String sparqlQueryDT = "PREFIX dc: <http://www.protege.org/CloudFNF#> \r\n"
 				       		+ "SELECT *\r\n"
 				       		+ "WHERE {    \r\n"
-				       		+ ""+instance.getDT_URI()+" rdf:type dc:HumanRessourceManagement_HRM_NFFs ;\r\n"
+				       		+ ""+instance.getDT_URI()+" rdf:type dc:"+FF+"_NFFs ;\r\n"
 				       		+ " ?property ?object.\r\n"
 				       		+ "       }";
 					       CollectData(DT_NFFs,FF+"_NFFs",sparqlQueryDT);
@@ -489,10 +495,10 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
    return Title;   
   }
 
-  public static JSONObject RankingServices(JSONObject CatedServices, ArrayList<String> RequiredFFsList,JSONArray Dictionnary) throws OWLException {
+  public static ArrayList<JSONObject> RankingServices(JSONObject CatedServices, ArrayList<String> RequiredFFsList,JSONArray Dictionnary) throws OWLException {
 	  JSONObject RankedCatServices = new JSONObject();
 	  JSONObject rankedServices= new JSONObject();
-	  JSONObject RankedSortServices = new JSONObject();
+	  ArrayList<JSONObject> RankedSortServices = new ArrayList<JSONObject>();
 	  for (Object cat : CatedServices.keySet()) {
 		  JSONObject item= (JSONObject) CatedServices.get(cat);
 		 Set<String>ServicesTitle= item.keySet();
@@ -508,16 +514,17 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 				Double Hrel= Matching.RelativeEntropy(Keywords,terms,cat.toString(),Dictionnary);
 				THrel= THrel+(Hrel * Math.log(Hrel))/Math.log(2);   // RequiredFFsList.size() :if required list size= 1 THrel= infinity xD
 				THrel= -THrel;
-				service.put("THrel", THrel);
-			
-			rankedServices.put(Title, service);
+				Double THrelDF=Double.parseDouble(new DecimalFormat("##.###").format(THrel).replace(",", ".")) ;
+				service.put("THrel", THrelDF);
+				service.put("FF", cat.toString());
+			    rankedServices.put(Title, service);
 			}
 		}
 		 RankedCatServices.put(cat.toString(), rankedServices); 
 		 
 	}
 	  
-	  RankedSortServices= SortedServices.sortBasedOnTotalHrel(RankedCatServices);
+	     RankedSortServices= SortedServices.sortBasedOnTotalHrel(RankedCatServices);
 	  return RankedSortServices;
   }
 }

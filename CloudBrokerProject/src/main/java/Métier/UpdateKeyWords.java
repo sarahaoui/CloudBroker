@@ -128,11 +128,11 @@ public class UpdateKeyWords  {
 	          InterfaceImpDAOntologie.UpdateKeyWords(key,propString,"Unique");
 	          InterfaceImpDAOntologie.UpdateKeyWords(key,propString,"Merged");
 	        
-	        /*** Update Merged Keywords ***/
-	          ArrayList<String> VisitedNode= new ArrayList<String>();
-	          InterfaceImpDAOntologie.DFSbasedMergingKeyWords("OFFs",VisitedNode);
+	       
 	   	}
-	   
+	    /*** Update Merged Keywords ***/
+        ArrayList<String> VisitedNode= new ArrayList<String>();
+        InterfaceImpDAOntologie.DFSbasedMergingKeyWords("OFFs",VisitedNode);
       
       
        

@@ -1,6 +1,7 @@
 package Web;
 
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.semanticweb.owlapi.model.OWLException;
@@ -37,6 +39,7 @@ import Metier.entities.SM;
 import Metier.entities.SM_NFF;
 import Metier.entities.SSD;
 import Metier.entities.VolumeOfData;
+import Metier.entities.admin;
 import Metier.entities.intended_user;
 import Metier.entities.license_type;
 import Metier.entities.location;
@@ -47,10 +50,13 @@ import Metier.entities.numofuser;
 import Metier.entities.openness;
 import Metier.entities.payement;
 import Metier.entities.service_interface;
+import Metier.entities.user;
 import Model.Model;
 import Métier.BabelNetConnection;
+import Métier.SortedServices;
 import Métier.TextRank;
 import Métier.Tokenization;
+import Métier.UpdateKeyWords;
 import Métier.WordNetConnection;
 
 
@@ -84,13 +90,13 @@ public class Controleur extends HttpServlet {
           String path =request.getServletPath();
           
           /******************Connexion.php ******************/	
-  		if(path.equals("/Connexion.php")) {
+  		if(path.equals("/ConnexionProvider.php")) {
   		
   		String Nom, Motdepasse;
   		
   		Nom = request.getParameter("Nom");
   		Motdepasse = request.getParameter("Motdepasse");
-  		String msg =   InterfaceImpDAO.authenticateUser(Nom, Motdepasse);
+  		String msg =   InterfaceImpDAO.authenticateProvider(Nom, Motdepasse);
   		
   		if(msg.equals("success")) {
   			
@@ -139,7 +145,69 @@ public class Controleur extends HttpServlet {
 			
 			session.setAttribute("nom",nomm);
 	         session.setAttribute("email",emailll);}
-         
+
+                /******************ConnexionUser.php ******************/	
+  		if(path.equals("/ConnexionUser.php")) {
+  		
+  		String Nom, Motdepasse;
+  		
+  		Nom = request.getParameter("Nom");
+  		Motdepasse = request.getParameter("Motdepasse");
+  		String msg =   InterfaceImpDAO.authenticateUser(Nom, Motdepasse);
+  		
+  		if(msg.equals("success")) {
+  			
+            user newUser = new  user();
+  			String nom = request.getParameter("Nom");
+ 			String motdepasse = request.getParameter("Motdepasse");
+ 			newUser.setNom(nom);
+ 			newUser.setMotdepasse(motdepasse);
+ 	        request.getRequestDispatcher("QueryUser.jsp").forward(request, response);
+  		} else {
+  			response.sendRedirect("ConnexionUser.jsp");
+  		}}
+ 		/******************InscriptionUser.php ******************/	
+         if(path.equals("/InscrireUser.php")) {
+ 			
+             user newUser = new  user();
+ 		
+ 			String nom = request.getParameter("nom");
+ 			String motdepasse = request.getParameter("motdepasse");
+ 			String emaill = request.getParameter("email");
+ 			String telephone = request.getParameter("telephone");
+ 			String nom_entreprise = request.getParameter("nom_entreprise");
+ 			String pays = request.getParameter("pays");			
+ 			newUser.setNom(nom);
+ 			newUser.setMotdepasse(motdepasse);
+ 			newUser.setEmail(emaill);
+ 			newUser.setTelephone(telephone);
+ 			newUser.setNom_entreprise(nom_entreprise);
+ 			newUser.setPays(pays);
+ 			
+ 			imp.insertUser(newUser);
+ 			
+ 			response.sendRedirect("QueryUser.jsp");}
+  		
+         /******************ConnexionAdmin.php ******************/	
+ 		if(path.equals("/ConnexionAdmin.php")) {
+ 		
+ 		String Nom, Motdepasse;
+ 		
+ 		Nom = request.getParameter("Nom");
+ 		Motdepasse = request.getParameter("Motdepasse");
+ 		String msg =   InterfaceImpDAO.authenticateAdmin(Nom, Motdepasse);
+ 		
+ 		if(msg.equals("success")) {
+ 			
+           admin newUser = new  admin();
+ 			String nom = request.getParameter("Nom");
+ 			String motdepasse = request.getParameter("Motdepasse");
+ 			newUser.setUsername(nom);
+ 			newUser.setPassword(motdepasse);
+ 	        request.getRequestDispatcher("update.jsp").forward(request, response);
+ 		} else {
+ 			response.sendRedirect("ConnexionAdmin.jsp");
+ 		}}
          
          	
 		/******************DP1.php ******************/	
@@ -714,6 +782,141 @@ public class Controleur extends HttpServlet {
 			
 			
 		}
+		/******************QueryUser.php ******************/	
+		else if(path.equals("/QueryUser.php")) {
+			String Description= request.getParameter("user_message");
+			ArrayList<String> keywords = new ArrayList<String>();
+			ArrayList<String> Tokens = new ArrayList<String>();
+			ArrayList<String> FinalKeywords = new ArrayList<String>();
+			 ArrayList<String> matchedFF= new ArrayList<String>();
+			
+			try {
+				/*** Text Rank ***/
+				keywords=TextRank.sentenceDetect(Description);
+				System.out.println("Keywords :\n\r"+keywords);
+				/*** Babelnet Elimination ***/
+				BabelNetConnection.Connection(keywords);
+				
+				/*** Tokenization And POS ***/
+				Tokens= Tokenization.TokanizationTag(keywords);
+				
+				/*** WordNet ***/
+				WordNetConnection.WordnetConnection(Tokens);
+				Set<String> set= new HashSet<>(Tokens);
+				Tokens.clear();
+				Tokens.addAll(set);
+				
+				/*** Babelnet Verification ***/
+				FinalKeywords=BabelNetConnection.Connection2(Tokens);
+				System.out.println("Keywords:");
+				System.out.println(FinalKeywords);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			/*** Get CloudDictionary ***/
+		   	    System.out.println("************GetCloudDictionary**************");
+		   	    JSONParser jsonParser = new JSONParser();
+			    JSONArray Dictionnary = new JSONArray();
+			
+		   	    try (FileReader reader = new FileReader("C:\\Users\\pc-click\\Desktop\\CloudDictionary.json"))
+	            {
+	               //Read JSON file
+	                Object obj = jsonParser.parse(reader);
+	                Dictionnary = (JSONArray) obj;
+	                //System.out.println(Dictionnary);
+	  
+	             } catch (IOException e) {
+	                e.printStackTrace();
+	             } catch (ParseException e) {
+	                e.printStackTrace();
+	             }
+			
+			   /*** Matching Keywords ***/
+			    ArrayList<String> VisitedNode= new ArrayList<String>();
+			    try {
+					InterfaceImpDAOntologie.BFSbasedMatchingKeywords("OFFs", FinalKeywords, Dictionnary, VisitedNode, matchedFF);
+				} catch (OWLException e) {
+					e.printStackTrace();
+				}	
+			    System.out.println("FFS Matched:"+matchedFF);
+			    
+			    /**************** Get And Ranking Services *********/
+			    InterfaceImpDAOntologie imp = new InterfaceImpDAOntologie();
+			    ArrayList<JSONObject> RankedCatServices = new ArrayList<JSONObject>();
+				try {
+					 RankedCatServices =	InterfaceImpDAOntologie.RankingServices(imp.ServicesRetrieval(matchedFF), matchedFF, Dictionnary);
+					 System.out.println(":"+RankedCatServices); 
+
+				} catch (OWLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				try (FileWriter file = new FileWriter("C:\\Users\\pc-click\\Desktop\\services.json",false)) {
+		            //We can write any JSONArray or JSONObject instance to the file
+					
+				    file.write(RankedCatServices.toString());
+			        file.flush();	
+		            file.close();
+		 
+		        } catch (IOException e) {
+		            e.printStackTrace();
+		        }
+				Model model = new Model();
+		        model.setRankedCatServices(RankedCatServices);
+				request.setAttribute("model", model);
+				request.getRequestDispatcher("ServicesDecouvert.jsp").forward(request, response);
+		
+		/*************** Order.php *********************/
+		}else if(path.equals("/Order.php")) {
+			   String Title = request.getParameter("title").toString();
+			   /*** Get Services List ***/
+			   JSONParser jsonParser = new JSONParser();
+			    ArrayList<JSONObject> ListServices = new ArrayList<JSONObject>();
+			
+		   	    try (FileReader reader = new FileReader("C:\\Users\\pc-click\\Desktop\\services.json"))
+	            {
+	               //Read JSON file
+	                Object obj = jsonParser.parse(reader);
+	                ListServices = (ArrayList<JSONObject>) obj;
+	                //System.out.println(Dictionnary);
+	  
+	             } catch (IOException e) {
+	                e.printStackTrace();
+	             } catch (ParseException e) {
+	                e.printStackTrace();
+	             }
+		   	 JSONObject service= SortedServices.GetService(ListServices, Title);
+		   	 String FF= service.get("FF").toString();		 
+		   	Model model = new Model();
+	        model.setService(service);
+	        request.setAttribute("model", model);
+	        if(FF.equals("StreamingAndMultimedia")) {
+	        	request.getRequestDispatcher("ServiceDetail.jsp").forward(request, response);
+	        }else {
+	        	request.getRequestDispatcher("ServiceDetailHRM.jsp").forward(request, response);
+	        }	   
+		}
+		/******************Select.php ******************/	
+	else if(path.equals("/select.php")) {
+		String select = request.getParameter("select");
+		if(select.equals("Admin")){		
+		response.sendRedirect("ConnexionAdmin.jsp"); }
+		else if(select.equals("Provider")){		
+			response.sendRedirect("Connexion.jsp"); }
+		else if(select.equals("User")){		
+			response.sendRedirect("ConnexionUser.jsp"); }
+
+	}
+		/******************update.php ******************/	
+	else if(path.equals("/update.php")) {
+		UpdateKeyWords up = new UpdateKeyWords();
+		try {
+			up.UpdateKeywords();
+		} catch (OWLException | IOException e) {
+			e.printStackTrace();
+		}
+		response.sendRedirect("update.jsp");
+	}
 			
 		
 	}

@@ -6,15 +6,12 @@
     color: #444;
     line-height: 1.9;
 }
-
-.description {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+body {
+	height: 100vh;
+	width: 100%;
+	box-sizing: border-box;
+	background: white;
 }
-
-
 .sidebar {
 	position: fixed;
 	top: 0;
@@ -24,7 +21,6 @@
 	background: #212225;
 	z-index: 100;
 	transition: all 0.5s ease;
-	color :white;
 }
 .sidebar.close {
 	width: 78px;
@@ -180,7 +176,6 @@
 	background: #083e6f;
 	padding: 12px 0;
 	transition: all 0.5s ease;
-	color: white;
 }
 .sidebar.close .profile-details {
 	background: none;
@@ -218,7 +213,6 @@
 }
 .sidebar .profile-details .job {
 	font-size: 10px;
-	color:white;
 }
 
 .sidebar.close ~ .home-section {
@@ -231,34 +225,50 @@
 		display: none;
 	}
 }
-
-textarea {
-  vertical-align: top;
-  height: 250px;
-  width: 450px;
-  font-family: Poppins;
-  box-sizing: border-box;
-  padding: 10px 10px;
-  border-bottom: 1px solid #999;
-  resize: none;
-  background-color: #fafafa;
-  border-radius: 10px;
+.Services{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	margin-bottom: 20px;
 }
-.form-submit {
-	display: inline-block;
-	background: #083e6f;
+table {
+	width: 80vw;
+	border-collapse: collapse;
+	border-radius: 30px;
+	border-collapse: collapse;
+	border-spacing: 0;
+	border-radius: 5px 5px 0 0;
+	overflow: hidden;
+	text-align: center;
+	margin-bottom: 20px;
+	margin-left:  80px;
+	margin-top: 100px;
+   
+}
+th {
+	background: #212225;
 	color: white;
-	border:none;
-	width: 130px;
-    height: 40px;
-    align-items:center;
-    align-content:center;
-	margin-left: 155px;
-	margin-top: 30px;
-	cursor: pointer;
-	border-radius: 10px;
+	font-size: 15px;
+	
 }
 
-.form-submit:hover {
-	background: #4292dc;
+table td,
+th {
+	padding: 7px 13px;
+	font-size: 15px;
+
+}
+tr:nth-child(odd) {
+	background-color: #eeeeee;
+}
+tbody tr:hover.selected td,
+tbody tr:hover td {
+	cursor: pointer;
+	background-color:  #4292dc;
+	color: white;
+}
+.material-icons {
+	font-size: 18px;
+	color: #444;
 }

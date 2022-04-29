@@ -21,7 +21,7 @@
      
     <!--Body part-->
         <div class="description">  
-        <form method="GET" class="register-form" id="register-form" action="Inscrire.php">
+        <form method="GET" class="register-form" id="register-form" action="QueryUser.php">
                 <div class="form-group">
                   <label for="email"><i class="zmdi zmdi-email"></i></label>         
                   <textarea id="msg" name="user_message" placeholder="Enter your Query here"></textarea>

@@ -35,7 +35,7 @@
             <a class="nav__link" href="#section--4">Contact Us</a>
           </li>
           <li class="nav__item">
-            <a class="nav__link nav__link--btn btn--show-modal" href="Connexion.jsp"> Register</a>
+            <a class="nav__link nav__link--btn btn--show-modal" href="select.jsp"> Register</a>
           </li>
         </ul>
       </nav>

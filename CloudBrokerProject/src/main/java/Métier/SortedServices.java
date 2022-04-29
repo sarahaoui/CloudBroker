@@ -11,11 +11,15 @@ import it.uniroma1.lcl.jlt.util.Collections;
 
 public class SortedServices {
 
-	public static JSONObject sortBasedOnTotalHrel(JSONObject rankedServices) {
-		JSONObject RankedSortServices = new JSONObject();
-		for (Object cat : rankedServices.keySet()) {
-			JSONArray array = new JSONArray();
-			JSONObject item= (JSONObject) rankedServices.get(cat);
+	public static ArrayList<JSONObject> sortBasedOnTotalHrel(JSONObject rankedServices) {
+		JSONArray RankedSortServices = new JSONArray();
+		JSONArray array = new JSONArray();
+	Set<Object>cat = rankedServices.keySet();
+	Object elementCat= new Object();
+	for (Object object : cat) {
+		elementCat=object;
+	}
+			JSONObject item= (JSONObject) rankedServices.get(elementCat);
 			Set<String>ServicesTitle= item.keySet();
 			for (String Title : ServicesTitle) {
 				JSONObject service= (JSONObject) item.get(Title);
@@ -26,9 +30,19 @@ public class SortedServices {
 				list.add((JSONObject) array.get(i))	;
 				}
 			java.util.Collections.sort(list, new MyJSONComparator());
-			RankedSortServices.put(cat.toString(), list);
+			
+		
+		return list;
+		
+	}
+	public static JSONObject GetService(ArrayList<JSONObject>listServices,String Title) {
+		for (JSONObject jsonObject : listServices) {
+			JSONObject generalinfo= (JSONObject) jsonObject.get("General Information");
+			if(generalinfo.get("ServiceTitle").equals(Title)) {
+				return jsonObject;
+			}
 		}
-		return RankedSortServices;
+		return null;
 		
 	}
 }

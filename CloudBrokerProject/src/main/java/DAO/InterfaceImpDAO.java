@@ -33,6 +33,7 @@ import Metier.entities.openness;
 import Metier.entities.payement;
 import Metier.entities.provider;
 import Metier.entities.service_interface;
+import Metier.entities.user;
 
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -51,6 +52,33 @@ public class InterfaceImpDAO implements InterfaceDAO{
 			preparedStatement.setString(4, provider.getTelephone());
 			preparedStatement.setString(5, provider.getNom_entreprise());
 			preparedStatement.setString(6, provider.getPays());
+			System.out.println(preparedStatement);
+			preparedStatement.executeUpdate();
+			
+			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+			if(generatedKeys.next()) {
+				 key=(generatedKeys.getInt(1));
+			}else {
+				System.out.println("Creating user failed , no ID obtained !!");
+			}
+			
+		} catch (SQLException e) {
+		//	printSQLException(e);
+			}
+		return key;
+	}
+	   ////////////////////////////////////////////////////////////////
+	public int insertUser(user user){
+		int key=0;
+		try {
+			String INSERT_USERS = "INSERT INTO `user`(`Nom`, `Motdepasse`, `Email`, `Telephone`, `Nom_entreprise`, `Pays`) VALUES (?,?,?,?,?,?);";
+			PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USERS,Statement.RETURN_GENERATED_KEYS);			
+			preparedStatement.setString(1, user.getNom());
+			preparedStatement.setString(2, user.getMotdepasse());
+			preparedStatement.setString(3, user.getEmail());
+			preparedStatement.setString(4, user.getTelephone());
+			preparedStatement.setString(5, user.getNom_entreprise());
+			preparedStatement.setString(6, user.getPays());
 			System.out.println(preparedStatement);
 			preparedStatement.executeUpdate();
 			
@@ -598,7 +626,7 @@ public class InterfaceImpDAO implements InterfaceDAO{
 
 
     ////////////////////////////////////////////////////////////////		
- public static String authenticateUser(String Nom, String Motdepasse) {
+ public static String authenticateProvider(String Nom, String Motdepasse) {
 	 String msg = null;	 
 	 try {
 			String req13 = "SELECT Motdepasse FROM `provider` where Nom ='"+Nom+"'";
@@ -617,7 +645,45 @@ public class InterfaceImpDAO implements InterfaceDAO{
 			}
 	return msg;
  }
- 
+       ////////////////////////////////////////////////////////////////		
+   public static String authenticateUser(String Nom, String Motdepasse) {
+	 String msg = null;	 
+	 try {
+			String req14 = "SELECT Motdepasse FROM `user` where Nom ='"+Nom+"'";
+			PreparedStatement preparedStatement = connection.prepareStatement(req14);
+			ResultSet rs =  preparedStatement.executeQuery(req14);
+			if(rs.next()){
+				if(rs.getString(1).equals(Motdepasse)) { 
+					msg = "success";
+				} else {
+					msg = "Invalid";}
+				
+			}else { msg="Invalidd"; }	
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			}
+	return msg;
+}
+
+   ////////////////////////////////////////////////////////////////		
+public static String authenticateAdmin(String Username, String password) {
+	 String msg = null;	 
+	 try {
+			String req15 = "SELECT password FROM `admin` where Username ='"+Username+"'";
+			PreparedStatement preparedStatement = connection.prepareStatement(req15);
+			ResultSet rs =  preparedStatement.executeQuery(req15);
+			if(rs.next()){
+				if(rs.getString(1).equals(password)) { 
+					msg = "success";
+				} else {
+					msg = "Invalid";}
+				
+			}else { msg="Invalidd"; }	
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			}
+	return msg;
+}
 
      ////////////////////////////////////////////////////////////////
       	public int insertDataStorageParam(DataStorageParam DataStorageParam){

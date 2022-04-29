@@ -10,7 +10,7 @@
 			rel="stylesheet"
 		/>
 		<!-- Main css -->
-		<link rel="stylesheet" href="css/Connexion.css" />
+		<link rel="stylesheet" href="css/select.css" />
 		<link rel="shortcut icon" href="images/logo.png" />
 	</head>
 
@@ -22,20 +22,20 @@
 					<div class="signup-content">
 						<div class="signup-form">
 							<h2 class="form-title">Login</h2>
-							<form method="POST" class="register-form" id="register-form" action="ConnexionProvider.php">
+							<form method="POST" class="register-form" id="register-form" action="select.php">
 								<div class="form-group">
-									<label for="name"> <span class="material-icons">person</span></label>
-									<input type="text" name="Nom" id="name" placeholder="Username" />
-								</div>
-								<div class="form-group">
-									<label for="pass"><span class="material-icons">lock</span></label>
-									<input type="password" name="Motdepasse" id="pass" placeholder="Password" />
+									<select name="select" id="Contrainte">
+									<option selected disabled>OPEN</option>
+									<option value="Admin">Admin</option>
+									<option value="Provider">Provider</option>
+									<option value="User">User</option>
+								</select>
 								</div>
 
+
 								<div class="form-group form-button">
-									<input type="submit" name="signup" id="signup" class="form-submit" value="Login" />
+									<input type="submit" name="signup" id="signup" class="form-submit" value="Next" />
 								</div>
-	                            <p> <a href="Inscrire.jsp"> Create a new account ? </a></p>
 							</form>
 						</div>
 					</div>

@@ -25,10 +25,11 @@ import Metier.entities.openness;
 import Metier.entities.payement;
 import Metier.entities.provider;
 import Metier.entities.service_interface;
+import Metier.entities.user;
 
 public interface InterfaceDAO {
 	public int insertProvider(provider provider);  //done
-	public static String authenticateUser(String Nom, String Motdepasse) {
+	public static String authenticateProvider(String Nom, String Motdepasse) {
 	  return null;}
     public int insertDP(DP DP);  //done  
     public int getIDLicenseType(license_type license_type);   //done
@@ -53,10 +54,15 @@ public interface InterfaceDAO {
     public int insertSAS(SAS SAS);     //done
     public int insertSSD(SSD SSD);     //done
     public int insertDataStorageParam(DataStorageParam DataStorageParam);     //done
-    public void insertSM(SM SM);   
+    public void insertSM(SM SM);     //done
 
     
-    
+    public int insertUser(user user);     //done
+	public static String authenticateUser(String Nom, String Motdepasse) {
+		  return null;}     //done
+	public static String authenticateAdmin(String Username, String password) {
+		  return null;}     //done
+	
 
 
 
@@ -65,4 +71,3 @@ public interface InterfaceDAO {
 
 	
 	}
-
