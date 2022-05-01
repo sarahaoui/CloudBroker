@@ -59,7 +59,7 @@
 				<td>${model.service.get("General Information").get("Provider").get("nom")}</td>
 				</tr>
 				<tr>
-				<td>License Type :</td>
+				<td class="blood">License Type :</td>
 				</tr>
 				<tr>
 				<td>OpenSource :</td>
@@ -70,7 +70,7 @@
 				<td>${model.service.get("General Information").get("LicenseType").get("Proprietary")}</td>
 				</tr>
 				<tr>
-				<td>Openness :</td>
+				<td class="blood">Openness :</td>
 				</tr>
 				<tr>
 				<td>ModerateLevel :</td>
@@ -89,7 +89,7 @@
 				<td>${model.service.get("General Information").get("Openness").get("LimitedLevel")}</td>
 				</tr>
 				<tr>
-				<td>PayementModel :</td>
+				<td class="blood">PayementModel :</td>
 				</tr>
 				<tr>
 				<td>PerUnit :</td>
@@ -108,7 +108,7 @@
 				<td>${model.service.get("General Information").get("PayementModel").get("Tiered")}</td>
 				</tr>
 				<tr>
-				<td>IntendedUser :</td>
+				<td class="blood">IntendedUser :</td>
 				</tr>
 				<tr>
 				<td>Organizations :</td>
@@ -119,7 +119,7 @@
 				<td>${model.service.get("General Information").get("IntendedUser").get("Individuals")}</td>
 				</tr>
 				<tr>
-				<td>ServiceInterface :</td>
+				<td class="blood">ServiceInterface :</td>
 				</tr>
 				<tr>
 				<td>WebPortalInterface :</td>
@@ -134,7 +134,7 @@
 				<td>${model.service.get("General Information").get("ServiceInterface").get("CLIInterface")}</td>
 				</tr>
 				<tr>
-				<td>Location :</td>
+				<td class="blood">Location :</td>
 				</tr>
 				<tr>
 				<td>Australlia :</td>
@@ -158,7 +158,7 @@
 				</tr>
 				<tr><td class ="nowrap"><h1> Exclusive Informations : </h1></td></tr>
 				<tr>
-				<td>NumOfUsers :</td>
+				<td class="blood">NumOfUsers :</td>
 				</tr>
 				<tr>
 				<td>UpTo100 :</td>
@@ -169,7 +169,7 @@
 				<td>${model.service.get("Exclusive Information").get("NumOfUsers").get("UpTo10")}</td>
 				</tr>
 				<tr>
-				<td class ="nowrap">NumOfOperationsPerSession :</td>
+				<td class ="nowrap blood">NumOfOperationsPerSession :</td>
 				</tr>
 				<tr>
 				<td>UpTo100 :</td>
@@ -180,7 +180,7 @@
 				<td>${model.service.get("Exclusive Information").get("NumOfOperationsPerSession").get("UpTo1500")}</td>
 				</tr>
 				<tr>
-				<td class ="nowrap">NumOfSessionsPerUser :</td>
+				<td class ="nowrap blood">NumOfSessionsPerUser :</td>
 				</tr>
 				<tr>
 				<td>UpTo10 :</td>

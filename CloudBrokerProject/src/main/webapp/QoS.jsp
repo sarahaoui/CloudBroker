@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
 	<head>
 		<meta charset="utf-8" />
-		<title>AddService-Provider</title>
+		<title>Quality Of Service Paramaters</title>
 		<link rel="stylesheet" href="css/QoS.css" />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

@@ -59,7 +59,7 @@
 				<td>${model.service.get("General Information").get("Provider").get("nom")}</td>
 				</tr>
 				<tr>
-				<td>License Type :</td>
+				<td class="blood">License Type :</td>
 				</tr>
 				<tr>
 				<td>OpenSource :</td>
@@ -70,7 +70,7 @@
 				<td>${model.service.get("General Information").get("LicenseType").get("Proprietary")}</td>
 				</tr>
 				<tr>
-				<td>Openness :</td>
+				<td class="blood">Openness :</td>
 				</tr>
 				<tr>
 				<td>ModerateLevel :</td>
@@ -89,7 +89,7 @@
 				<td>${model.service.get("General Information").get("Openness").get("LimitedLevel")}</td>
 				</tr>
 				<tr>
-				<td>PayementModel :</td>
+				<td class="blood">PayementModel :</td>
 				</tr>
 				<tr>
 				<td>PerUnit :</td>
@@ -108,7 +108,7 @@
 				<td>${model.service.get("General Information").get("PayementModel").get("Tiered")}</td>
 				</tr>
 				<tr>
-				<td>IntendedUser :</td>
+				<td class="blood">IntendedUser :</td>
 				</tr>
 				<tr>
 				<td>Organizations :</td>
@@ -119,7 +119,7 @@
 				<td>${model.service.get("General Information").get("IntendedUser").get("Individuals")}</td>
 				</tr>
 				<tr>
-				<td>ServiceInterface :</td>
+				<td class="blood">ServiceInterface :</td>
 				</tr>
 				<tr>
 				<td>WebPortalInterface :</td>
@@ -134,7 +134,7 @@
 				<td>${model.service.get("General Information").get("ServiceInterface").get("CLIInterface")}</td>
 				</tr>
 				<tr>
-				<td>Location :</td>
+				<td class="blood">Location :</td>
 				</tr>
 				<tr>
 				<td>Australlia :</td>
@@ -158,7 +158,7 @@
 				</tr>
 				<tr><td class ="nowrap"><h1> Exclusive Informations : </h1></td></tr>
 				<tr>
-				<td>VolumeOfData :</td>
+				<td class="blood">VolumeOfData :</td>
 				</tr>
 				<tr>
 				<td>UpTo800GB :</td>
@@ -173,7 +173,7 @@
 				<td>${model.service.get("Exclusive Information").get("VolumeOfData").get("UpTo2TB")}</td>
 				</tr>
 				<tr>
-				<td>QuantityOfOperations :</td>
+				<td class="blood">QuantityOfOperations :</td>
 				</tr>
 				<tr>
 				<td>UpTo10K :</td>
@@ -188,7 +188,7 @@
 				<td>${model.service.get("Exclusive Information").get("QuantityOfOperations").get("UpTo1MOperationsPerMonth")}</td>
 				</tr>
 				<tr>
-				<td>DataRedundancySupport :</td>
+				<td class="blood">DataRedundancySupport :</td>
 				</tr>
 				<tr>
 				<td>COOL :</td>
@@ -203,13 +203,13 @@
 				<td>${model.service.get("Exclusive Information").get("DataRedundancySupport").get("PREMIUM")}</td>
 				</tr>
 				<tr>
-				<td>DataStorageParamaters :</td>
+				<td class="blood">DataStorageParamaters :</td>
 				</tr>
 				<tr>
-				<td>SAS :</td>
+				<td class="blood">SAS :</td>
 				</tr>
 				<tr>
-				<td>DiskTransferRate :</td>
+				<td class="blood">DiskTransferRate :</td>
 				</tr>
 				<tr>
 				<td>UpTo400MBps :</td>
@@ -220,7 +220,7 @@
 				<td>${model.service.get("Exclusive Information").get("DataStorageParamaters").get("SAS").get("DiskTransferRate").get("Rate_UpTo1200MBps")}</td>
 				</tr>
 				<tr>
-				<td>DiskSpace :</td>
+				<td class="blood">DiskSpace :</td>
 				</tr>
 				<tr>
 				<td>UpTo8GB :</td>
@@ -231,10 +231,10 @@
 				<td>${model.service.get("Exclusive Information").get("DataStorageParamaters").get("SAS").get("DiskSpace").get("Space_UpTo512GB")}</td>
 				</tr>
 				<tr>
-				<td>SSD :</td>
+				<td class="blood">SSD :</td>
 				</tr>
 				<tr>
-				<td>DiskTransferRate :</td>
+				<td class="blood">DiskTransferRate :</td>
 				</tr>
 				<tr>
 				<td>UpTo400MBps :</td>
@@ -245,7 +245,7 @@
 				<td>${model.service.get("Exclusive Information").get("DataStorageParamaters").get("SSD").get("DiskTransferRate").get("Rate_UpTo1200MBps")}</td>
 				</tr>
 				<tr>
-				<td>DiskSpace :</td>
+				<td class="blood">DiskSpace :</td>
 				</tr>
 				<tr>
 				<td>UpTo8GB :</td>
@@ -256,10 +256,10 @@
 				<td>${model.service.get("Exclusive Information").get("DataStorageParamaters").get("SSD").get("DiskSpace").get("Space_UpTo512GB")}</td>
 				</tr>
 				<tr>
-				<td>HDD :</td>
+				<td class="blood">HDD :</td>
 				</tr>
 				<tr>
-				<td>DiskTransferRate :</td>
+				<td class="blood">DiskTransferRate :</td>
 				</tr>
 				<tr>
 				<td>UpTo400MBps :</td>
@@ -270,7 +270,7 @@
 				<td>${model.service.get("Exclusive Information").get("DataStorageParamaters").get("HDD").get("DiskTransferRate").get("Rate_UpTo1200MBps")}</td>
 				</tr>
 				<tr>
-				<td>DiskSpace :</td>
+				<td class="blood">DiskSpace :</td>
 				</tr>
 				<tr>
 				<td>UpTo8GB :</td>

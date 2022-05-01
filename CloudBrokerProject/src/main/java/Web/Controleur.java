@@ -4,6 +4,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -845,7 +846,8 @@ public class Controleur extends HttpServlet {
 			    ArrayList<JSONObject> RankedCatServices = new ArrayList<JSONObject>();
 				try {
 					 RankedCatServices =	InterfaceImpDAOntologie.RankingServices(imp.ServicesRetrieval(matchedFF), matchedFF, Dictionnary);
-					 System.out.println(":"+RankedCatServices); 
+					 System.out.println(":"+RankedCatServices);
+					 Collections.reverse(RankedCatServices);
 
 				} catch (OWLException e) {
 					// TODO Auto-generated catch block
