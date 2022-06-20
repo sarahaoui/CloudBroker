@@ -172,13 +172,13 @@
     <section class="section" id="section--3">
       <div class="section__title section__title--testimonials">
         <h2 class="section__description">Client FeedBack</h2>
-        <h3 class="section__header">What Do People Say About Us?</h3>
+        <h3 class="section__header">What Do Users Say About Us?</h3>
       </div>
 
       <div class="slider">
         <div class="slide">
           <div class="testimonial">
-            <h5 class="testimonial__header">Best financial decision ever!</h5>
+            <h5 class="testimonial__header">Best Cloud Broker ever!</h5>
             <blockquote class="testimonial__text">
               Lorem ipsum dolor sit, amet consectetur adipisicing elit.
               Accusantium quas quisquam non? Quas voluptate nulla minima
@@ -188,7 +188,7 @@
               autem esse non voluptatem saepe provident nihil molestiae.
             </blockquote>
             <address class="testimonial__author">
-              <img src="images/user-1.jpg" alt="" class="testimonial__photo" />
+              <img src="images/User.png" alt="" class="testimonial__photo" />
               <h6 class="testimonial__name">Aarav Lynn</h6>
               <p class="testimonial__location">San Francisco, USA</p>
             </address>
@@ -198,7 +198,7 @@
         <div class="slide">
           <div class="testimonial">
             <h5 class="testimonial__header">
-              The last step to becoming a complete minimalist
+             Best Cloud Broker ever!
             </h5>
             <blockquote class="testimonial__text">
               Quisquam itaque deserunt ullam, quia ea repellendus provident,
@@ -208,7 +208,7 @@
               deserunt exercitationem deleniti.
             </blockquote>
             <address class="testimonial__author">
-              <img src="images/user-2.jpg" alt="" class="testimonial__photo" />
+              <img src="images/User.png" alt="" class="testimonial__photo" />
               <h6 class="testimonial__name">Miyah Miles</h6>
               <p class="testimonial__location">London, UK</p>
             </address>
@@ -218,7 +218,7 @@
         <div class="slide">
           <div class="testimonial">
             <h5 class="testimonial__header">
-              Finally free from old-school banks
+              Best Cloud Broker ever!
             </h5>
             <blockquote class="testimonial__text">
               Debitis, nihil sit minus suscipit magni aperiam vel tenetur
@@ -229,7 +229,7 @@
               alias reiciendis, perferendis facere.
             </blockquote>
             <address class="testimonial__author">
-              <img src="images/user-3.jpg" alt="" class="testimonial__photo" />
+              <img src="images/User.png" alt="" class="testimonial__photo" />
               <h6 class="testimonial__name">Francisco Gomes</h6>
               <p class="testimonial__location">Lisbon, Portugal</p>
             </address>
