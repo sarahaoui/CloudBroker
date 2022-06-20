@@ -64,7 +64,7 @@ public class BabelNetConnection {
 		
 		}
 	/**** Get Synonyms For FF ******/
-	public ArrayList<String> SynonymsFF(String FF){
+	public static ArrayList<String> SynonymsFF(String FF){
 		
 		Set<String> sensesSet= new HashSet<>();
 		ArrayList <String> sensesList= new ArrayList<>();
