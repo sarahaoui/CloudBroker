@@ -178,14 +178,9 @@
       <div class="slider">
         <div class="slide">
           <div class="testimonial">
-            <h5 class="testimonial__header">Best Cloud Broker ever!</h5>
+            <h5 class="testimonial__header">Best Cloud Broker !</h5>
             <blockquote class="testimonial__text">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-              Accusantium quas quisquam non? Quas voluptate nulla minima
-              deleniti optio ullam nesciunt, numquam corporis et asperiores
-              laboriosam sunt, praesentium suscipit blanditiis. Necessitatibus
-              id alias reiciendis, perferendis facere pariatur dolore veniam
-              autem esse non voluptatem saepe provident nihil molestiae.
+              I really happy because I found what I want without having any experience in the cloud computing, I recommend to everyone who need to buy cloud services to use this broker.
             </blockquote>
             <address class="testimonial__author">
               <img src="images/User.png" alt="" class="testimonial__photo" />
