@@ -901,9 +901,7 @@ public class Controleur extends HttpServlet {
 		/******************Select.php ******************/	
 	else if(path.equals("/select.php")) {
 		String select = request.getParameter("select");
-		if(select.equals("Admin")){		
-		response.sendRedirect("ConnexionAdmin.jsp"); }
-		else if(select.equals("Provider")){		
+         if(select.equals("Provider")){		
 			response.sendRedirect("Connexion.jsp"); }
 		else if(select.equals("User")){		
 			response.sendRedirect("ConnexionUser.jsp"); }

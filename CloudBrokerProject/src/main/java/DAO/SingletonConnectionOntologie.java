@@ -34,7 +34,7 @@ public class SingletonConnectionOntologie  {
 	
 	private static QuestOWL reasoner; 
 	private static QuestOWLConnection conn;
-	private static String DefaultNameSpace="http://www.livre.com/ontologies/livre.owl#" ;
+	private static String DefaultNameSpace="http://www.protege.org/Cloud#" ;
 	private static Model model=null;
 	
 	
@@ -43,12 +43,12 @@ public class SingletonConnectionOntologie  {
 
     static  {
     	
-    	final String owlFile = "D:/CloudFNF.owl";
-    	final String obdaFile = "D:/CloudFNF.obda";
+    	final String owlFile = "D:/CloudSimilarity.owl";
+    	final String obdaFile = "D:/CloudSimilarity.obda";
         OWLOntology ontology;
     	
         model=ModelFactory.createOntologyModel();  
-		java.io.InputStream in=FileManager.get().open("D:/CloudFNF.owl");  
+		java.io.InputStream in=FileManager.get().open("D:/CloudSimilarity.owl");  
 		if(in==null) {
 			throw new IllegalArgumentException("fichier ontologie intruovable");  }
 		else {
