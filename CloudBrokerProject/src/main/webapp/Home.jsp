@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -48,22 +49,19 @@
 						</ul>
 					</li>
 					<li>
-						<a href="DescriptionProvider.jsp">
-							<i class="bx bx-folder-plus"></i>
-							<span class="link_name">Add</span>
-						</a>
-						<!--     <i class='bx bxs-chevron-down arrow' ></i> -->
-						<ul class="sub-menu blank">
-							<li>
-								<a class="link_name" href="DescriptionProvide.jsp">Add</a>
-							</li>
-						</ul>
-						<!--<li><a href="">Vm</a></li>
-                           <li><a href="">Storage Space</a></li>
-                           <li><a href="">PaaS</a></li>
-                          <li><a href="">SaaS</a></li> 
-                        -->
-					</li>
+        <div class="iocn-link">
+          <a href="#">
+            <i class="bx bx-folder-plus"></i>
+            <span class="link_name">Add</span>
+          </a>
+          <i class='bx bxs-chevron-down arrow' ></i>
+        </div>
+        <ul class="sub-menu">
+          <li><a class="link_name" href="#">Add</a></li>
+          <li><a href="ApiProvider.jsp">Add with API</a></li>
+          <li><a href="DescriptionProvider.jsp">Add without API</a></li>
+        </ul>
+      </li>
 
 					<li>
 						<a href="">
@@ -120,9 +118,18 @@
 								/></a>
 							</div>
 							<div class="name-job">
-								<div class="profile_name">Aouina Sara</div>
-								<div class="job">sarahaouina@gmail.com</div>
-							</div>
+        <div class="profile_name">
+      <c:if test="${!empty sessionScope.nom}">
+		${ sessionScope.nom}
+		</c:if>
+        </div>
+        <div class="job">
+        <c:if test="${!empty sessionScope.email}">
+		 ${ sessionScope.email}
+		</c:if>
+        </div>
+        
+      </div>
 							<a href="WebSite.jsp"><i class="bx bx-log-out"></i></a>
 						</div>
 					</li>

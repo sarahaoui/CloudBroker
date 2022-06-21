@@ -758,6 +758,53 @@ public static String authenticateAdmin(String Username, String password) {
     			printSQLException(e); }
     		return email;
     	}
+    	public int getIDUser(user user){
+    		int id = 0;
+    		try {
+    			String req15 = "SELECT ID FROM `user` WHERE Nom='"+user.getNom()+"' AND Motdepasse= '"+user.getMotdepasse()+"'";
+    			PreparedStatement preparedStatement = connection.prepareStatement(req15);
+    			System.out.println(preparedStatement);
+    			preparedStatement.executeQuery();
+    			ResultSet r1 =  preparedStatement.executeQuery(req15);
+    			while(r1.next()){
+    				 id = r1.getInt("ID");
+    			}
+    		} catch (SQLException e) {
+    			printSQLException(e); }
+    		return id;
+    	}
+    	///////////////////////////////////////
+    	public String getNameUser(user user){
+    		String name = "";
+    		try {
+    			String req15 = "SELECT Nom FROM `user` WHERE Nom='"+user.getNom()+"' AND Motdepasse= '"+user.getMotdepasse()+"'";
+    			PreparedStatement preparedStatement = connection.prepareStatement(req15);
+    			System.out.println(preparedStatement);
+    			preparedStatement.executeQuery();
+    			ResultSet r1 =  preparedStatement.executeQuery(req15);
+    			while(r1.next()){
+    				 name = r1.getString("Nom");
+    			}
+    		} catch (SQLException e) {
+    			printSQLException(e); }
+    		return name;
+    	}
+    	///////////////////////////////////////
+    	public String getEmailUser(user user){
+    		String email = "";
+    		try {
+    			String req15 = "SELECT Email FROM `user` WHERE Nom='"+user.getNom()+"' AND Motdepasse= '"+user.getMotdepasse()+"'";
+    			PreparedStatement preparedStatement = connection.prepareStatement(req15);
+    			System.out.println(preparedStatement);
+    			preparedStatement.executeQuery();
+    			ResultSet r1 =  preparedStatement.executeQuery(req15);
+    			while(r1.next()){
+    				 email = r1.getString("Email");
+    			}
+    		} catch (SQLException e) {
+    			printSQLException(e); }
+    		return email;
+    	}
     ////////////////////////////////////////////////////////////////
 	private static void printSQLException(SQLException ex) {		
 	 for (Throwable e : ex ) {

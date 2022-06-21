@@ -30,6 +30,7 @@ import Metier.entities.DataRedundancySupport;
 import Metier.entities.DataStorageParam;
 import Metier.entities.DiskSpace;
 import Metier.entities.DiskTransferRate;
+import Metier.entities.FFQuery;
 import Metier.entities.HDD;
 import Metier.entities.HRM;
 import Metier.entities.HRM_NFF;
@@ -59,6 +60,13 @@ import Métier.TextRank;
 import Métier.Tokenization;
 import Métier.UpdateKeyWords;
 import Métier.WordNetConnection;
+import jade.core.AID;
+import jade.core.behaviours.Behaviour;
+import jade.lang.acl.ACLMessage;
+import jade.lang.acl.UnreadableException;
+import jade.wrapper.ControllerException;
+import jade.wrapper.StaleProxyException;
+import jade.wrapper.gateway.JadeGateway;
 
 
 @WebServlet("*.php")
@@ -158,11 +166,20 @@ public class Controleur extends HttpServlet {
   		
   		if(msg.equals("success")) {
   			
-            user newUser = new  user();
+  			user newUser = new  user();
   			String nom = request.getParameter("Nom");
  			String motdepasse = request.getParameter("Motdepasse");
  			newUser.setNom(nom);
  			newUser.setMotdepasse(motdepasse);
+  			idprovider =   imp.getIDUser(newUser);
+  			nomm =   imp.getNameUser(newUser);
+  			emailll =   imp.getEmailUser(newUser);  			
+			System.out.println(idprovider);
+			System.out.println(nomm);
+			System.out.println(emailll);
+			session.setAttribute("nom",nomm);
+	        session.setAttribute("email",emailll);  
+  			
  	        request.getRequestDispatcher("QueryUser.jsp").forward(request, response);
   		} else {
   			response.sendRedirect("ConnexionUser.jsp");
@@ -186,29 +203,14 @@ public class Controleur extends HttpServlet {
  			newUser.setPays(pays);
  			
  			imp.insertUser(newUser);
+ 			idprovider = newUser.getID();
+			nomm = newUser.getNom();			 
+			emailll = newUser.getEmail();
+			System.out.println(idprovider);
+			session.setAttribute("nom",nomm);
+	         session.setAttribute("email",emailll);
  			
  			response.sendRedirect("QueryUser.jsp");}
-  		
-         /******************ConnexionAdmin.php ******************/	
- 		if(path.equals("/ConnexionAdmin.php")) {
- 		
- 		String Nom, Motdepasse;
- 		
- 		Nom = request.getParameter("Nom");
- 		Motdepasse = request.getParameter("Motdepasse");
- 		String msg =   InterfaceImpDAO.authenticateAdmin(Nom, Motdepasse);
- 		
- 		if(msg.equals("success")) {
- 			
-           admin newUser = new  admin();
- 			String nom = request.getParameter("Nom");
- 			String motdepasse = request.getParameter("Motdepasse");
- 			newUser.setUsername(nom);
- 			newUser.setPassword(motdepasse);
- 	        request.getRequestDispatcher("update.jsp").forward(request, response);
- 		} else {
- 			response.sendRedirect("ConnexionAdmin.jsp");
- 		}}
          
          	
 		/******************DP1.php ******************/	
@@ -297,7 +299,62 @@ public class Controleur extends HttpServlet {
 			dp.setOpennessID(String.valueOf(IDopenness));
 			dp.setServiceInterfaceID(String.valueOf(IDservice_interface));			
 			
-			
+			try {
+				JadeGateway.execute(new Behaviour(){
+					private boolean finished = false;
+					public void onStart() {
+						ACLMessage msg = new ACLMessage(ACLMessage.CFP);
+				    	AID agent = new AID("AgentTraitementTexte",AID.ISLOCALNAME);
+				    	msg.addReceiver(agent);
+					    msg.setContent(description);
+						myAgent.send(msg);
+					  }
+
+					@Override
+				    public void action() {  	
+				  ACLMessage res= myAgent.receive();
+				  if(res!= null) {
+					  switch (res.getPerformative()) {
+						case ACLMessage.CFP:
+							ArrayList<String> FinalKeywords = new ArrayList<String>();
+							
+						try {
+							FinalKeywords = (ArrayList<String>)res.getContentObject();
+							String SlaTokens ="";
+							for (int i = 0; i < FinalKeywords.size(); i++) {
+								if(!SlaTokens.equals("")) {
+									SlaTokens= SlaTokens+","+FinalKeywords.get(i);
+								}else {
+									SlaTokens= FinalKeywords.get(i);
+								}
+								
+							}
+							dp.setSLATokens(SlaTokens);
+						} catch (UnreadableException e) {
+							e.printStackTrace();
+						}
+						    
+							break;}
+					 
+					  finished= true;
+				      }
+					    else {
+					      block();
+					    }
+					  }
+					@Override
+					public boolean done() {
+						return finished;
+					}
+					 
+					});
+			} catch (StaleProxyException e) {
+				e.printStackTrace();
+			} catch (ControllerException e) {
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			
 			dp.setID(imp.insertDP(dp));
 			iddp = dp.getID();
@@ -712,72 +769,58 @@ public class Controleur extends HttpServlet {
 		}
                 /******************DescriptionQuery.php ******************/	
 		else if(path.equals("/DescriptionQuery.php")) {
-			String Description= request.getParameter("user_message");
-			ArrayList<String> keywords = new ArrayList<String>();
-			ArrayList<String> Tokens = new ArrayList<String>();
-			ArrayList<String> FinalKeywords = new ArrayList<String>();
 			
-			
+			String FF= request.getParameter("user_message");
+			FFQuery input = new FFQuery ();
+			input.setFF(FF);
 			try {
-				/*** Text Rank ***/
-				keywords=TextRank.sentenceDetect(Description);
-				System.out.println("Keywords :\n\r"+keywords);
-				/*** Babelnet Elimination ***/
-				BabelNetConnection.Connection(keywords);
-				
-				/*** Tokenization And POS ***/
-				Tokens= Tokenization.TokanizationTag(keywords);
-				
-				/*** WordNet ***/
-				WordNetConnection.WordnetConnection(Tokens);
-				Set<String> set= new HashSet<>(Tokens);
-				Tokens.clear();
-				Tokens.addAll(set);
-				
-				/*** Babelnet Verification ***/
-				FinalKeywords=BabelNetConnection.Connection2(Tokens);
-				System.out.println("Keywords:");
-				System.out.println(FinalKeywords);
-			} catch (IOException e) {
+				JadeGateway.execute(new Behaviour(){
+					private boolean finished = false;
+					public void onStart() {
+						try {
+						ACLMessage msg = new ACLMessage(ACLMessage.CFP);
+				    	AID agent = new AID("AgentFournisseur",AID.ISLOCALNAME);
+				    	msg.addReceiver(agent);
+				    	input.setAid(myAgent.getAID());
+					    msg.setContentObject(input);
+						myAgent.send(msg);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					  }
+
+					@Override
+				    public void action() {  	
+				  ACLMessage res= myAgent.receive();
+				  if(res!= null) {
+					  switch (res.getPerformative()) {
+						case ACLMessage.CFP:
+							String FF = (String)res.getContent();
+						    Cookie cookie = new Cookie("FF",FF);
+					    	response.addCookie(cookie);
+					    	System.out.println(FF);
+							break;}
+					 
+					  finished= true;
+				      }
+					    else {
+					      block();
+					    }
+					  }
+					@Override
+					public boolean done() {
+						return finished;
+					}
+					 
+					});
+			} catch (StaleProxyException e) {
+				e.printStackTrace();
+			} catch (ControllerException e) {
+				e.printStackTrace();
+			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			/*** Get CloudDictionary ***/
-		   	    System.out.println("************GetCloudDictionary**************");
-		   	    JSONParser jsonParser = new JSONParser();
-			    JSONArray Dictionnary = new JSONArray();
-			
-		   	    try (FileReader reader = new FileReader("C:\\Users\\pc-click\\Desktop\\CloudDictionary.json"))
-	            {
-	               //Read JSON file
-	                Object obj = jsonParser.parse(reader);
-	                Dictionnary = (JSONArray) obj;
-	                //System.out.println(Dictionnary);
-	  
-	             } catch (IOException e) {
-	                e.printStackTrace();
-	             } catch (ParseException e) {
-	                e.printStackTrace();
-	             }
-			
-			   /*** Matching Keywords ***/
-			    ArrayList<String> VisitedNode= new ArrayList<String>();
-			    try {
-					InterfaceImpDAOntologie.BFSbasedMatchingKeywords("OFFs", FinalKeywords, Dictionnary, VisitedNode, matchedChildren);
-				} catch (OWLException e) {
-					e.printStackTrace();
-				}	
-			    System.out.println("FFS Matched:"+matchedChildren);
-			    String Cookies="";
-			    for (int i=0;i<matchedChildren.size();i++) {
-			    	if(Cookies.equals("")) {
-			    		Cookies= matchedChildren.get(i);	
-			    	}else {
-			    		Cookies=Cookies+","+matchedChildren.get(i);
-			    	}
-			    	
-				}
-			    Cookie cookie = new Cookie("FFList",Cookies);
-		    	response.addCookie(cookie);
+			System.out.println("Im done");
 			    request.getRequestDispatcher("DP1.jsp").forward(request, response);
 			   
 			

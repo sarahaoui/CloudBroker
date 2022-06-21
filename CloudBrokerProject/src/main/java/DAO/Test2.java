@@ -22,7 +22,7 @@ import edu.smu.tspell.wordnet.WordNetDatabase;
 public class Test2 {
 
 	public static void main(String[] args) {
-		//String Description="Managing the accounting risks";
+		//String Description="Managing tax accounting";
 		//String Description="Marketing by email";
 		//String Description="Marketing mobile";
 		//String Description="Human_Ressource_management";
@@ -50,19 +50,7 @@ public class Test2 {
 		}
 		System.out.println(sysnsetTerm);
 		
-		/*** Start Similarity **/
-		ArrayList<String> VisitedNode= new ArrayList<String>();
-		HashMap<String,Double> similarityChildren = new HashMap<String,Double>();
 		
-		ImplementationSimilarity.GetDomaine("FF", sysnsetTerm, VisitedNode, similarityChildren);
-		System.out.println(similarityChildren);
-		System.out.println(Collections.max(similarityChildren.entrySet(),Comparator.comparingDouble(Map.Entry::getValue)).getKey());
-		String Domaine = Collections.max(similarityChildren.entrySet(),Comparator.comparingDouble(Map.Entry::getValue)).getKey();
-
-       HashMap<String,Double> similarityFF = new HashMap<String,Double>();
-		ImplementationSimilarity.GetFF(Domaine, sysnsetTerm, VisitedNode, similarityFF);
-		System.out.println(similarityFF);
-		System.out.println(Collections.max(similarityFF.entrySet(),Comparator.comparingDouble(Map.Entry::getValue)).getKey());
 		
 		
 		
