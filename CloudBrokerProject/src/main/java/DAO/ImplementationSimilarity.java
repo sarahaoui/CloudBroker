@@ -3,6 +3,7 @@ package DAO;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 
 import org.apache.jena.query.Query;
@@ -18,6 +19,7 @@ import org.json.simple.JSONArray;
 
 import Métier.BabelNetConnection;
 import Métier.Similarity;
+import Métier.WordNetConnection;
 import edu.cmu.lti.lexical_db.ILexicalDatabase;
 import edu.cmu.lti.lexical_db.NictWordNet;
 import edu.cmu.lti.ws4j.impl.WuPalmer;
@@ -69,7 +71,7 @@ public class ImplementationSimilarity {
 			return childs;
 		  
 	  }
-	 public static void CalculateSimilarity(String Node ,HashMap<String,ArrayList<String>> sysnsetTerm ,ArrayList<String> VisitedNode,HashMap<String,Double> similarityChildren) {
+	 public static void GetDomaine(String Node ,HashMap<String,ArrayList<String>> sysnsetTerm ,ArrayList<String> VisitedNode,HashMap<String,Double> similarityChildren) {
 		 ArrayList<String> children= new ArrayList<>();
 		 System.setProperty("wordnet.database.dir", "C:\\Users\\pc-click\\Desktop\\PFE Ressources\\WordNet-3.0\\dict");
 	        WordNetDatabase database = WordNetDatabase.getFileInstance();
@@ -77,52 +79,65 @@ public class ImplementationSimilarity {
 		  VisitedNode.add(Node);  //to avoid the cyclic mode
 		  for (String child : children) {
 			  if(!VisitedNode.contains(child)) {
-			
-			  ArrayList<String>synonyms =BabelNetConnection.SynonymsFF(child);
-	             sysnsetTerm.put(child, synonyms) ;  
+                  // ArrayList<String>synonyms =BabelNetConnection.SynonymsFF(child);
+				  ArrayList<String> synonyms = new ArrayList<String>();
+				  if(child.contains("_")) {
+					  String[] parts= child.split("_");	
+					  for (int i = 0; i < parts.length; i++) {
+						  synonyms.addAll(synonyms.size(), WordNetConnection.Synonyms(parts[i]));
+					}
+				  }else {
+					   synonyms.addAll(WordNetConnection.Synonyms(child)) ; 
+					  
+				  }
+				  
+	               
 				/*** Calculate Similarity ***/	
 					// Syntaxique Similarity
-					/*Double similaritykeys = 0.0;
+					Double similaritykeys = 0.0;
 					String FF = child.replace("_", " ");
 					for (String key : sysnsetTerm.keySet()) {
 						 similaritykeys=similaritykeys+Similarity.diceCoefficient(key, FF);
 					}
-					Double similaritySim = similaritykeys/ sysnsetTerm.size();*/
-					
+					Double similaritySim = similaritykeys/ sysnsetTerm.size();
+	             
 					
 					// Lexical Similarity
-					/*Double similaritylexical = 0.0;
+			     ArrayList<Double> similaritylexical = new ArrayList<Double>();
 				  System.out.println(synonyms);
 					for (String key : sysnsetTerm.keySet()) {
 						ArrayList<String> Synsets = sysnsetTerm.get(key);
-						similaritylexical = similaritylexical+ Similarity.LexicalSimilarity(Synsets,synonyms);
+						similaritylexical.add(Similarity.LexicalSimilarity(Synsets,synonyms)) ;
 					}
-					Double similarityLex = similaritylexical/ sysnsetTerm.size();*/
+					Double similarityLex =Collections.max(similaritylexical);
+					
 					
 					
 					//Structurel Similarity
-					Double SimilarityMaxStruct =0.0;
-					for (String key : sysnsetTerm.keySet()) {
-						ArrayList<String>SimStr= sysnsetTerm.get(key);
-						ArrayList<Double>Sim= new ArrayList<Double>();
-						for(int i=0;i<SimStr.size();i++) {
-							for(int j=0;j<synonyms.size();j++) {
-								Double Str=compute(SimStr.get(i), synonyms.get(j));
+					ArrayList<Double>Sim= new ArrayList<Double>();
+					if(child.contains("_")) {
+						String[] parts= child.split("_");	
+						for (int i = 0; i < parts.length; i++) {
+							for (String key : sysnsetTerm.keySet()) {
+								Double Str=compute(key, parts[i]);
 								if(Str<=1) {
 									Sim.add(Str);	
 								}
-								
-							}
+								}
 						}
-						if(!Sim.isEmpty()) {
-						//System.out.println(max(Sim));
-						SimilarityMaxStruct=SimilarityMaxStruct+max(Sim);}
-					}
+						
+					}else {
+					for (String key : sysnsetTerm.keySet()) {
+								Double Str=compute(key, child);
+								if(Str<=1) {
+									Sim.add(Str);	
+								}
+								}}
 					
-					Double similarityStru = SimilarityMaxStruct/ sysnsetTerm.size();
-					similarityChildren.put(child, similarityStru);
+					Double similarityStru = max(Sim);
 					
-					/*similarityStru =(int)(Math.round(similarityStru *10000000))/10000000.0;
+					
+					similarityStru =(int)(Math.round(similarityStru *10000000))/10000000.0;
 					similaritySim=(int)(Math.round(similaritySim *10000000))/10000000.0;
 					similarityLex =(int)(Math.round(similarityLex *10000000))/10000000.0;
 					// Semantique Similarity 
@@ -132,14 +147,99 @@ public class ImplementationSimilarity {
 					//System.out.println("Child: "+child+"SimSyn: "+similaritySim+"SimLex: "+similarityLex+"SimStru: ");
 					//System.out.println("P1: "+P1+"P2: "+P2);
 					Double Similarity = (P1* similaritySim+P2*similarityLex+P3*similarityStru)/(P1+P2+P3);
-					similarityChildren.put(child, Similarity);*/
-					CalculateSimilarity(child ,sysnsetTerm ,VisitedNode,similarityChildren) ;
+					similarityChildren.put(child, Similarity);
+					
 			        }
 			  
 
 			 
 		  }
-		  
+		  //CalculateSimilarity(child ,sysnsetTerm ,VisitedNode,similarityChildren) ; 
+	 }
+	 public static void GetFF(String Node ,HashMap<String,ArrayList<String>> sysnsetTerm ,ArrayList<String> VisitedNode,HashMap<String,Double> similarityChildren) {
+		 ArrayList<String> children= new ArrayList<>();
+		 System.setProperty("wordnet.database.dir", "C:\\Users\\pc-click\\Desktop\\PFE Ressources\\WordNet-3.0\\dict");
+	        WordNetDatabase database = WordNetDatabase.getFileInstance();
+		  children= GetChildren(Node); 
+		  VisitedNode.add(Node);  //to avoid the cyclic mode
+		  for (String child : children) {
+			  if(!VisitedNode.contains(child)) {
+                  // ArrayList<String>synonyms =BabelNetConnection.SynonymsFF(child);
+				  ArrayList<String> synonyms = new ArrayList<String>();
+				  if(child.contains("_")) {
+					  String[] parts= child.split("_");	
+					  for (int i = 0; i < parts.length; i++) {
+						  synonyms.addAll(synonyms.size(), WordNetConnection.Synonyms(parts[i]));
+					}
+				  }else {
+					   synonyms.addAll(WordNetConnection.Synonyms(child)) ; 
+					  
+				  }
+				  
+	               
+				/*** Calculate Similarity ***/	
+					// Syntaxique Similarity
+					Double similaritykeys = 0.0;
+					String FF = child.replace("_", " ");
+					for (String key : sysnsetTerm.keySet()) {
+						 similaritykeys=similaritykeys+Similarity.diceCoefficient(key, FF);
+					}
+					Double similaritySim = similaritykeys/ sysnsetTerm.size();
+	             
+					
+					// Lexical Similarity
+					Double similaritylexical = 0.0;
+				  System.out.println(synonyms);
+					for (String key : sysnsetTerm.keySet()) {
+						ArrayList<String> Synsets = sysnsetTerm.get(key);
+						similaritylexical =similaritylexical+Similarity.LexicalSimilarity(Synsets,synonyms) ;
+					}
+					Double similarityLex =similaritylexical /sysnsetTerm.size();
+					
+					
+					
+					//Structurel Similarity
+					ArrayList<Double>Sim= new ArrayList<Double>();
+					if(child.contains("_")) {
+						String[] parts= child.split("_");	
+						for (int i = 0; i < parts.length; i++) {
+							for (String key : sysnsetTerm.keySet()) {
+								Double Str=compute(key, parts[i]);
+								if(Str<=1) {
+									Sim.add(Str);	
+								}
+								}
+						}
+						
+					}else {
+					for (String key : sysnsetTerm.keySet()) {
+								Double Str=compute(key, child);
+								if(Str<=1) {
+									Sim.add(Str);	
+								}
+								}}
+					
+					Double similarityStru = max(Sim);
+					
+					
+					similarityStru =(int)(Math.round(similarityStru *10000000))/10000000.0;
+					similaritySim=(int)(Math.round(similaritySim *10000000))/10000000.0;
+					similarityLex =(int)(Math.round(similarityLex *10000000))/10000000.0;
+					// Semantique Similarity 
+					Double P1=Math.exp(similaritySim);
+					Double P2 = Math.exp(similarityLex);
+					Double P3 = Math.exp(similarityStru);
+					//System.out.println("Child: "+child+"SimSyn: "+similaritySim+"SimLex: "+similarityLex+"SimStru: ");
+					//System.out.println("P1: "+P1+"P2: "+P2);
+					Double Similarity = (P1* similaritySim+P2*similarityLex+P3*similarityStru)/(P1+P2+P3);
+					similarityChildren.put(child, Similarity);
+					
+			        }
+			  
+
+			  GetFF(child ,sysnsetTerm ,VisitedNode,similarityChildren) ;  
+		  }
+		 
 	 }
 	 public static Double max(ArrayList<Double>list) {
 		 Double max =list.get(0);

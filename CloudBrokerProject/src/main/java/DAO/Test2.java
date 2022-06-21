@@ -22,24 +22,26 @@ import edu.smu.tspell.wordnet.WordNetDatabase;
 public class Test2 {
 
 	public static void main(String[] args) {
-		String Description="I want a Human resource management that can help me to manage my HR processes, accounting, payroll, and all my reporting and compliance required for my business ... I want to focus on my business and the service helps me support my business plans. ";
-       //String Description="I want a streaming and multimedia that can manage my brodcasts and edit my videos.";
-		//String Description = "Visualize database structures to understand your database, create databases or modify existing databases, you can also analyze and optimize databases.";
+		//String Description="Managing the accounting risks";
+		//String Description="Marketing by email";
+		//String Description="Marketing mobile";
+		//String Description="Human_Ressource_management";
+		String Description="Delpoyer applications";
 		ArrayList<String> keywords = new ArrayList<String>();
 		HashMap<String,ArrayList<String>> sysnsetTerm = new HashMap<String,ArrayList<String>>();
-		System.setProperty("wordnet.database.dir", "C:\\Users\\pc-click\\Desktop\\PFE Ressources\\WordNet-3.0\\dict");
-        WordNetDatabase database = WordNetDatabase.getFileInstance();
+		
 
 		try {
 			/*** Text Rank ***/
 			keywords=TextRank.sentenceDetect(Description);
-			/*** Babelnet Elimination ***/
-			BabelNetConnection.Connection(keywords);
+			System.out.println(keywords);
+		
 			/*** Search for Simple or complex phrases ***/
 			for (int i = 0; i < keywords.size(); i++) {
 				
 					/** Get Synsets Using BabelNet***/
-				 ArrayList<String>synonyms =BabelNetConnection.SynonymsFF(keywords.get(i));
+				// ArrayList<String>synonyms =BabelNetConnection.SynonymsFF(keywords.get(i));
+				ArrayList<String> synonyms = WordNetConnection.Synonyms(keywords.get(i));
 	             sysnsetTerm.put(keywords.get(i), synonyms) ;     
 			}
 	        	
@@ -51,12 +53,16 @@ public class Test2 {
 		/*** Start Similarity **/
 		ArrayList<String> VisitedNode= new ArrayList<String>();
 		HashMap<String,Double> similarityChildren = new HashMap<String,Double>();
-		// Information_Management Developement_And_Testing Business_Resource_Management
-		ImplementationSimilarity.CalculateSimilarity("Business_Resource_Management", sysnsetTerm, VisitedNode, similarityChildren);
+		
+		ImplementationSimilarity.GetDomaine("FF", sysnsetTerm, VisitedNode, similarityChildren);
 		System.out.println(similarityChildren);
 		System.out.println(Collections.max(similarityChildren.entrySet(),Comparator.comparingDouble(Map.Entry::getValue)).getKey());
-		
-		
+		String Domaine = Collections.max(similarityChildren.entrySet(),Comparator.comparingDouble(Map.Entry::getValue)).getKey();
+
+       HashMap<String,Double> similarityFF = new HashMap<String,Double>();
+		ImplementationSimilarity.GetFF(Domaine, sysnsetTerm, VisitedNode, similarityFF);
+		System.out.println(similarityFF);
+		System.out.println(Collections.max(similarityFF.entrySet(),Comparator.comparingDouble(Map.Entry::getValue)).getKey());
 		
 		
 		

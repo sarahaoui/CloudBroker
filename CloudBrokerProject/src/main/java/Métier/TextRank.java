@@ -182,7 +182,7 @@ public class TextRank {
 	       // System.out.println(result);
 	        
 	       /** Token AdjacentWords **/ 
-	        ArrayList<ArrayList<String>> TokenWordAdjecent= new ArrayList<>();
+	       /* ArrayList<ArrayList<String>> TokenWordAdjecent= new ArrayList<>();
 	        for(int i=0;i<wordsAdjecent.size();i++) {
 	    		String sentence= wordsAdjecent.get(i);
 	        	String[]tokens = tokenizer.tokenize(sentence);
@@ -194,10 +194,11 @@ public class TextRank {
 	        //System.out.println(TokenWordAdjecent);
 	        
 	      /** Combine Adjacent Words **/
-	      ArrayList<String>FinalKeyWords= KeyPhrases(TokenWordAdjecent, result,tokenizer) ;
+	     /* ArrayList<String>FinalKeyWords= KeyPhrases(TokenWordAdjecent, result,tokenizer) ;*/
 	       
 	        is.close();    
-	        return FinalKeyWords;
+	       // return FinalKeyWords;
+	        return result;
     
     }
     

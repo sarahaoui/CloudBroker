@@ -26,7 +26,6 @@
 								<div class="form-group">
 									<select name="select" id="Contrainte">
 									<option selected disabled>OPEN</option>
-									<option value="Admin">Admin</option>
 									<option value="Provider">Provider</option>
 									<option value="User">User</option>
 								</select>

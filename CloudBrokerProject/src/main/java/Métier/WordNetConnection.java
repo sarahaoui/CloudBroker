@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
+import edu.smu.tspell.wordnet.Synset;
 import edu.smu.tspell.wordnet.SynsetType;
 import edu.smu.tspell.wordnet.WordNetDatabase;
 import edu.smu.tspell.wordnet.impl.file.Morphology;
@@ -56,4 +57,21 @@ public class WordNetConnection {
 	       
 		}
 
-	}}
+	}
+	public static ArrayList<String> Synonyms(String term){
+		ArrayList<String> Synonyms = new ArrayList<String>();
+		System.setProperty("wordnet.database.dir", "C:\\Users\\pc-click\\Desktop\\PFE Ressources\\WordNet-3.0\\dict");
+        WordNetDatabase database = WordNetDatabase.getFileInstance();
+        Synset [] synsets = database.getSynsets(term);
+        if(synsets.length>0) {
+        	for (int i = 0; i < synsets.length; i++) {
+        		String[]wordform = synsets[i].getWordForms();
+        		for (int j = 0; j < wordform.length; j++) {
+        			Synonyms.add(wordform[j]);
+				}
+			}
+        	
+        }
+		return Synonyms;
+	}
+}
