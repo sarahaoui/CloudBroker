@@ -320,16 +320,23 @@ public class Controleur extends HttpServlet {
 							
 						try {
 							FinalKeywords = (ArrayList<String>)res.getContentObject();
+							System.out.println(FinalKeywords);
 							String SlaTokens ="";
 							for (int i = 0; i < FinalKeywords.size(); i++) {
-								if(!SlaTokens.equals("")) {
-									SlaTokens= SlaTokens+","+FinalKeywords.get(i);
+								if(SlaTokens.equals("")) {
+									SlaTokens= SlaTokens+FinalKeywords.get(i);
+									
 								}else {
-									SlaTokens= FinalKeywords.get(i);
+									SlaTokens= SlaTokens+","+FinalKeywords.get(i);
 								}
 								
 							}
+							System.out.println("SLATOKENS: "+SlaTokens);
 							dp.setSLATokens(SlaTokens);
+							dp.setID(imp.insertDP(dp));
+							iddp = dp.getID();
+							System.out.println(iddp);
+							
 						} catch (UnreadableException e) {
 							e.printStackTrace();
 						}
@@ -356,9 +363,6 @@ public class Controleur extends HttpServlet {
 				e.printStackTrace();
 			}
 			
-			dp.setID(imp.insertDP(dp));
-			iddp = dp.getID();
-			System.out.println(iddp);
 			
 			response.sendRedirect("QoS.jsp");
 			

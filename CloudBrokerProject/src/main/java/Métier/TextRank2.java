@@ -24,7 +24,7 @@ import opennlp.tools.tokenize.Tokenizer;
 import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
 
-public class TextRank {
+public class TextRank2 {
 	public static ArrayList<String>sentenceDetect(String paragraph) throws InvalidFormatException, IOException {
     	int k = 2;                 //window size/2
         float d = 0.85f;
@@ -182,7 +182,7 @@ public class TextRank {
 	       // System.out.println(result);
 	        
 	       /** Token AdjacentWords **/ 
-	        ArrayList<ArrayList<String>> TokenWordAdjecent= new ArrayList<>();
+	       /* ArrayList<ArrayList<String>> TokenWordAdjecent= new ArrayList<>();
 	        for(int i=0;i<wordsAdjecent.size();i++) {
 	    		String sentence= wordsAdjecent.get(i);
 	        	String[]tokens = tokenizer.tokenize(sentence);
@@ -194,11 +194,11 @@ public class TextRank {
 	        //System.out.println(TokenWordAdjecent);
 	        
 	      /** Combine Adjacent Words **/
-	      ArrayList<String>FinalKeyWords= KeyPhrases(TokenWordAdjecent, result,tokenizer) ;
+	     /* ArrayList<String>FinalKeyWords= KeyPhrases(TokenWordAdjecent, result,tokenizer) ;*/
 	       
 	        is.close();    
-	        return FinalKeyWords;
-	      
+	       // return FinalKeyWords;
+	        return result;
     
     }
     

@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import Metier.entities.FFQuery;
 import Métier.TextRank;
+import Métier.TextRank2;
 import Métier.WordNetConnection;
 import jade.core.AID;
 import jade.core.Agent;
@@ -39,7 +40,7 @@ public class AgentFournisseur extends GatewayAgent{
 			HashMap<String,ArrayList<String>> sysnsetTerm = new HashMap<String,ArrayList<String>>();
 			/*** Text Rank ***/
 			try {
-				keywords=TextRank.sentenceDetect(message.getFF());
+				keywords=TextRank2.sentenceDetect(message.getFF());
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}

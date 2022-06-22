@@ -177,7 +177,7 @@ public class InterfaceImpDAO implements InterfaceDAO{
 	public int insertDP(DP DP){
 		int key=0;
 		try {
-			String req7 = "INSERT INTO `deploymentparameters_dp_nffs`(`ServiceTitle`, `ProviderID`, `PaymentModelID`, `SubscriptionFee`, `IntendedUserID`, `LicenseTypeID`, `OpennessID`, `ServiceInterfaceID`, `LocationID`, `Version`, `ServiceURL`, `ShortDescription`, `SLA`, `SlaTokens`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,`SlaTokens`);";
+			String req7 = "INSERT INTO `deploymentparameters_dp_nffs`(`ServiceTitle`, `ProviderID`, `PaymentModelID`, `SubscriptionFee`, `IntendedUserID`, `LicenseTypeID`, `OpennessID`, `ServiceInterfaceID`, `LocationID`, `Version`, `ServiceURL`, `ShortDescription`, `SLA`, `SlaTokens`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 			PreparedStatement preparedStatement = connection.prepareStatement(req7,Statement.RETURN_GENERATED_KEYS);			
 			preparedStatement.setString(1, DP.getServiceTitle());
 			preparedStatement.setString(2, DP.getProviderName());
@@ -192,6 +192,7 @@ public class InterfaceImpDAO implements InterfaceDAO{
 			preparedStatement.setString(11, DP.getServiceURL());
 			preparedStatement.setString(12, DP.getShortDescription());
 			preparedStatement.setString(13, DP.getSLA());
+			preparedStatement.setString(14, DP.getSLATokens());
 			System.out.println(preparedStatement);
 			preparedStatement.executeUpdate();
 			
