@@ -5,11 +5,22 @@ import java.util.List;
 
 import org.json.simple.JSONObject;
 
+import Metier.entities.DP;
+
 
 public class Model {
 	private List<String> FF= new ArrayList<String>();
+	private List<DP> services= new ArrayList<DP>();
 	private ArrayList<JSONObject> rankedCatServices = new ArrayList<JSONObject>();
 	JSONObject service = new JSONObject();
+
+	public List<DP> getServices() {
+		return services;
+	}
+
+	public void setServices(List<DP> services) {
+		this.services = services;
+	}
 
 	public JSONObject getService() {
 		return service;

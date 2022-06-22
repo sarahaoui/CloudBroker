@@ -342,7 +342,7 @@ body {
 	display: grid;
 	min-height: 500px;
 	background: var(--white);
-	padding: 20px;
+	padding: 10px;
 	box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
 	border-radius: 20px;
 }
@@ -371,7 +371,7 @@ body {
 }
 .details table thead td {
 	font-weight: 600;
-	font-size: 1em;
+	font-size: 0.9em;
 }
 .details .recentOrders table tr {
 	color: var(--black1);
@@ -386,6 +386,7 @@ body {
 }
 .details .recentOrders table tr td {
 	padding: 8px;
+	font-size: 0.9em;
 }
 .details .recentOrders table tr td:last-child {
 	text-align: end;

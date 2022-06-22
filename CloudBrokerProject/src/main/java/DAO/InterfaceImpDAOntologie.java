@@ -719,6 +719,8 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 	  double s = new WuPalmer(db).calcRelatednessOfWords(word1, word2);
 	  return s;
 	  }
+
+	
 }
   
    

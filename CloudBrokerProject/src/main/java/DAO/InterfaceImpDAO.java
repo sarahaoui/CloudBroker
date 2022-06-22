@@ -103,8 +103,8 @@ public class InterfaceImpDAO implements InterfaceDAO{
 			preparedStatement.setString(10, DP.getVersion());
 			preparedStatement.setString(11, DP.getServiceURL());
 			preparedStatement.setString(12, DP.getShortDescription());
-			preparedStatement.setString(13, DP.getSLA());
-			preparedStatement.setString(14, DP.getSLATokens());
+			preparedStatement.setString(13, DP.getsLA());
+			preparedStatement.setString(14, DP.getsLATokens());
 			System.out.println(preparedStatement);
 			preparedStatement.executeUpdate();
 			
@@ -438,6 +438,31 @@ public static String authenticateAdmin(String Username, String password) {
 		//	printSQLException(e); 
 			}
 		
+		
+	}
+	public static ArrayList<DP> GetServices(int idprovider) {
+		ArrayList<DP> services = new ArrayList<DP>();
+		try {
+			String req15 = "SELECT `ServiceTitle`, `SubscriptionFee`, `Version` FROM `deploymentparameters_dp_nffs` WHERE  ProviderID='"+idprovider+"'";
+			PreparedStatement preparedStatement = connection.prepareStatement(req15);
+			System.out.println(preparedStatement);
+			preparedStatement.executeQuery();
+			ResultSet r1 =  preparedStatement.executeQuery(req15);
+			while(r1.next()){
+				 String titre = r1.getString("ServiceTitle");
+				 String price = r1.getString("SubscriptionFee");
+				 String version = r1.getString("Version");
+				 DP dp = new DP();
+				 dp.setServiceTitle(titre);
+				 dp.setSubscriptionFee(price);
+				 dp.setVersion(version);
+				 services.add(dp);
+			}
+		} catch (SQLException e) {
+			printSQLException(e); }
+		
+	
+		return services;
 		
 	}
 }

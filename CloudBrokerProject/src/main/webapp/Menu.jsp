@@ -5,12 +5,12 @@
     </div>
     <ul class="nav-links">
       <li>
-        <a href="Home.jsp">
+        <a href="Home.php">
           <i class='bx bx-grid-alt' ></i>
-          <span class="link_name">Home</span>
+          <span class="link_name">Dashboard</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="Home.jsp">Home</a></li>
+          <li><a class="link_name" href="Home.php">Dashboard</a></li>
         </ul>
       </li>
       

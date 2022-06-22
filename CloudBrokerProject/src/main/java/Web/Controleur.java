@@ -112,7 +112,7 @@ public class Controleur extends HttpServlet {
 			System.out.println(emailll);
 			session.setAttribute("nom",nomm);
 	        session.setAttribute("email",emailll);
-	        request.getRequestDispatcher("Home.jsp").forward(request, response);
+	        request.getRequestDispatcher("Home.php").forward(request, response);
   		} else {
   			response.sendRedirect("Connexion.jsp");
   		}}
@@ -140,7 +140,7 @@ public class Controleur extends HttpServlet {
 			nomm = newUser.getNom();			 
 			emailll = newUser.getEmail();
 			System.out.println(idprovider);
-			response.sendRedirect("Home.jsp");
+			response.sendRedirect("Home.php");
 			
 			session.setAttribute("nom",nomm);
 	         session.setAttribute("email",emailll);}
@@ -278,7 +278,7 @@ public class Controleur extends HttpServlet {
 			dp.setServiceTitle(title);
 			dp.setProviderName(String.valueOf(idprovider));	
 			dp.setSubscriptionFee(fee);
-			dp.setSLA(impor);
+			dp.setsLA(impor);
 			dp.setVersion(version);
 			dp.setServiceURL(url);
 			dp.setShortDescription(description);
@@ -322,7 +322,7 @@ public class Controleur extends HttpServlet {
 								
 							}
 							System.out.println("SLATOKENS: "+SlaTokens);
-							dp.setSLATokens(SlaTokens);
+							dp.setsLATokens(SlaTokens);
 							dp.setID(imp.insertDP(dp));
 							iddp = dp.getID();
 							System.out.println(iddp);
@@ -406,7 +406,7 @@ public class Controleur extends HttpServlet {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		response.sendRedirect("Home.jsp");
+		request.getRequestDispatcher("Home.php").forward(request, response);
 		
 		}
 			
@@ -604,6 +604,15 @@ public class Controleur extends HttpServlet {
 			e.printStackTrace();
 		}
 		response.sendRedirect("update.jsp");
+	}
+	else if(path.equals("/Home.php")) {
+		// get services of provider actuel
+		
+	ArrayList<DP>services=	InterfaceImpDAO.GetServices(idprovider);
+	Model model = new Model();
+    model.setServices(services);
+    request.setAttribute("model", model);
+    request.getRequestDispatcher("Home.jsp").forward(request, response);
 	}
 			
 		

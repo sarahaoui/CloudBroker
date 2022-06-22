@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
 
     <title>Add Service</title>
-    <link rel="stylesheet" href="css/Acceuil.css">
+    <link rel="stylesheet" href="css/APIProvider.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="shortcut icon" href="images/logo.png" />
@@ -24,7 +24,7 @@
         <form method="get" class="register-form" id="register-form" action="ApiQuery.php">
                 <div class="form-group">
                   <label for="email"><i class="zmdi zmdi-email"></i></label>         
-                  <input type="text" name="uri"  placeholder="Enter your API URI here..." />
+                  <textarea id="msg" name="uri" placeholder="Enter your API URI here..."></textarea>
                   
                 </div>
                 <div class="form-group form-button">         

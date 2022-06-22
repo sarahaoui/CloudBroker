@@ -6,6 +6,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="stylesheet" href="css/Hom.css" />
+		<link rel="shortcut icon" href="images/logo.png" />
 		<link
 			href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"
 			rel="stylesheet"
@@ -28,12 +29,12 @@
 			<div class="sidebar">
 				<ul class="nav-links">
 					<li>
-						<a href="Home.jsp">
+						<a href="Home.php">
 							<i class="bx bx-grid-alt"></i>
-							<span class="link_name">Home</span>
+							<span class="link_name">Dashboard</span>
 						</a>
 						<ul class="sub-menu blank">
-							<li><a class="link_name" href="Home.jsp">Home</a></li>
+							<li><a class="link_name" href="Home.php">Dashboard</a></li>
 						</ul>
 					</li>
 
@@ -156,24 +157,24 @@
 					</div>
 					<div class="card">
 						<div>
-							<div class="numbers">1,504</div>
-							<div class="cardName">Daily Views</div>
+							<div class="numbers">80</div>
+							<div class="cardName">Sales</div>
 						</div>
-						<div class="iconBox"><ion-icon name="eye-outline"></ion-icon></div>
+						<div class="iconBox"><ion-icon name="cart-outline"></ion-icon></div>
 					</div>
 					<div class="card">
 						<div>
-							<div class="numbers">1,504</div>
-							<div class="cardName">Daily Views</div>
+							<div class="numbers">100</div>
+							<div class="cardName">Projects</div>
 						</div>
-						<div class="iconBox"><ion-icon name="eye-outline"></ion-icon></div>
+						<div class="iconBox"><ion-icon name="documents-outline"></ion-icon></div>
 					</div>
 					<div class="card">
 						<div>
-							<div class="numbers">1,504</div>
-							<div class="cardName">Daily Views</div>
+							<div class="numbers">$7,842</div>
+							<div class="cardName">Earning</div>
 						</div>
-						<div class="iconBox"><ion-icon name="eye-outline"></ion-icon></div>
+						<div class="iconBox"><ion-icon name="cash-outline"></ion-icon></div>
 					</div>
 				</div>
 
@@ -189,59 +190,19 @@
 								<tr>
 									<td>Name</td>
 									<td>Price</td>
-									<td>Payment</td>
+									<td>Version</td>
 									<td>Status</td>
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td>Service IBM</td>
-									<td>$1200</td>
-									<td>Paid</td>
-									<td>Service IBM</td>
-								</tr>
-								<tr>
-									<td>Service IBM</td>
-									<td>$1200</td>
-									<td>Paid</td>
-									<td>Service IBM</td>
-								</tr>
-								<tr>
-									<td>Service IBM</td>
-									<td>$1200</td>
-									<td>Paid</td>
-									<td>Service IBM</td>
-								</tr>
-								<tr>
-									<td>Service IBM</td>
-									<td>$1200</td>
-									<td>Paid</td>
-									<td>Service IBM</td>
-								</tr>
-								<tr>
-									<td>Service IBM</td>
-									<td>$1200</td>
-									<td>Paid</td>
-									<td>Service IBM</td>
-								</tr>
-								<tr>
-									<td>Service IBM</td>
-									<td>$1200</td>
-									<td>Paid</td>
-									<td>Service IBM</td>
-								</tr>
-								<tr>
-									<td>Service IBM</td>
-									<td>$1200</td>
-									<td>Paid</td>
-									<td>Service IBM</td>
-								</tr>
-								<tr>
-									<td>Service IBM</td>
-									<td>$1200</td>
-									<td>Paid</td>
-									<td>Service IBM</td>
-								</tr>
+							<c:forEach items="${model.services}" var="p">
+							<tr>
+							<td>${p.serviceTitle}</td>
+							<td>${p.subscriptionFee}</td>
+							<td>${p.version}</td>
+							<td>Delivered</td>
+							</tr>
+							</c:forEach>
 							</tbody>
 						</table>
 					</div>
@@ -271,27 +232,7 @@
 								<circle cx="70" cy="70" r="65" stroke-linecap="round" />
 							</svg>
 						</div>
-						<div class="skills2">
-							<span class="name">HTML</span>
-							<div class="percent">
-								<div class="progress" style="width: 60%"></div>
-							</div>
-							<span class="value"></span>
-						</div>
-						<div class="skills2">
-							<span class="name">HTML</span>
-							<div class="percent">
-								<div class="progress" style="width: 60%"></div>
-							</div>
-							<span class="value"></span>
-						</div>
-						<div class="skills2">
-							<span class="name">HTML</span>
-							<div class="percent">
-								<div class="progress" style="width: 60%"></div>
-							</div>
-							<span class="value"></span>
-						</div>
+						
 					</div>
 				</div>
 			</div>
