@@ -28,7 +28,7 @@ public class UpdateKeyWords  {
 	InterfaceImpDAOntologie imp= new InterfaceImpDAOntologie();
 	
 	
-	public void UpdateKeywords() throws OWLException, IOException {
+	public  void UpdateKeywords() throws OWLException, IOException {
 		JSONParser jsonParser = new JSONParser();
 		JSONArray Dictionnary = new JSONArray();
 		

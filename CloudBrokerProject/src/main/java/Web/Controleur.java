@@ -26,32 +26,22 @@ import org.semanticweb.owlapi.model.OWLException;
 import DAO.InterfaceImpDAO;
 import DAO.InterfaceImpDAOntologie;
 import Metier.entities.DP;
-import Metier.entities.DataRedundancySupport;
-import Metier.entities.DataStorageParam;
-import Metier.entities.DiskSpace;
-import Metier.entities.DiskTransferRate;
+
+
 import Metier.entities.FFQuery;
-import Metier.entities.HDD;
-import Metier.entities.HRM;
-import Metier.entities.HRM_NFF;
+
 import Metier.entities.QoS;
-import Metier.entities.QuantityOfOperations;
-import Metier.entities.SAS;
-import Metier.entities.SM;
-import Metier.entities.SM_NFF;
-import Metier.entities.SSD;
-import Metier.entities.VolumeOfData;
+
 import Metier.entities.admin;
 import Metier.entities.intended_user;
 import Metier.entities.license_type;
 import Metier.entities.location;
 import Metier.entities.provider;
-import Metier.entities.numofoperation;
-import Metier.entities.numofsession;
-import Metier.entities.numofuser;
+
 import Metier.entities.openness;
 import Metier.entities.payement;
 import Metier.entities.service_interface;
+import Metier.entities.tax_accounting;
 import Metier.entities.user;
 import Model.Model;
 import Métier.BabelNetConnection;
@@ -371,408 +361,58 @@ public class Controleur extends HttpServlet {
 			
 		QoS QoS = new QoS();
 		
-		String Consumability = request.getParameter("Consumability");
-		String FaultTolerance = request.getParameter("FaultTolerance");
-		String Migrationability = request.getParameter("Migrationability");
-		String Performance = request.getParameter("Performance");
-		String Reliability = request.getParameter("Reliability");
-		String RuntimeTunning = request.getParameter("RuntimeTunning");
-		String Scalability = request.getParameter("Scalability");
-		String Security = request.getParameter("Security");
-		String Standardized = request.getParameter("Standardized");
+		Double price =Double.parseDouble(request.getParameter("price")) ;
+		int availability =Integer.parseInt(request.getParameter("availability")) ;
 		
-		QoS.setConsumabilityEfforts(Consumability);
-		QoS.setFaultToleranceEfforts(FaultTolerance);
-		QoS.setMigrationabilityEfforts(Migrationability);
-		QoS.setPerformance(Performance);
-		QoS.setReliabilityEfforts(Reliability);
-		QoS.setRuntimeTunning(RuntimeTunning);	
-		QoS.setScalabilityEfforts(Scalability);
-		QoS.setSecurityEfforts(Security);
-		QoS.setStandardizedEfforts(Standardized);
+		QoS.setAvailability(availability);
+		QoS.setPrice(price);
 			
 		
 		QoS.setID(imp.insertQoS(QoS));
 		idqos = QoS.getID();
 		System.out.println(idqos);
-		
-		response.sendRedirect("ChoisirForm.php");}
-			
-			/******************DP2.php ******************/	
-			
-	      if(path.equals("/DP2.php")) { 
-			numofuser numuser = new numofuser();
-			String UpTo10 = request.getParameter("upto10");
-			String UpTo50 = request.getParameter("upto50");
-			String UpTo100 = request.getParameter("upto100");
-			String UpTo500 = request.getParameter("upto500");
-			String UpTo1000 = request.getParameter("upto1000");
-			numuser.setUpTo10(UpTo10);
-			numuser.setUpTo50(UpTo50);
-			numuser.setUpTo100(UpTo100);
-			numuser.setUpTo500(UpTo500);
-			numuser.setUpTo1000(UpTo1000);
-			numuser.setID(imp.insertNumOfUser(numuser));
-			idnumofuser = numuser.getID();
-			System.out.println(idnumofuser);
-			
-			
-			numofoperation numoperation = new numofoperation();
-			String UpTo50ope = request.getParameter("operation50");
-			String UpTo100ope = request.getParameter("operation100");
-			String UpTo300ope = request.getParameter("operation300");
-			String UpTo500ope = request.getParameter("operation500");
-			String UpTo1000ope = request.getParameter("operation1000");
-			String UpTo1500ope = request.getParameter("operation1500");
-			numoperation.setUpTo50(UpTo50ope);
-			numoperation.setUpTo100(UpTo100ope);
-			numoperation.setUpTo300(UpTo300ope);
-			numoperation.setUpTo500(UpTo500ope);
-			numoperation.setUpTo1000(UpTo1000ope);
-			numoperation.setUpTo1500(UpTo1500ope);
-			numoperation.setID(imp.insertNumOfOperation(numoperation));
-			idnumofoperation = numoperation.getID();
-			System.out.println(idnumofoperation);
-			
-			
-			numofsession numsession = new numofsession();
-			String UpTo1sess = request.getParameter("session1");
-			String UpTo5sess = request.getParameter("session5");
-			String UpTo10sess = request.getParameter("session10");
-			String UpTo20sess = request.getParameter("session20");
-			String UpTo50sess = request.getParameter("session50");
-			numsession.setUpTo1(UpTo1sess);
-			numsession.setUpTo5(UpTo5sess);
-			numsession.setUpTo10(UpTo10sess);
-			numsession.setUpTo20(UpTo20sess);
-			numsession.setUpTo50(UpTo50sess);
-			numsession.setID(imp.insertNumOfSession(numsession));
-			idnumofsession = numsession.getID();
-			System.out.println(idnumofsession);
-			
-			
-		
-			HRM_NFF hrm = new HRM_NFF();	
-			hrm.setNumOfSessionsPerUserID(String.valueOf(idnumofsession));
-			hrm.setNumOfOperationsPerSessionID(String.valueOf(idnumofoperation));
-			hrm.setNumOfUsersID(String.valueOf(idnumofuser));
-			
-			hrm.setID(imp.insertHRM_NFF(hrm));
-			idhrm_nff = hrm.getID();
-			System.out.println(idhrm_nff);
-			
-			
-			HRM hrmm = new HRM();	
-			hrmm.setDeploymentParameters_DP_NFFsID(String.valueOf(iddp));
-			hrmm.setHumanResourceManagement_HRM_NFFsID(String.valueOf(idhrm_nff));
-			hrmm.setQoSID(String.valueOf(idqos));
-			imp.insertHRM(hrmm);
-			
-			response.sendRedirect("ChoisirForm.php");}
+		// get cookie save dans BD 
+		tax_accounting acc = new tax_accounting();
+		acc.setDeploymentParameters_DP_NFFsID(String.valueOf(iddp));
+		acc.setQoSID(String.valueOf(idqos));
+		imp.insertTax_Acc(acc);
+		try {
+			JadeGateway.execute(new Behaviour(){
+				private boolean finished = false;
+				public void onStart() {
+					ACLMessage msg = new ACLMessage(ACLMessage.CFP);
+			    	AID agent = new AID("AgentUpdate",AID.ISLOCALNAME);
+			    	msg.addReceiver(agent);
+				    msg.setContent("Start Update");
+					myAgent.send(msg);
+				  }
 
+				@Override
+			    public void action() {  	
+			  ACLMessage res= myAgent.receive();
+			  
+				  }
+				@Override
+				public boolean done() {
+					return finished;
+				}
+				 
+				});
+		} catch (StaleProxyException e) {
+			e.printStackTrace();
+		} catch (ControllerException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		response.sendRedirect("Home.jsp");
+		
+		}
 			
-		
-		/******************DP3.php ******************/	
-		
-	     if(path.equals("/DP3.php")) { 
-		
-	    DataRedundancySupport data = new DataRedundancySupport();
-		String premium = request.getParameter("premium");
-		String hot = request.getParameter("hot");
-		String cool = request.getParameter("cool");
-		String archive = request.getParameter("archive");
-		data.setPREMIUM(premium);
-		data.setHOT(hot);
-		data.setCOOL(cool);
-		data.setARCHIVE(archive);
-		
-		data.setID(imp.insertDataRedundancySupport(data));
-		iddataredsupport = data.getID();
-		System.out.println(iddataredsupport);
-		
-		
-		VolumeOfData volume = new VolumeOfData();
-		String volume50 = request.getParameter("volume50");
-		String volume100 = request.getParameter("volume100");
-		String volume200 = request.getParameter("volume200");
-		String volume400 = request.getParameter("volume400");
-		String volume800 = request.getParameter("volume800");
-		String volume1t = request.getParameter("volume1t");
-		String volume2t = request.getParameter("volume2t");
-		volume.setUpTo50GB(volume50);
-		volume.setUpTo100GB(volume100);
-		volume.setUpTo200GB(volume200);
-		volume.setUpTo400GB(volume400);
-		volume.setUpTo800GB(volume800);
-		volume.setUpTo1TB(volume1t);
-		volume.setUpTo2TB(volume2t);
-		
-		volume.setID(imp.insertVolumeOfData(volume));
-		idvolumeofdata = data.getID();
-		System.out.println(idvolumeofdata);
-		
-		QuantityOfOperations Qte = new QuantityOfOperations();
-		String UpTo5KOperationsPerMonth = request.getParameter("Qte1");
-		String UpTo10KOperationsPerMonth = request.getParameter("Qte10");
-		String UpTo25KOperationsPerMonth = request.getParameter("Qte25");
-		String UpTo50KOperationsPerMonth = request.getParameter("Qte50");
-		String UpTo100KOperationsPerMonth = request.getParameter("Qte100");
-		String UpTo250KOperationsPerMonth = request.getParameter("Qte250");
-		String UpTo500KOperationsPerMonth = request.getParameter("Qte500");
-		String UpTo1MOperationsPerMonth = request.getParameter("Qte1M");
-		String UpTo2MOperationsPerMonth = request.getParameter("Qte2M");
-		String UpTo5MOperationsPerMonth = request.getParameter("Qte5M");
-		Qte.setUpTo5KOperationsPerMonth(UpTo5KOperationsPerMonth);
-		Qte.setUpTo10KOperationsPerMonth(UpTo10KOperationsPerMonth);
-		Qte.setUpTo25KOperationsPerMonth(UpTo25KOperationsPerMonth);
-		Qte.setUpTo50KOperationsPerMonth(UpTo50KOperationsPerMonth);
-		Qte.setUpTo100KOperationsPerMonth(UpTo100KOperationsPerMonth);
-		Qte.setUpTo250KOperationsPerMonth(UpTo250KOperationsPerMonth);
-		Qte.setUpTo500KOperationsPerMonth(UpTo500KOperationsPerMonth);
-		Qte.setUpTo1MOperationsPerMonth(UpTo1MOperationsPerMonth);
-		Qte.setUpTo2MOperationsPerMonth(UpTo2MOperationsPerMonth);
-		Qte.setUpTo5MOperationsPerMonth(UpTo5MOperationsPerMonth);	
-		Qte.setID(imp.insertQuantityOfOperations(Qte));
-		idqte = data.getID();
-		System.out.println(idqte);
 	
 		
-		response.sendRedirect("DataStorageParamaters.jsp");}
-
-		
-  		/******************Inscription.php ******************/	
-		if(path.equals("/DataStorage.php")) {
-			String data = request.getParameter("data");
-			if(data.equals("SAS")){				 
-				    DiskSpace diskspace = new DiskSpace();
-					String Space_UpTo2GB = request.getParameter("to2GB");
-					String Space_UpTo4GB = request.getParameter("to4GB");
-					String Space_UpTo8GB = request.getParameter("to8GB");
-					String Space_UpTo16GB = request.getParameter("to16GB");
-					String Space_UpTo32GB = request.getParameter("to32GB");
-					String Space_UpTo64GB = request.getParameter("to64GB");
-					String Space_UpTo128GB = request.getParameter("to128GB");
-					String Space_UpTo256GB = request.getParameter("to256GB");
-					String Space_UpTo512GB = request.getParameter("to512GB");
-					diskspace.setSpace_UpTo2GB(Space_UpTo2GB);
-					diskspace.setSpace_UpTo4GB(Space_UpTo4GB);
-					diskspace.setSpace_UpTo8GB(Space_UpTo8GB);
-					diskspace.setSpace_UpTo16GB(Space_UpTo16GB);
-					diskspace.setSpace_UpTo32GB(Space_UpTo32GB);
-					diskspace.setSpace_UpTo64GB(Space_UpTo64GB);
-					diskspace.setSpace_UpTo128GB(Space_UpTo128GB);
-					diskspace.setSpace_UpTo256GB(Space_UpTo256GB);
-					diskspace.setSpace_UpTo512GB(Space_UpTo512GB);
-					imp.insertDiskSpace(diskspace);
-					diskspace.setID(imp.insertDiskSpace(diskspace));
-					iddiskspace = diskspace.getID();
-					System.out.println(iddiskspace);
-
-				    DiskTransferRate disktransferrate = new DiskTransferRate();
-				        String TransferRate_UpTo50MBps = request.getParameter("to50MB");
-					String TransferRate_UpTo100MBps = request.getParameter("to100MB");
-					String TransferRate_UpTo200MBps = request.getParameter("to200MB");
-					String TransferRate_UpTo400MBps = request.getParameter("to400MB");
-					String TransferRate_UpTo600MBps = request.getParameter("to600MB");
-					String TransferRate_UpTo1200MBps = request.getParameter("to1200MB");
-					String TransferRate_UpTo2400MBps = request.getParameter("to2400MB");
-					String TransferRate_UpTo3000MBps = request.getParameter("to3000MB");
-					disktransferrate.setTransferRate_UpTo3000MBps(TransferRate_UpTo3000MBps);
-					disktransferrate.setTransferRate_UpTo2400MBps(TransferRate_UpTo2400MBps);
-					disktransferrate.setTransferRate_UpTo1200MBps(TransferRate_UpTo1200MBps);
-					disktransferrate.setTransferRate_UpTo600MBps(TransferRate_UpTo600MBps);
-					disktransferrate.setTransferRate_UpTo400MBps(TransferRate_UpTo400MBps);
-					disktransferrate.setTransferRate_UpTo200MBps(TransferRate_UpTo200MBps);
-					disktransferrate.setTransferRate_UpTo100MBps(TransferRate_UpTo100MBps);
-					disktransferrate.setTransferRate_UpTo50MBps(TransferRate_UpTo50MBps);
-					disktransferrate.setID(imp.insertDiskTransferRate(disktransferrate));
-					iddisktransferrate = disktransferrate.getID();
-					System.out.println(iddisktransferrate);
-					
-				
-					SAS sas = new SAS();	
-					sas.setDiskSpaceID(String.valueOf(iddiskspace));
-					sas.setDiskTransferRateID(String.valueOf(iddisktransferrate));				
-					imp.insertSAS(sas);
-					
-					sas.setID(imp.insertSAS(sas));
-					idsas = sas.getID();
-					System.out.println(idsas);
-					response.sendRedirect("DataStorageParamaters.jsp");
-					
-				 				 
-			 }  else if(data.equals("SSD")){			 
-				        DiskSpace diskspace = new DiskSpace();
-					String Space_UpTo2GB = request.getParameter("to2GB");
-					String Space_UpTo4GB = request.getParameter("to4GB");
-					String Space_UpTo8GB = request.getParameter("to8GB");
-					String Space_UpTo16GB = request.getParameter("to16GB");
-					String Space_UpTo32GB = request.getParameter("to32GB");
-					String Space_UpTo64GB = request.getParameter("to64GB");
-					String Space_UpTo128GB = request.getParameter("to128GB");
-					String Space_UpTo256GB = request.getParameter("to256GB");
-					String Space_UpTo512GB = request.getParameter("to512GB");
-					diskspace.setSpace_UpTo2GB(Space_UpTo2GB);
-					diskspace.setSpace_UpTo4GB(Space_UpTo4GB);
-					diskspace.setSpace_UpTo8GB(Space_UpTo8GB);
-					diskspace.setSpace_UpTo16GB(Space_UpTo16GB);
-					diskspace.setSpace_UpTo32GB(Space_UpTo32GB);
-					diskspace.setSpace_UpTo64GB(Space_UpTo64GB);
-					diskspace.setSpace_UpTo128GB(Space_UpTo128GB);
-					diskspace.setSpace_UpTo256GB(Space_UpTo256GB);
-					diskspace.setSpace_UpTo512GB(Space_UpTo512GB);
-					imp.insertDiskSpace(diskspace);
-					diskspace.setID(imp.insertDiskSpace(diskspace));
-					iddiskspace = diskspace.getID();
-					System.out.println(iddiskspace);
-
-				    DiskTransferRate disktransferrate = new DiskTransferRate();
-				        String TransferRate_UpTo50MBps = request.getParameter("to50MB");
-					String TransferRate_UpTo100MBps = request.getParameter("to100MB");
-					String TransferRate_UpTo200MBps = request.getParameter("to200MB");
-					String TransferRate_UpTo400MBps = request.getParameter("to400MB");
-					String TransferRate_UpTo600MBps = request.getParameter("to600MB");
-					String TransferRate_UpTo1200MBps = request.getParameter("to1200MB");
-					String TransferRate_UpTo2400MBps = request.getParameter("to2400MB");
-					String TransferRate_UpTo3000MBps = request.getParameter("to3000MB");
-					disktransferrate.setTransferRate_UpTo3000MBps(TransferRate_UpTo3000MBps);
-					disktransferrate.setTransferRate_UpTo2400MBps(TransferRate_UpTo2400MBps);
-					disktransferrate.setTransferRate_UpTo1200MBps(TransferRate_UpTo1200MBps);
-					disktransferrate.setTransferRate_UpTo600MBps(TransferRate_UpTo600MBps);
-					disktransferrate.setTransferRate_UpTo400MBps(TransferRate_UpTo400MBps);
-					disktransferrate.setTransferRate_UpTo200MBps(TransferRate_UpTo200MBps);
-					disktransferrate.setTransferRate_UpTo100MBps(TransferRate_UpTo100MBps);
-					disktransferrate.setTransferRate_UpTo50MBps(TransferRate_UpTo50MBps);
-					disktransferrate.setID(imp.insertDiskTransferRate(disktransferrate));
-					iddisktransferrate = disktransferrate.getID();
-					System.out.println(iddisktransferrate);
-					
-					
-					SSD ssd = new SSD();	
-					ssd.setDiskSpaceID(String.valueOf(iddiskspace));
-					ssd.setDiskTransferRateID(String.valueOf(iddisktransferrate));				
-					ssd.setID(imp.insertSSD(ssd));
-					idssd = ssd.getID();
-					System.out.println(idssd);
-					response.sendRedirect("DataStorageParamaters.jsp");
-					
-				 				 
-			 } else if(data.equals("HDD")){			 
-				        DiskSpace diskspace = new DiskSpace();
-					String Space_UpTo2GB = request.getParameter("to2GB");
-					String Space_UpTo4GB = request.getParameter("to4GB");
-					String Space_UpTo8GB = request.getParameter("to8GB");
-					String Space_UpTo16GB = request.getParameter("to16GB");
-					String Space_UpTo32GB = request.getParameter("to32GB");
-					String Space_UpTo64GB = request.getParameter("to64GB");
-					String Space_UpTo128GB = request.getParameter("to128GB");
-					String Space_UpTo256GB = request.getParameter("to256GB");
-					String Space_UpTo512GB = request.getParameter("to512GB");
-					diskspace.setSpace_UpTo2GB(Space_UpTo2GB);
-					diskspace.setSpace_UpTo4GB(Space_UpTo4GB);
-					diskspace.setSpace_UpTo8GB(Space_UpTo8GB);
-					diskspace.setSpace_UpTo16GB(Space_UpTo16GB);
-					diskspace.setSpace_UpTo32GB(Space_UpTo32GB);
-					diskspace.setSpace_UpTo64GB(Space_UpTo64GB);
-					diskspace.setSpace_UpTo128GB(Space_UpTo128GB);
-					diskspace.setSpace_UpTo256GB(Space_UpTo256GB);
-					diskspace.setSpace_UpTo512GB(Space_UpTo512GB);
-					diskspace.setID(imp.insertDiskSpace(diskspace));
-					iddiskspace = diskspace.getID();
-					System.out.println(iddiskspace);
-
-				    DiskTransferRate disktransferrate = new DiskTransferRate();
-				        String TransferRate_UpTo50MBps = request.getParameter("to50MB");
-					String TransferRate_UpTo100MBps = request.getParameter("to100MB");
-					String TransferRate_UpTo200MBps = request.getParameter("to200MB");
-					String TransferRate_UpTo400MBps = request.getParameter("to400MB");
-					String TransferRate_UpTo600MBps = request.getParameter("to600MB");
-					String TransferRate_UpTo1200MBps = request.getParameter("to1200MB");
-					String TransferRate_UpTo2400MBps = request.getParameter("to2400MB");
-					String TransferRate_UpTo3000MBps = request.getParameter("to3000MB");
-					disktransferrate.setTransferRate_UpTo3000MBps(TransferRate_UpTo3000MBps);
-					disktransferrate.setTransferRate_UpTo2400MBps(TransferRate_UpTo2400MBps);
-					disktransferrate.setTransferRate_UpTo1200MBps(TransferRate_UpTo1200MBps);
-					disktransferrate.setTransferRate_UpTo600MBps(TransferRate_UpTo600MBps);
-					disktransferrate.setTransferRate_UpTo400MBps(TransferRate_UpTo400MBps);
-					disktransferrate.setTransferRate_UpTo200MBps(TransferRate_UpTo200MBps);
-					disktransferrate.setTransferRate_UpTo100MBps(TransferRate_UpTo100MBps);
-					disktransferrate.setTransferRate_UpTo50MBps(TransferRate_UpTo50MBps);
-					disktransferrate.setID(imp.insertDiskTransferRate(disktransferrate));
-					iddisktransferrate = disktransferrate.getID();
-					System.out.println(iddisktransferrate);
-				
-				
-					HDD hdd = new HDD();	
-					hdd.setDiskSpaceID(String.valueOf(iddiskspace));
-					hdd.setDiskTransferRateID(String.valueOf(iddisktransferrate));			
-					hdd.setID(imp.insertHDD(hdd));
-					idhdd = hdd.getID();
-					System.out.println(idhdd);
-				
-					DataStorageParam dataStorageParam = new DataStorageParam();	
-					dataStorageParam.setHDDStorageID(String.valueOf(idhdd));
-					dataStorageParam.setSASStorageID(String.valueOf(idsas));
-					dataStorageParam.setSSDStorageID(String.valueOf(idssd));				
-					dataStorageParam.setID(imp.insertDataStorageParam(dataStorageParam));
-					iddatastorageparam = dataStorageParam.getID();
-					System.out.println(iddatastorageparam);
-					
-				
-					SM_NFF sm_nff = new SM_NFF();	
-					sm_nff.setQuantityOfOperationsID(String.valueOf(idqte));
-					sm_nff.setVolumeOfDataID(String.valueOf(idvolumeofdata));
-					sm_nff.setDataRedundancySupportID(String.valueOf(iddataredsupport));
-					sm_nff.setDataStorageParamID(String.valueOf(iddatastorageparam));
-					
-					sm_nff.setID(imp.insertSM_NFF(sm_nff));
-					idsm_nff = sm_nff.getID();
-					System.out.println(idsm_nff);
-					
-					
-					SM sm = new SM();	
-					sm.setDeploymentParameters_DP_NFFsID(String.valueOf(iddp));
-					sm.setStreamingAndMultimedia_SM_NFFsID(String.valueOf(idsm_nff));
-					sm.setQoSID(String.valueOf(idqos));
-					imp.insertSM(sm);
-					
-					
-					response.sendRedirect("ChoisirForm.php");
-					
-				 				 
-			 	}	}
-		if(path.equals("/ChoisirForm.php")) {
-			Model model = new Model();
-			ArrayList<String> FFlist= new ArrayList<>();
-			Cookie[]cookies= request.getCookies();
-			if(cookies!=null) {
-				for(int i=0;i<cookies.length;i++) {
-					if(cookies[i].getName().equals("FFList")) {
-						String[] coo= cookies[i].getValue().split(",");
-						for (int j = 0; j < coo.length; j++) {
-							FFlist.add(coo[j]);
-						}
-			         
-					}
-				}
-			}
-		    model.setFF(FFlist);
-		    request.setAttribute("model", model);
-		    System.out.println(model.getFF());
-		    request.getRequestDispatcher("Choisir.jsp").forward(request, response);
-
-		}
-			/******************Choisir.php ******************/	
-		if(path.equals("/Choisir.php")) {
-			String choisir = request.getParameter("choisir");
-			if(choisir.equals("HumanRessourceManagement_HRM")){		
-			response.sendRedirect("HRM.jsp"); }
-			else if(choisir.equals("Streaming And Multimedia")){		
-				response.sendRedirect("SM.jsp"); }
-
-		}
                 /******************DescriptionQuery.php ******************/	
-		else if(path.equals("/DescriptionQuery.php")) {
+		 if(path.equals("/DescriptionQuery.php")) {
 			
 			String FF= request.getParameter("user_message");
 			FFQuery input = new FFQuery ();

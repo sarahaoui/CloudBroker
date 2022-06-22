@@ -2,113 +2,54 @@ package Metier.entities;
 
 public class QoS {
 private int ID;
- private String ConsumabilityEfforts;
- private String FaultToleranceEfforts;
- private String MigrationabilityEfforts;
- private String Performance;
- private String ReliabilityEfforts;
- private String RuntimeTunning;
- private String ScalabilityEfforts;
- private String SecurityEfforts;
- private String StandardizedEfforts;
+ private int availability;
+ private Double price;
+ private Double rating;
 
  public QoS() {
 	 super();
 	}
+
+
+public Double getRating() {
+	return rating;
+}
+
+
+public void setRating(Double rating) {
+	this.rating = rating;
+}
+
+
+public int getID() {
+	return ID;
+}
+
+
+public void setID(int iD) {
+	ID = iD;
+}
+
+
+public int getAvailability() {
+	return availability;
+}
+
+
+public void setAvailability(int availability) {
+	this.availability = availability;
+}
+
+
+public Double getPrice() {
+	return price;
+}
+
+
+public void setPrice(Double price) {
+	this.price = price;
+}
 	
-	public QoS(int ID, String ConsumabilityEfforts, String FaultToleranceEfforts, String MigrationabilityEfforts, String Performance, String ReliabilityEfforts, String RuntimeTunning, String ScalabilityEfforts, String SecurityEfforts, String StandardizedEfforts) {
-		super();		
-		this.ID = ID;		
-		this.ConsumabilityEfforts = ConsumabilityEfforts;
-		this.FaultToleranceEfforts = FaultToleranceEfforts;
-		this.MigrationabilityEfforts = MigrationabilityEfforts;	
-		this.Performance = Performance;
-		this.ReliabilityEfforts = ReliabilityEfforts;			
-		this.RuntimeTunning = RuntimeTunning;
-		this.ScalabilityEfforts = ScalabilityEfforts;
-		this.SecurityEfforts = SecurityEfforts;		
-		this.StandardizedEfforts = StandardizedEfforts;
-	}
-
-	public int getID() {
-		return ID;
-	}
-
-	public void setID(int iD) {
-		ID = iD;
-	}
-
-	public String getConsumabilityEfforts() {
-		return ConsumabilityEfforts;
-	}
-
-	public void setConsumabilityEfforts(String consumabilityEfforts) {
-		ConsumabilityEfforts = consumabilityEfforts;
-	}
-
-	public String getFaultToleranceEfforts() {
-		return FaultToleranceEfforts;
-	}
-
-	public void setFaultToleranceEfforts(String faultToleranceEfforts) {
-		FaultToleranceEfforts = faultToleranceEfforts;
-	}
-
-	public String getMigrationabilityEfforts() {
-		return MigrationabilityEfforts;
-	}
-
-	public void setMigrationabilityEfforts(String migrationabilityEfforts) {
-		MigrationabilityEfforts = migrationabilityEfforts;
-	}
-
-	public String getPerformance() {
-		return Performance;
-	}
-
-	public void setPerformance(String performance) {
-		Performance = performance;
-	}
-
-	public String getReliabilityEfforts() {
-		return ReliabilityEfforts;
-	}
-
-	public void setReliabilityEfforts(String reliabilityEfforts) {
-		ReliabilityEfforts = reliabilityEfforts;
-	}
-
-	public String getRuntimeTunning() {
-		return RuntimeTunning;
-	}
-
-	public void setRuntimeTunning(String runtimeTunning) {
-		RuntimeTunning = runtimeTunning;
-	}
-
-	public String getScalabilityEfforts() {
-		return ScalabilityEfforts;
-	}
-
-	public void setScalabilityEfforts(String scalabilityEfforts) {
-		ScalabilityEfforts = scalabilityEfforts;
-	}
-
-	public String getSecurityEfforts() {
-		return SecurityEfforts;
-	}
-
-	public void setSecurityEfforts(String securityEfforts) {
-		SecurityEfforts = securityEfforts;
-	}
-
-	public String getStandardizedEfforts() {
-		return StandardizedEfforts;
-	}
-
-	public void setStandardizedEfforts(String standardizedEfforts) {
-		StandardizedEfforts = standardizedEfforts;
-	}
 	
 }
 

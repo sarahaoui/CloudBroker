@@ -9,30 +9,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import Metier.entities.DP;
-import Metier.entities.DataRedundancySupport;
-import Metier.entities.DataStorageParam;
-import Metier.entities.DiskSpace;
-import Metier.entities.DiskTransferRate;
-import Metier.entities.HDD;
-import Metier.entities.HRM;
-import Metier.entities.HRM_NFF;
+
 import Metier.entities.QoS;
-import Metier.entities.QuantityOfOperations;
-import Metier.entities.SAS;
-import Metier.entities.SM;
-import Metier.entities.SM_NFF;
-import Metier.entities.SSD;
-import Metier.entities.VolumeOfData;
+
 import Metier.entities.intended_user;
 import Metier.entities.license_type;
 import Metier.entities.location;
-import Metier.entities.numofoperation;
-import Metier.entities.numofsession;
-import Metier.entities.numofuser;
+
 import Metier.entities.openness;
 import Metier.entities.payement;
 import Metier.entities.provider;
 import Metier.entities.service_interface;
+import Metier.entities.tax_accounting;
 import Metier.entities.user;
 
 import java.sql.SQLException;
@@ -94,85 +82,9 @@ public class InterfaceImpDAO implements InterfaceDAO{
 			}
 		return key;
 	}
-	   ////////////////////////////////////////////////////////////////
-	public int insertNumOfOperation(numofoperation numofoperation){
-		int key=0;
-		try {
-			String req2 = "INSERT INTO `numofoperationspersession`(`UpTo50`, `UpTo100`, `UpTo300`, `UpTo500`, `UpTo1000`, `UpTo1500`) VALUES (?,?,?,?,?,?);";
-			PreparedStatement preparedStatement = connection.prepareStatement(req2,Statement.RETURN_GENERATED_KEYS);			
-			preparedStatement.setString(1, numofoperation.getUpTo50());
-			preparedStatement.setString(2, numofoperation.getUpTo100());
-			preparedStatement.setString(3, numofoperation.getUpTo300());
-			preparedStatement.setString(4, numofoperation.getUpTo500());
-			preparedStatement.setString(5, numofoperation.getUpTo1000());
-			preparedStatement.setString(6, numofoperation.getUpTo1500());
-			System.out.println(preparedStatement);
-			preparedStatement.executeUpdate();
-		
-			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-			if(generatedKeys.next()) {
-				 key=(generatedKeys.getInt(1));
-			}else {
-				System.out.println("Creating user failed , no ID obtained !!");
-			}
-			
-		} catch (SQLException e) {
-		//	printSQLException(e);
-			}
-		return key;
-	}
-	   ////////////////////////////////////////////////////////////////
-	public int insertNumOfUser(numofuser numofuser){
-		int key=0;
-		try {
-			String req3 = "INSERT INTO `numofusers`(`UpTo10`, `UpTo50`, `UpTo100`, `UpTo500`, `UpTo1000`) VALUES (?,?,?,?,?);";
-			PreparedStatement preparedStatement = connection.prepareStatement(req3,Statement.RETURN_GENERATED_KEYS);			
-			preparedStatement.setString(1, numofuser.getUpTo10());
-			preparedStatement.setString(2, numofuser.getUpTo50());
-			preparedStatement.setString(3, numofuser.getUpTo100());
-			preparedStatement.setString(4, numofuser.getUpTo500());
-			preparedStatement.setString(5, numofuser.getUpTo1000());
-			System.out.println(preparedStatement);
-			preparedStatement.executeUpdate();
-			
-			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-			if(generatedKeys.next()) {
-				 key=(generatedKeys.getInt(1));
-			}else {
-				System.out.println("Creating user failed , no ID obtained !!");
-			}
-			
-		} catch (SQLException e) {
-		//	printSQLException(e);
-			}
-		return key;
-	}
-    ////////////////////////////////////////////////////////////////
-	public int insertNumOfSession(numofsession numofsession){
-		int key= 0 ;
-		try {
-			String req4 = "INSERT INTO `numofsessionsperuser`(`UpTo1`, `UpTo5`, `UpTo10`, `UpTo20`, `UpTo50`) VALUES (?,?,?,?,?);";
-			PreparedStatement preparedStatement = connection.prepareStatement(req4,Statement.RETURN_GENERATED_KEYS);			
-			preparedStatement.setString(1, numofsession.getUpTo1());
-			preparedStatement.setString(2, numofsession.getUpTo5());
-			preparedStatement.setString(3, numofsession.getUpTo10());
-			preparedStatement.setString(4, numofsession.getUpTo20());
-			preparedStatement.setString(5, numofsession.getUpTo50());
-			System.out.println(preparedStatement);
-			preparedStatement.executeUpdate();
-
-			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-			if(generatedKeys.next()) {
-				 key=(generatedKeys.getInt(1));
-			}else {
-				System.out.println("Creating user failed , no ID obtained !!");
-			}
-			
-		} catch (SQLException e) {
-		//	printSQLException(e);
-			}
-		return key;
-	}
+	  
+	   
+    
 	   ////////////////////////////////////////////////////////////////
 	public int insertDP(DP DP){
 		int key=0;
@@ -310,183 +222,16 @@ public class InterfaceImpDAO implements InterfaceDAO{
 		return max;
 	}
 	
-    ////////////////////////////////////////////////////////////////
-	public int insertHRM_NFF(HRM_NFF HRM_NFF){
-		int key = 0;
-		try {
-			String req4 = "INSERT INTO `humanresourcemanagement_hrm_nffs`(`NumOfUsersID`, `NumOfSessionsPerUserID`, `NumOfOperationsPerSessionID`) VALUES (?,?,?);";
-			PreparedStatement preparedStatement = connection.prepareStatement(req4,Statement.RETURN_GENERATED_KEYS);			
-			preparedStatement.setString(1, HRM_NFF.getNumOfUsersID());
-			preparedStatement.setString(2, HRM_NFF.getNumOfSessionsPerUserID());
-			preparedStatement.setString(3, HRM_NFF.getNumOfOperationsPerSessionID());
-			System.out.println(preparedStatement);
-			preparedStatement.executeUpdate();
-
-			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-			if(generatedKeys.next()) {
-				 key=(generatedKeys.getInt(1));
-			}else {
-				System.out.println("Creating user failed , no ID obtained !!");
-			}
-		} catch (SQLException e) {
-		//	printSQLException(e); 
-			}
-		return key;
-	}
-    ////////////////////////////////////////////////////////////////
-	public void insertHRM(HRM HRM){
-		try {
-			String req4 = "INSERT INTO `humanresourcemanagement_hrm`(`DeploymentParameters_DP_NFFsID`, `HumanResourceManagement_HRM_NFFsID`, `QoSID`) VALUES (?,?,?);";
-			PreparedStatement preparedStatement = connection.prepareStatement(req4);			
-			preparedStatement.setString(1, HRM.getDeploymentParameters_DP_NFFsID());
-			preparedStatement.setString(2, HRM.getHumanResourceManagement_HRM_NFFsID());
-			preparedStatement.setString(3, HRM.getQoSID());
-			System.out.println(preparedStatement);
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			printSQLException(e); }
-	}
-	
-	
-    ////////////////////////////////////////////////////////////////	
-	public int insertDataRedundancySupport(DataRedundancySupport DataRedundancySupport){
-		int key = 0;
-		try {
-			String req2 = "INSERT INTO `dataredundancysupport`(`PREMIUM`, `HOT`, `COOL`, `ARCHIVE`) VALUES (?,?,?,?);";
-			PreparedStatement preparedStatement = connection.prepareStatement(req2,Statement.RETURN_GENERATED_KEYS);			
-			preparedStatement.setString(1, DataRedundancySupport.getPREMIUM());
-			preparedStatement.setString(2, DataRedundancySupport.getHOT());
-			preparedStatement.setString(3, DataRedundancySupport.getCOOL());
-			preparedStatement.setString(4, DataRedundancySupport.getARCHIVE());
-			System.out.println(preparedStatement);
-			preparedStatement.executeUpdate();
-
-			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-			if(generatedKeys.next()) {
-				 key=(generatedKeys.getInt(1));
-			}else {
-				System.out.println("Creating user failed , no ID obtained !!");
-			}
-		} catch (SQLException e) {
-		//	printSQLException(e); 
-			}
-		return key;
-	}
-	
-    ////////////////////////////////////////////////////////////////	
-	public int insertQuantityOfOperations(QuantityOfOperations QuantityOfOperations){
-		int key=0;
-		try {
-			String req2 = "INSERT INTO `quantityofoperations`(`UpTo5KOperationsPerMonth`, `UpTo10KOperationsPerMonth`, `UpTo25KOperationsPerMonth`, `UpTo50KOperationsPerMonth`, `UpTo100KOperationsPerMonth`, `UpTo250KOperationsPerMonth`,"
-					+ "`UpTo500KOperationsPerMonth`, `UpTo1MOperationsPerMonth`, `UpTo2MOperationsPerMonth`, `UpTo5MOperationsPerMonth`) VALUES (?,?,?,?,?,?,?,?,?,?);";
-			PreparedStatement preparedStatement = connection.prepareStatement(req2,Statement.RETURN_GENERATED_KEYS);			
-			preparedStatement.setString(1, QuantityOfOperations.getUpTo5KOperationsPerMonth());
-			preparedStatement.setString(2, QuantityOfOperations.getUpTo10KOperationsPerMonth());
-			preparedStatement.setString(3, QuantityOfOperations.getUpTo25KOperationsPerMonth());
-			preparedStatement.setString(4, QuantityOfOperations.getUpTo50KOperationsPerMonth());		
-			preparedStatement.setString(5, QuantityOfOperations.getUpTo100KOperationsPerMonth());
-			preparedStatement.setString(6, QuantityOfOperations.getUpTo250KOperationsPerMonth());
-			preparedStatement.setString(7, QuantityOfOperations.getUpTo500KOperationsPerMonth());
-			preparedStatement.setString(8, QuantityOfOperations.getUpTo1MOperationsPerMonth());
-			preparedStatement.setString(9, QuantityOfOperations.getUpTo2MOperationsPerMonth());
-			preparedStatement.setString(10,QuantityOfOperations.getUpTo5MOperationsPerMonth());
-			System.out.println(preparedStatement);
-			preparedStatement.executeUpdate();
-
-			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-			if(generatedKeys.next()) {
-				 key=(generatedKeys.getInt(1));
-			}else {
-				System.out.println("Creating user failed , no ID obtained !!");
-			}
-		} catch (SQLException e) {
-		//	printSQLException(e); 
-			}
-		return key;
-	}
-    ////////////////////////////////////////////////////////////////	
-	public int insertVolumeOfData(VolumeOfData VolumeOfData){
-		int key = 0;
-		try {
-			String req2 = "INSERT INTO `volumeofdata`(`UpTo50GB`, `UpTo100GB`, `UpTo200GB`, `UpTo400GB`, `UpTo800GB`, `UpTo1TB`, `UpTo2TB`) VALUES (?,?,?,?,?,?,?);";
-			PreparedStatement preparedStatement = connection.prepareStatement(req2,Statement.RETURN_GENERATED_KEYS);			
-			preparedStatement.setString(1, VolumeOfData.getUpTo50GB());
-			preparedStatement.setString(2, VolumeOfData.getUpTo100GB());
-			preparedStatement.setString(3, VolumeOfData.getUpTo200GB());
-			preparedStatement.setString(4, VolumeOfData.getUpTo400GB());
-			preparedStatement.setString(5, VolumeOfData.getUpTo800GB());
-			preparedStatement.setString(6, VolumeOfData.getUpTo1TB());
-			preparedStatement.setString(7, VolumeOfData.getUpTo2TB());
-
-			System.out.println(preparedStatement);
-			preparedStatement.executeUpdate();
-
-			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-			if(generatedKeys.next()) {
-				 key=(generatedKeys.getInt(1));
-			}else {
-				System.out.println("Creating user failed , no ID obtained !!");
-			}
-		} catch (SQLException e) {
-		//	printSQLException(e); 
-			}
-		return key;
-	}
-
-    ////////////////////////////////////////////////////////////////
-	public int insertSM_NFF(SM_NFF SM_NFF){
-		int key = 0;
-		try {
-			String req4 = "INSERT INTO `streamingandmultimedia_sm_nffs`(`QuantityOfOperationsID`, `VolumeOfDataID`, `DataRedundancySupportID`, `DataStorageParamID`) VALUES (?,?,?,?);";
-			PreparedStatement preparedStatement = connection.prepareStatement(req4,Statement.RETURN_GENERATED_KEYS);			
-			preparedStatement.setString(1, SM_NFF.getQuantityOfOperationsID());
-			preparedStatement.setString(2, SM_NFF.getVolumeOfDataID());
-			preparedStatement.setString(3, SM_NFF.getDataRedundancySupportID());
-			preparedStatement.setString(4, SM_NFF.getDataStorageParamID());
-			System.out.println(preparedStatement);
-			preparedStatement.executeUpdate();
-			
-			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-			if(generatedKeys.next()) {
-				 key=(generatedKeys.getInt(1));
-			}else {
-				System.out.println("Creating user failed , no ID obtained !!");
-			}
-		} catch (SQLException e) {
-		//	printSQLException(e); 
-			}
-		return key;
-	}
-
-    ////////////////////////////////////////////////////////////////
-	public void insertSM(SM SM){
-		try {
-			String req4 = "INSERT INTO `streamingandmultimedia_sm`(`DeploymentParameters_DP_NFFsID`, `StreamingAndMultimedia_SM_NFFsID`, `QoSID`) VALUES (?,?,?);";
-			PreparedStatement preparedStatement = connection.prepareStatement(req4);			
-			preparedStatement.setString(1, SM.getDeploymentParameters_DP_NFFsID());
-			preparedStatement.setString(2, SM.getStreamingAndMultimedia_SM_NFFsID());
-			preparedStatement.setString(3, SM.getQoSID());
-			System.out.println(preparedStatement);
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			printSQLException(e); }
-	}
-
+    
     ////////////////////////////////////////////////////////////////
 	public int insertQoS(QoS QoS){
 		int key=0;
 		try {
-			String req4 = "INSERT INTO `rt_nffs`(`ConsumabilityEffortsID`, `FaultToleranceEffortsID`, `MigrationabilityEffortsID`, `PerformanceID`, `ReliabilityEffortsID`, `RuntimeTunningID`, `ScalabilityEffortsID`, `SecurityEffortsID`, `StandardizedEffortsID`) VALUES (?,?,?,?,?,?,?,?,?);";
+			String req4 = "INSERT INTO `rt_nffs`( `price`, `availability`,`rating`) VALUES (?,?,?);";
 			PreparedStatement preparedStatement = connection.prepareStatement(req4,Statement.RETURN_GENERATED_KEYS);			
-			preparedStatement.setString(1, QoS.getConsumabilityEfforts());
-			preparedStatement.setString(2, QoS.getFaultToleranceEfforts());
-			preparedStatement.setString(3, QoS.getMigrationabilityEfforts());
-			preparedStatement.setString(4, QoS.getPerformance());
-			preparedStatement.setString(5, QoS.getReliabilityEfforts());
-			preparedStatement.setString(6, QoS.getRuntimeTunning());
-			preparedStatement.setString(7, QoS.getScalabilityEfforts());
-			preparedStatement.setString(8, QoS.getSecurityEfforts());
-			preparedStatement.setString(9, QoS.getStandardizedEfforts());
+			preparedStatement.setDouble(1, QoS.getPrice());
+			preparedStatement.setInt(2, QoS.getAvailability());
+			preparedStatement.setDouble(3, 0.0);
 			System.out.println(preparedStatement);
 			preparedStatement.executeUpdate();
 			
@@ -494,136 +239,14 @@ public class InterfaceImpDAO implements InterfaceDAO{
 			if(generatedKeys.next()) {
 				 key=(generatedKeys.getInt(1));
 			}else {
-				System.out.println("Creating user failed , no ID obtained !!");
+				System.out.println("Creating qos failed , no ID obtained !!");
 			}
 		} catch (SQLException e) {
 		//	printSQLException(e); 
 			}
 		return key;
 	}
-    ////////////////////////////////////////////////////////////////
-	public int insertDiskSpace(DiskSpace DiskSpace){
-		int key = 0;
-		try {
-			String req4 = "INSERT INTO `diskspace`(`Space_UpTo2GB`, `Space_UpTo4GB`, `Space_UpTo8GB`, `Space_UpTo16GB`, `Space_UpTo32GB`, `Space_UpTo64GB`, `Space_UpTo128GB`, `Space_UpTo256GB`, `Space_UpTo512GB`) VALUES (?,?,?,?,?,?,?,?,?);";
-			PreparedStatement preparedStatement = connection.prepareStatement(req4,Statement.RETURN_GENERATED_KEYS);			
-			preparedStatement.setString(1, DiskSpace.getSpace_UpTo2GB());
-			preparedStatement.setString(2, DiskSpace.getSpace_UpTo4GB());
-			preparedStatement.setString(3, DiskSpace.getSpace_UpTo8GB());
-			preparedStatement.setString(4, DiskSpace.getSpace_UpTo16GB());
-			preparedStatement.setString(5, DiskSpace.getSpace_UpTo32GB());
-			preparedStatement.setString(6, DiskSpace.getSpace_UpTo64GB());
-			preparedStatement.setString(7, DiskSpace.getSpace_UpTo128GB());
-			preparedStatement.setString(8, DiskSpace.getSpace_UpTo256GB());
-			preparedStatement.setString(9, DiskSpace.getSpace_UpTo512GB());
-			System.out.println(preparedStatement);
-			preparedStatement.executeUpdate();
-
-			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-			if(generatedKeys.next()) {
-				 key=(generatedKeys.getInt(1));
-			}else {
-				System.out.println("Creating user failed , no ID obtained !!");
-			}
-		} catch (SQLException e) {
-		//	printSQLException(e); 
-			}
-		return key;
-	}
-    ////////////////////////////////////////////////////////////////
-	public int insertDiskTransferRate(DiskTransferRate DiskTransferRate){
-		int key=0;
-		try {
-			String req4 = "INSERT INTO `disktransferrate`(`TransferRate_UpTo3000MBps`, `TransferRate_UpTo2400MBps`, `TransferRate_UpTo1200MBps`, `TransferRate_UpTo600MBps`, `TransferRate_UpTo400MBps`, `TransferRate_UpTo200MBps`, `TransferRate_UpTo100MBps`, `TransferRate_UpTo50MBps`) VALUES (?,?,?,?,?,?,?,?);";
-			PreparedStatement preparedStatement = connection.prepareStatement(req4,Statement.RETURN_GENERATED_KEYS);			
-			preparedStatement.setString(1, DiskTransferRate.getTransferRate_UpTo3000MBps());
-			preparedStatement.setString(2, DiskTransferRate.getTransferRate_UpTo2400MBps());
-			preparedStatement.setString(3, DiskTransferRate.getTransferRate_UpTo1200MBps());
-			preparedStatement.setString(4, DiskTransferRate.getTransferRate_UpTo600MBps());
-			preparedStatement.setString(5, DiskTransferRate.getTransferRate_UpTo400MBps());
-			preparedStatement.setString(6, DiskTransferRate.getTransferRate_UpTo200MBps());
-			preparedStatement.setString(7, DiskTransferRate.getTransferRate_UpTo100MBps());
-			preparedStatement.setString(8, DiskTransferRate.getTransferRate_UpTo50MBps());
-			System.out.println(preparedStatement);
-			preparedStatement.executeUpdate();
-
-			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-			if(generatedKeys.next()) {
-				 key=(generatedKeys.getInt(1));
-			}else {
-				System.out.println("Creating user failed , no ID obtained !!");
-			}
-		} catch (SQLException e) {
-		//	printSQLException(e); 
-			}
-		return key;
-	}
-    ////////////////////////////////////////////////////////////////
-	public int insertHDD(HDD HDD){
-		int key=0;
-		try {
-			String req4 = "INSERT INTO `hddstorage`(`DiskSpaceID`, `DiskTransferRateID`) VALUES (?,?);";
-			PreparedStatement preparedStatement = connection.prepareStatement(req4,Statement.RETURN_GENERATED_KEYS);			
-			preparedStatement.setString(1, HDD.getDiskSpaceID());
-			preparedStatement.setString(2, HDD.getDiskTransferRateID());
-			System.out.println(preparedStatement);
-			preparedStatement.executeUpdate();
-
-			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-			if(generatedKeys.next()) {
-				 key=(generatedKeys.getInt(1));
-			}else {
-				System.out.println("Creating user failed , no ID obtained !!");
-			}
-		} catch (SQLException e) {
-		//	printSQLException(e); 
-			}
-		return key;
-	}
-    ////////////////////////////////////////////////////////////////
-	public int insertSAS(SAS SAS){
-		int key=0;
-		try {
-			String req4 = "INSERT INTO `sasstorage`(`DiskSpaceID`, `DiskTransferRateID`) VALUES (?,?);";
-			PreparedStatement preparedStatement = connection.prepareStatement(req4,Statement.RETURN_GENERATED_KEYS);			
-			preparedStatement.setString(1, SAS.getDiskSpaceID());
-			preparedStatement.setString(2, SAS.getDiskTransferRateID());
-			System.out.println(preparedStatement);
-			preparedStatement.executeUpdate();
-
-			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-			if(generatedKeys.next()) {
-				 key=(generatedKeys.getInt(1));
-			}else {
-				System.out.println("Creating user failed , no ID obtained !!");
-			}
-		} catch (SQLException e) {
-		//	printSQLException(e); 
-			}
-		return key;
-	}
-    ////////////////////////////////////////////////////////////////
-	public int insertSSD(SSD SSD){
-		int key=0;
-		try {
-			String req4 = "INSERT INTO `ssdstorage`(`DiskSpaceID`, `DiskTransferRateID`) VALUES (?,?);";
-			PreparedStatement preparedStatement = connection.prepareStatement(req4,Statement.RETURN_GENERATED_KEYS);			
-			preparedStatement.setString(1, SSD.getDiskSpaceID());
-			preparedStatement.setString(2, SSD.getDiskTransferRateID());
-			System.out.println(preparedStatement);
-			preparedStatement.executeUpdate();
-			
-			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-			if(generatedKeys.next()) {
-				 key=(generatedKeys.getInt(1));
-			}else {
-				System.out.println("Creating user failed , no ID obtained !!");
-			}
-		} catch (SQLException e) {
-		//	printSQLException(e); 
-			}
-		return key;
-	}		
+    
 
 
     ////////////////////////////////////////////////////////////////		
@@ -686,30 +309,7 @@ public static String authenticateAdmin(String Username, String password) {
 	return msg;
 }
 
-     ////////////////////////////////////////////////////////////////
-      	public int insertDataStorageParam(DataStorageParam DataStorageParam){
-      		int key=0;
-			try {
-				String req4 = "INSERT INTO `datastorageparam`(`SSDStorageID`, `SASStorageID`, `HDDStorageID`) VALUES (?,?,?);";
-				PreparedStatement preparedStatement = connection.prepareStatement(req4,Statement.RETURN_GENERATED_KEYS);			
-				preparedStatement.setString(1, DataStorageParam.getSSDStorageID());
-				preparedStatement.setString(2, DataStorageParam.getSASStorageID());
-				preparedStatement.setString(3, DataStorageParam.getHDDStorageID());
-				System.out.println(preparedStatement);
-				preparedStatement.executeUpdate();
-
-				ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-				if(generatedKeys.next()) {
-					 key=(generatedKeys.getInt(1));
-				}else {
-					System.out.println("Creating user failed , no ID obtained !!");
-				}
-			} catch (SQLException e) {
-			//	printSQLException(e); 
-				}
-			return key;
-		}
-
+     
         ////////////////////////////////////////////////////////////////	
 
     	public int getIDProvider(provider provider){
@@ -821,4 +421,23 @@ public static String authenticateAdmin(String Username, String password) {
 			 
 		 }}}
    ////////////////////////////////////////////////////////////////	
+	public void insertTax_Acc(tax_accounting acc) {
+		
+		try {
+			String req4 = "INSERT INTO `tax_accounting`( `DeploymentParameters_DP_NFFsID`, `QoSID`) VALUES (?,?);";
+			PreparedStatement preparedStatement = connection.prepareStatement(req4,Statement.RETURN_GENERATED_KEYS);			
+			preparedStatement.setInt(1,Integer.parseInt(acc.getDeploymentParameters_DP_NFFsID()) );
+			preparedStatement.setInt(2, Integer.parseInt(acc.getQoSID()));
+
+			System.out.println(preparedStatement);
+			preparedStatement.executeUpdate();
+			
+			
+			
+		} catch (SQLException e) {
+		//	printSQLException(e); 
+			}
+		
+		
+	}
 }
