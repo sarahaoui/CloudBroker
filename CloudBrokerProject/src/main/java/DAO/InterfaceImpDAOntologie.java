@@ -66,7 +66,7 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 	   for (int i = 0; i < ExisteFFList.size(); i++) {
 		   ArrayList<String> InstancesFF= new ArrayList<String>();
 		  
-	        String sparqlQuery = "PREFIX dc: <http://www.protege.org/CloudFNF#> \r\n"
+	        String sparqlQuery = "PREFIX dc: <http://www.protege.org/Cloud#> \r\n"
 	        		+ "SELECT *\r\n"
 	        		+ "    WHERE { ?instURI rdf:type dc:"+ExisteFFList.get(i)+".\r\n"
 	        		+ "                   }";
@@ -111,9 +111,9 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 		
 	    ArrayList<String> FFInstnaces= new ArrayList<String>(); 
 		QuestOWLStatement st = conn.createStatement();
-       String sparqlQuery = "PREFIX dc: <http://www.protege.org/CloudFNF#> \r\n"
+       String sparqlQuery = "PREFIX dc: <http://www.protege.org/Cloud#> \r\n"
 	    		+ "SELECT *\r\n"
-	    		+ "   WHERE { ?instURI rdf:type dc:OFFs.\r\n"
+	    		+ "   WHERE { ?instURI rdf:type dc:FF.\r\n"
 	    		+ "                     \r\n"
 	    		+ "                   }";
 
@@ -162,7 +162,7 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 	for (int i = 0; i < instancesFF.size(); i++) {
 		ArrayList<String>Tokens=new ArrayList<String>();
 		   QuestOWLStatement st = conn.createStatement();
-	        String sparqlQuery = "PREFIX dc: <http://www.protege.org/CloudFNF#> \r\n"
+	        String sparqlQuery = "PREFIX dc: <http://www.protege.org/Cloud#> \r\n"
 	        		+ "SELECT ?SLATokens\r\n"
 	        		+ "   WHERE { dc:"+instancesFF.get(i)+" rdf:type dc:"+FF+";\r\n"
 	        		+ "                dc:DeployementParameters_DP_NFFsID ?DP .\r\n"
@@ -196,7 +196,7 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
   /*** UpdateKeywords ***/
   public static void UpdateKeyWords(String key, String properties,String Type) throws OWLException {
 	  
-	  String sparqlQuery = "PREFIX dc: <http://www.protege.org/CloudFNF#> \r\n"
+	  String sparqlQuery = "PREFIX dc: <http://www.protege.org/Cloud#> \r\n"
 	       		+ "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\n"
 	       		+ "PREFIX owl: <http://www.w3.org/2002/07/owl#>\r\n"
 	       		+ "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\r\n"
@@ -209,7 +209,7 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 	  
 	              UpdateAction.parseExecute(sparqlQuery, model);
 	  		    try {
-	  	 			model.write(new FileOutputStream("D:/CloudFNF.owl"), "RDF/XML");
+	  	 			model.write(new FileOutputStream("D:/CloudSimilarity.owl"), "RDF/XML");
 	  	 			
 	  	 		} catch (FileNotFoundException e) {
 	  	 			e.printStackTrace();
@@ -221,7 +221,7 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
   /*** GetProperties ***/
   public static String GetKeywords(String Key ,String Type) throws OWLException {
 	  String keywordString="";
-	        String sparqlQuery = "PREFIX dc: <http://www.protege.org/CloudFNF#> \r\n"
+	        String sparqlQuery = "PREFIX dc: <http://www.protege.org/Cloud#> \r\n"
 	        		+ "SELECT ?keywords \r\n"
 	        		+ "\r\n"
 	        		+ "    WHERE { dc:"+Key+" dc:isDefinedBy"+Type+"Keywords ?keywords.}";             
@@ -304,7 +304,7 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 		 String ChildKeyWords= GetKeywords(child, "Merged");
 		 String mergedKeywords= Merge(NodeKeyWords,ChildKeyWords);
          
-		  String sparqlQuery = "PREFIX dc: <http://www.protege.org/CloudFNF#> \r\n"
+		  String sparqlQuery = "PREFIX dc: <http://www.protege.org/Cloud#> \r\n"
 		       		+ "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\n"
 		       		+ "PREFIX owl: <http://www.w3.org/2002/07/owl#>\r\n"
 		       		+ "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\r\n"
@@ -317,7 +317,7 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 		  
 		              UpdateAction.parseExecute(sparqlQuery, model);
 		  		    try {
-		  	 			model.write(new FileOutputStream("D:/CloudFNF.owl"), "RDF/XML");
+		  	 			model.write(new FileOutputStream("D:/CloudSimilarity.owl"), "RDF/XML");
 		  	 			
 		  	 		} catch (FileNotFoundException e) {
 		  	 			e.printStackTrace();
@@ -382,7 +382,7 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 	  for (String FFname : RequiredFFsList) {
 		  
 		  QuestOWLStatement st = conn.createStatement();
-		  String sparqlQuery = "PREFIX dc: <http://www.protege.org/CloudFNF#> \r\n"
+		  String sparqlQuery = "PREFIX dc: <http://www.protege.org/Cloud#> \r\n"
 	        		+ "SELECT *\r\n"
 	        		+ "    WHERE { ?instURI rdf:type dc:"+FFname+".\r\n"
 	        		+ "                   }";
@@ -408,11 +408,10 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 		   JSONArray arr = new JSONArray();
 		   JSONObject OneCategory=new JSONObject();
 		   QuestOWLStatement st = conn.createStatement();
-			  String sparqlQuery = "PREFIX dc: <http://www.protege.org/CloudFNF#> \r\n"
+			  String sparqlQuery = "PREFIX dc: <http://www.protege.org/Cloud#> \r\n"
 			  		+ "SELECT *\r\n"
 			  		+ "\r\n"
 			  		+ "{?instURI rdf:type dc:"+FF+" ;\r\n"
-			  		+ "                   dc:"+FF+"_NFFsID ?DT ;\r\n"
 			  		+ "                   dc:DeployementParameters_DP_NFFsID ?DP ;\r\n"
 			  		+ "                   dc:RT_NFFsID ?QoS.}";
 		        	QuestOWLResultSet res = st.executeTuple(sparqlQuery); 
@@ -421,14 +420,11 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 		            FFInstance instance = new FFInstance();
 		            OWLObject instURI=	res.getOWLObject("instURI");	
 		          	String URI = instURI.toString();
-		          	OWLObject instDT=	res.getOWLObject("DT");	
-		          	String DT = instDT.toString();
 		          	OWLObject instDP=	res.getOWLObject("DP");	
 		          	String DP = instDP.toString();
 		          	OWLObject instQoS=	res.getOWLObject("QoS");	
 		          	String QoS = instQoS.toString();
 		          	instance.setInstURI(URI);
-		          	instance.setDT_URI(DT);
 		          	instance.setDP_URI(DP);
 		          	instance.setQoS_URI(QoS);
 		            
@@ -437,7 +433,7 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 		            JSONObject DT_NFFs=new JSONObject();;
 		            
 		            /********* General Information **************/
-		            String sparqlQueryDP = "PREFIX dc: <http://www.protege.org/CloudFNF#> \r\n"
+		            String sparqlQueryDP = "PREFIX dc: <http://www.protege.org/Cloud#> \r\n"
 		            		+ "SELECT *\r\n"
 		            		+ "    WHERE {        \r\n"
 		            		+ ""+instance.getDP_URI()+"  rdf:type dc:DeploymentParameters_DP_NFFs;\r\n"
@@ -450,7 +446,7 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 				       OneService.put("General Information", DP_NFFs);
 				      
 				     /********* Exclusive NFFs Information **************/
-				       String sparqlQueryDT = "PREFIX dc: <http://www.protege.org/CloudFNF#> \r\n"
+				       String sparqlQueryDT = "PREFIX dc: <http://www.protege.org/Cloud#> \r\n"
 				       		+ "SELECT *\r\n"
 				       		+ "WHERE {    \r\n"
 				       		+ ""+instance.getDT_URI()+" rdf:type dc:"+FF+"_NFFs ;\r\n"
@@ -489,7 +485,7 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
     		
     	}else if(Property.endsWith("ID") && !Property.equals(conceptname+"ID")) {
     		String property = Property.substring(0,Property.indexOf("ID"));
-    		String Query ="PREFIX dc: <http://www.protege.org/CloudFNF#> \r\n"
+    		String Query ="PREFIX dc: <http://www.protege.org/Cloud#> \r\n"
     				+ "SELECT *\r\n"
     				+ "    WHERE {        \r\n"
     				+ ""+Object+"  rdf:type dc:"+property+";\r\n"

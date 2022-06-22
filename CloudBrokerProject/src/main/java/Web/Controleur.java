@@ -385,12 +385,13 @@ public class Controleur extends HttpServlet {
 			    	msg.addReceiver(agent);
 				    msg.setContent("Start Update");
 					myAgent.send(msg);
+					finished= true;
 				  }
 
 				@Override
 			    public void action() {  	
 			  ACLMessage res= myAgent.receive();
-			  
+			  finished= true;
 				  }
 				@Override
 				public boolean done() {

@@ -9,10 +9,13 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.semanticweb.owlapi.model.OWLException;
+
 import Métier.BabelNetConnection;
 import Métier.Similarity;
 import Métier.TextRank;
 import Métier.Tokenization;
+import Métier.UpdateKeyWords;
 import Métier.WordNetConnection;
 import edu.smu.tspell.wordnet.NounSynset;
 import edu.smu.tspell.wordnet.Synset;
@@ -26,29 +29,14 @@ public class Test2 {
 		//String Description="Marketing by email";
 		//String Description="Marketing mobile";
 		//String Description="Human_Ressource_management";
-		String Description="Delpoyer applications";
-		ArrayList<String> keywords = new ArrayList<String>();
-		HashMap<String,ArrayList<String>> sysnsetTerm = new HashMap<String,ArrayList<String>>();
 		
-
+		UpdateKeyWords up = new  UpdateKeyWords();
 		try {
-			/*** Text Rank ***/
-			keywords=TextRank.sentenceDetect(Description);
-			System.out.println(keywords);
-		
-			/*** Search for Simple or complex phrases ***/
-			for (int i = 0; i < keywords.size(); i++) {
-				
-					/** Get Synsets Using BabelNet***/
-				// ArrayList<String>synonyms =BabelNetConnection.SynonymsFF(keywords.get(i));
-				ArrayList<String> synonyms = WordNetConnection.Synonyms(keywords.get(i));
-	             sysnsetTerm.put(keywords.get(i), synonyms) ;     
-			}
-	        	
-		} catch (IOException e) {
+			up.UpdateKeywords();
+		} catch (OWLException | IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println(sysnsetTerm);
+		
 		
 		
 		
