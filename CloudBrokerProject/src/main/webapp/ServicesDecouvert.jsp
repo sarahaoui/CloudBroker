@@ -29,8 +29,10 @@
 						<tr>
 							<th>Service Title</th>
 							<th>Provider Name</th>
+							<th>Price</th>
+							<th>Rating</th>
+							<th>Availability</th>
 							<th>Functionality</th>
-							<th>Relative Entropy</th>
 							<th>Action</th>
 						</tr>
 					</thead>
@@ -42,8 +44,10 @@
 							${p.get("General Information").get("ServiceTitle")}
 							</td> 
 							<td>${p.get("General Information").get("Provider").get("nom")}</td>
+							<td>${p.get("QoS").get("price")}$</td>
+							<td>${p.get("QoS").get("rating")}/5</td>
+							<td>${p.get("QoS").get("availability")}%</td>
 							<td>${p.get("FF")}</td>
-							<td>${p.get("THrel")}</td>
 							<td><a href='Order.php?title=${p.get("General Information").get("ServiceTitle")}'>Order</a></td>
 							</tr>
 						     </c:forEach>
@@ -55,7 +59,7 @@
 
 </div>
            <!--side bar section-->
-			<%@ include file="Menu.jsp" %>
+			<%@ include file="MenuUser.jsp" %>
 			
 			<script>
   let arrow = document.querySelectorAll(".arrow");

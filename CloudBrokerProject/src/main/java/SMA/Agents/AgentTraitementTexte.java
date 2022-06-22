@@ -75,8 +75,52 @@ public class AgentTraitementTexte extends Agent{
             System.out.println("Send to Controller");
 			break;
 			
-		
+		case ACLMessage.REQUEST:
+			String message2="";
+			message2 = (String)msg.getContent();
+			System.out.println("Accept from Controler get FF");
 			
+			ArrayList<String> keywords2 = new ArrayList<String>();
+			ArrayList<String> Tokens2 = new ArrayList<String>();
+			ArrayList<String> FinalKeywords2 = new ArrayList<String>();
+
+
+			try {
+				/*** Text Rank ***/
+				keywords2=TextRank.sentenceDetect(message2);
+				System.out.println("Keywords: "+keywords2);
+				
+				/*** Babelnet Elimination ***/
+				BabelNetConnection.Connection(keywords2);
+				
+				/*** Tokenization And POS ***/
+				Tokens2= Tokenization.TokanizationTag(keywords2);
+				
+				/*** WordNet ***/
+				WordNetConnection.WordnetConnection(Tokens2);
+				Set<String> set= new HashSet<>(Tokens2);
+				Tokens2.clear();
+				Tokens2.addAll(set);
+				
+				/*** Babelnet Verification ***/
+				FinalKeywords2=BabelNetConnection.Connection2(Tokens2);
+				System.out.println("FinalKeywords: ");
+				System.out.println(FinalKeywords2);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			/*** Send Data TO AgentUtilisateur ***/
+			ACLMessage touser= new ACLMessage(ACLMessage.CONFIRM);
+			AID agent = new AID("AgentUtilisateur",AID.ISLOCALNAME);
+			touser.addReceiver(agent);
+			try {
+				touser.setContentObject(FinalKeywords2);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+            send(touser);
+            System.out.println("Send to AgentUtilisateur");
+			break;		
 				
 		}
 		

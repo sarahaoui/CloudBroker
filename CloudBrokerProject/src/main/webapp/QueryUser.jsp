@@ -41,7 +41,7 @@
 
     <!--side bar section-->
 
-      <%@ include file="Menu.jsp" %>
+      <%@ include file="MenuUser.jsp" %>
 
       <!-- Script part-->      
             <script>

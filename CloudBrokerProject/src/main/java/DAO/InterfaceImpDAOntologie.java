@@ -430,7 +430,7 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 		            
 		            JSONObject OneService = new JSONObject();
 		            JSONObject DP_NFFs = new JSONObject();
-		            JSONObject DT_NFFs=new JSONObject();;
+		            JSONObject QoSJ=new JSONObject();
 		            
 		            /********* General Information **************/
 		            String sparqlQueryDP = "PREFIX dc: <http://www.protege.org/Cloud#> \r\n"
@@ -445,15 +445,15 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 			String	Title= CollectData(DP_NFFs,"DeploymentParameters_DP_NFFs",sparqlQueryDP);
 				       OneService.put("General Information", DP_NFFs);
 				      
-				     /********* Exclusive NFFs Information **************/
+				     /*********QOS Informations **************/
 				       String sparqlQueryDT = "PREFIX dc: <http://www.protege.org/Cloud#> \r\n"
 				       		+ "SELECT *\r\n"
 				       		+ "WHERE {    \r\n"
-				       		+ ""+instance.getDT_URI()+" rdf:type dc:"+FF+"_NFFs ;\r\n"
+				       		+ ""+instance.getQoS_URI()+" rdf:type dc:RT.NFFs ;\r\n"
 				       		+ " ?property ?object.\r\n"
 				       		+ "       }";
-					       CollectData(DT_NFFs,FF+"_NFFs",sparqlQueryDT);
-					       OneService.put("Exclusive Information", DT_NFFs);
+					       CollectData(QoSJ,"RT.NFFs",sparqlQueryDT);
+					       OneService.put("QoS", QoSJ);
 					       OneCategory.put(Title, OneService);
 					       
 		            }

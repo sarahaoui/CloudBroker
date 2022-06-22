@@ -5,12 +5,12 @@
     </div>
     <ul class="nav-links">
       <li>
-        <a href="Home.jsp">
+        <a href="QueryUser.jsp">
           <i class='bx bx-grid-alt' ></i>
-          <span class="link_name">Home</span>
+          <span class="link_name">Dashboard</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="Home.jsp">Home</a></li>
+          <li><a class="link_name" href="QueryUser.jsp">Dashboard</a></li>
         </ul>
       </li>
       
@@ -24,27 +24,8 @@
         <ul class="sub-menu blank">
           <li><a class="link_name" href="#">Services</a></li>
           </ul>
-         <!--  <li><a href="">Vm</a></li>
-          <li><a href="">Storage Space</a></li>
-          <li><a href="">PaaS</a></li>
-          <li><a href="">SaaS</a></li>  
-         -->
       </li>
-    <li>
-        <div class="iocn-link">
-          <a href="#">
-            <i class="bx bx-folder-plus"></i>
-            <span class="link_name">Add</span>
-          </a>
-          <i class='bx bxs-chevron-down arrow' ></i>
-        </div>
-        <ul class="sub-menu">
-          <li><a class="link_name" href="#">Add</a></li>
-          <li><a href="DescriptionProvider.jsp">Add with API</a></li>
-          <li><a href="DescriptionProvider.jsp">Add without API</a></li>
-        </ul>
-      </li>
-      
+  
       <li>
         <a href="">
           <i class='bx bx-line-chart' ></i>

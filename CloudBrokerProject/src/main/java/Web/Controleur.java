@@ -3,10 +3,14 @@ package Web;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Scanner;
 import java.util.Set;
 
 import javax.servlet.ServletException;
@@ -474,87 +478,63 @@ public class Controleur extends HttpServlet {
 		/******************QueryUser.php ******************/	
 		else if(path.equals("/QueryUser.php")) {
 			String Description= request.getParameter("user_message");
-			ArrayList<String> keywords = new ArrayList<String>();
-			ArrayList<String> Tokens = new ArrayList<String>();
-			ArrayList<String> FinalKeywords = new ArrayList<String>();
-			 ArrayList<String> matchedFF= new ArrayList<String>();
 			
 			try {
-				/*** Text Rank ***/
-				keywords=TextRank.sentenceDetect(Description);
-				System.out.println("Keywords :\n\r"+keywords);
-				/*** Babelnet Elimination ***/
-				BabelNetConnection.Connection(keywords);
-				
-				/*** Tokenization And POS ***/
-				Tokens= Tokenization.TokanizationTag(keywords);
-				
-				/*** WordNet ***/
-				WordNetConnection.WordnetConnection(Tokens);
-				Set<String> set= new HashSet<>(Tokens);
-				Tokens.clear();
-				Tokens.addAll(set);
-				
-				/*** Babelnet Verification ***/
-				FinalKeywords=BabelNetConnection.Connection2(Tokens);
-				System.out.println("Keywords:");
-				System.out.println(FinalKeywords);
-			} catch (IOException e) {
+				JadeGateway.execute(new Behaviour(){
+					private boolean finished = false;
+					public void onStart() {
+						try {
+						ACLMessage msg = new ACLMessage(ACLMessage.CFP);
+				    	AID agent = new AID("AgentUtilisateur",AID.ISLOCALNAME);
+				    	msg.addReceiver(agent);
+				    	
+					    msg.setContentObject(Description);
+						myAgent.send(msg);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					  }
+
+					@Override
+				    public void action() {  	
+				  ACLMessage res= myAgent.receive();
+				  if(res!= null) {
+					  switch (res.getPerformative()) {
+						case ACLMessage.INFORM:
+							ArrayList<JSONObject> RankedCatServices = new ArrayList<JSONObject>();
+						try {
+							RankedCatServices = (ArrayList<JSONObject>)res.getContentObject();
+							Model model = new Model();
+					        model.setRankedCatServices(RankedCatServices);
+							request.setAttribute("model", model);
+						} catch (UnreadableException e) {
+							e.printStackTrace();
+						}
+						    
+							break;}
+					 
+					  finished= true;
+				      }
+					    else {
+					      block();
+					    }
+					  }
+					@Override
+					public boolean done() {
+						return finished;
+					}
+					 
+					});
+			} catch (StaleProxyException e) {
+				e.printStackTrace();
+			} catch (ControllerException e) {
+				e.printStackTrace();
+			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			/*** Get CloudDictionary ***/
-		   	    System.out.println("************GetCloudDictionary**************");
-		   	    JSONParser jsonParser = new JSONParser();
-			    JSONArray Dictionnary = new JSONArray();
+			System.out.println("Im done");
 			
-		   	    try (FileReader reader = new FileReader("C:\\Users\\pc-click\\Desktop\\CloudDictionary.json"))
-	            {
-	               //Read JSON file
-	                Object obj = jsonParser.parse(reader);
-	                Dictionnary = (JSONArray) obj;
-	                //System.out.println(Dictionnary);
-	  
-	             } catch (IOException e) {
-	                e.printStackTrace();
-	             } catch (ParseException e) {
-	                e.printStackTrace();
-	             }
-			
-			   /*** Matching Keywords ***/
-			    ArrayList<String> VisitedNode= new ArrayList<String>();
-			    try {
-					InterfaceImpDAOntologie.BFSbasedMatchingKeywords("OFFs", FinalKeywords, Dictionnary, VisitedNode, matchedFF);
-				} catch (OWLException e) {
-					e.printStackTrace();
-				}	
-			    System.out.println("FFS Matched:"+matchedFF);
-			    
-			    /**************** Get And Ranking Services *********/
-			    InterfaceImpDAOntologie imp = new InterfaceImpDAOntologie();
-			    ArrayList<JSONObject> RankedCatServices = new ArrayList<JSONObject>();
-				try {
-					 RankedCatServices =	InterfaceImpDAOntologie.RankingServices(imp.ServicesRetrieval(matchedFF), matchedFF, Dictionnary);
-					 System.out.println(":"+RankedCatServices);
-					 Collections.reverse(RankedCatServices);
-
-				} catch (OWLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				try (FileWriter file = new FileWriter("C:\\Users\\pc-click\\Desktop\\services.json",false)) {
-		            //We can write any JSONArray or JSONObject instance to the file
-					
-				    file.write(RankedCatServices.toString());
-			        file.flush();	
-		            file.close();
-		 
-		        } catch (IOException e) {
-		            e.printStackTrace();
-		        }
-				Model model = new Model();
-		        model.setRankedCatServices(RankedCatServices);
-				request.setAttribute("model", model);
-				request.getRequestDispatcher("ServicesDecouvert.jsp").forward(request, response);
+			request.getRequestDispatcher("ServicesDecouvert.jsp").forward(request, response);
 		
 		/*************** Order.php *********************/
 		}else if(path.equals("/Order.php")) {
@@ -613,6 +593,58 @@ public class Controleur extends HttpServlet {
     model.setServices(services);
     request.setAttribute("model", model);
     request.getRequestDispatcher("Home.jsp").forward(request, response);
+	}
+		 
+		 /*** APIQuery.php***/
+    else if(path.equals("/ApiQuery.php")){
+    	URL url = new URL(path);
+		HttpURLConnection conn= (HttpURLConnection) url.openConnection();
+		conn.setRequestMethod("GET");
+		conn.connect();
+		
+		// Check if connect is made 
+		int responseCode = conn.getResponseCode();
+		
+		//200 ok
+		if(responseCode!=200) {
+			throw new RuntimeException("HttpRespondeCode: "+responseCode);
+		}else {
+			StringBuilder information= new StringBuilder();
+			Scanner scanner = new Scanner(url.openStream());
+			while(scanner.hasNext()) {
+				information.append(scanner.nextLine());
+			}
+			scanner.close();
+			System.out.println(information);
+			try (FileWriter file = new FileWriter("C:\\Users\\pc-click\\Desktop\\api.json",false)) {
+	            //We can write any JSONArray or JSONObject instance to the file
+				
+			    file.write(String.valueOf(information));
+		        file.flush();	
+	            file.close();
+	 
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+			ArrayList<JSONObject> ListServices = new ArrayList<JSONObject>();
+			JSONParser parse = new JSONParser();
+			try (FileReader reader = new FileReader("C:\\Users\\pc-click\\Desktop\\api.json"))
+            {
+               //Read JSON file
+                Object obj = parse.parse(reader);
+                ListServices = (ArrayList<JSONObject>) obj;
+                System.out.println(ListServices);
+             } catch (IOException e) {
+                e.printStackTrace();
+             } catch (ParseException e) {
+                e.printStackTrace();
+             }
+			
+			//JSON
+							
+			
+			
+		}
 	}
 			
 		
