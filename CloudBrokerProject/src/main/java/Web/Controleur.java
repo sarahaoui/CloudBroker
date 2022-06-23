@@ -560,11 +560,9 @@ public class Controleur extends HttpServlet {
 		   	Model model = new Model();
 	        model.setService(service);
 	        request.setAttribute("model", model);
-	        if(FF.equals("StreamingAndMultimedia")) {
+	        
 	        	request.getRequestDispatcher("ServiceDetail.jsp").forward(request, response);
-	        }else {
-	        	request.getRequestDispatcher("ServiceDetailHRM.jsp").forward(request, response);
-	        }	   
+	       	   
 		}
 		/******************Select.php ******************/	
 	else if(path.equals("/select.php")) {
@@ -646,7 +644,76 @@ public class Controleur extends HttpServlet {
 			
 		}
 	}
-			
+    else if(path.equals("/Selection.php")) {
+    	String Availability = request.getParameter("AvailabilityV");
+		String Rating = request.getParameter("RatingV");
+		String PricePrio = request.getParameter("PriceV");
+		
+		String AvailabilityR = request.getParameter("AvailabilityS");
+		String RatingR = request.getParameter("RatingS");
+		String PricePrioR = request.getParameter("PriceS");
+		
+		QoS qos = new QoS();
+		qos.setAvailabilityR(AvailabilityR);
+		qos.setRatingR(RatingR);
+		qos.setPriceR(PricePrioR);
+		
+		qos.setPrice(Double.parseDouble(PricePrio));
+		qos.setRating(Double.parseDouble(Rating));
+		qos.setAvailability(Integer.parseInt(Availability));
+		
+		try {
+			JadeGateway.execute(new Behaviour(){
+				private boolean finished = false;
+				public void onStart() {
+					try {
+					ACLMessage msg = new ACLMessage(ACLMessage.CFP);
+			    	AID agent = new AID("AgentSelection",AID.ISLOCALNAME);
+			    	msg.addReceiver(agent);
+				    msg.setContentObject(qos);
+					myAgent.send(msg);
+
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				  }
+
+				@Override
+			    public void action() {  	
+			  ACLMessage res= myAgent.receive();
+			  if(res!= null) {
+				  System.out.println("Im Selection ");
+				  JSONObject service= new JSONObject();
+					
+					try {
+						service = (JSONObject)res.getContentObject();
+						System.out.println("Accept from AgentSelection");
+						} catch (UnreadableException e1) {
+							e1.printStackTrace();
+						}
+			    	ArrayList<JSONObject> list = new ArrayList<JSONObject>();
+			    	list.add(service);
+					Model model = new Model();
+			        model.setRankedCatServices(list);
+			        request.setAttribute("model", model);
+				  finished= true;
+			      }
+				    else {
+				      block();
+				    }
+				  }
+				@Override
+				public boolean done() {
+					return finished;
+				}
+				 
+				});
+		} catch (ControllerException | InterruptedException e) {
+			e.printStackTrace();
+		}
+		System.out.println("Im done");
+		request.getRequestDispatcher("ServicesDecouvert.jsp").forward(request, response);
+    }
 		
 	}
 

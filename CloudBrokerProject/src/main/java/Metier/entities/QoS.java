@@ -1,14 +1,47 @@
 package Metier.entities;
 
-public class QoS {
+import java.io.Serializable;
+
+public class QoS implements Serializable {
 private int ID;
  private int availability;
  private Double price;
  private Double rating;
+ private String AvailabilityR,RatingR,PriceR;
 
  public QoS() {
 	 super();
 	}
+
+
+public String getAvailabilityR() {
+	return AvailabilityR;
+}
+
+
+public void setAvailabilityR(String availabilityR) {
+	AvailabilityR = availabilityR;
+}
+
+
+public String getRatingR() {
+	return RatingR;
+}
+
+
+public void setRatingR(String ratingR) {
+	RatingR = ratingR;
+}
+
+
+public String getPriceR() {
+	return PriceR;
+}
+
+
+public void setPriceR(String priceR) {
+	PriceR = priceR;
+}
 
 
 public Double getRating() {

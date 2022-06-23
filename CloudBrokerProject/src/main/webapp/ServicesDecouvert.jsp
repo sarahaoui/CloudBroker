@@ -24,6 +24,41 @@
 <div class="container">
 
        <div class="Services">
+       <form method="POST" action="Selection.php" >
+       <div class="corps-formulaire">
+       <div class="boite">
+       <label> Rating:</label>
+                <input type="text" name="RatingV" />
+                <select name="RatingS" id="Contrainte">
+				<option selected disabled>ANY</option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				</select>
+       </div>
+       <div class="boite">
+       <label> Price:</label>
+                <input type="text" name="PriceV" />
+                <select name="PriceS" id="Contrainte">
+				<option selected disabled>ANY</option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				</select>
+       </div> 
+       <div class="boite">
+       <label> Availability:</label>
+                <input type="text" name="AvailabilityV" />
+                <select name="AvailabilityS" id="Contrainte">
+				<option selected disabled>ANY</option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				</select>
+       </div> 
+       <input type="submit" value="Select" class="button">         
+       </div>
+       </form>
        <table>
 					<thead>
 						<tr>

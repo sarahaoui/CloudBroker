@@ -234,15 +234,17 @@ body {
 	margin-left: 50px;
 }
 table {
-	width: 70vw;
+	width: 60vw;
 	border-collapse: collapse;
-	border: none;
+	border-radius: 30px;
 	border-collapse: collapse;
 	border-spacing: 0;
+	border-radius: 5px 5px 0 0;
 	overflow: hidden;
 	text-align: left;
+	margin-bottom: 20px;
+	margin-left:  80px;
 	margin-top: 20px;
-	margin-left: 80px;
    
 }
 h1{
@@ -250,7 +252,6 @@ h1{
 	font-weight: 500;
 	font-size: 20px;
 	text-align: left;
-	margin-right: 450px;
 	margin-bottom: 15px;
 	margin-top:15px;}
 

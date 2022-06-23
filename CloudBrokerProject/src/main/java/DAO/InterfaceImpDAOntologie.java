@@ -2,6 +2,7 @@ package DAO;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -25,11 +26,14 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.update.UpdateAction;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
 
 import Metier.entities.FFInstance;
+import Metier.entities.QoS;
 import Métier.Matching;
 import Métier.Similarity;
 import Métier.SortedServices;
@@ -720,7 +724,214 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 	  return s;
 	  }
 
-	
+	 public static JSONObject Selection(QoS qos){
+			
+			
+			Map<String,ArrayList<Double>> services= new HashMap<String,ArrayList<Double>>();
+			Map<String,Double> VectorR= new HashMap<String,Double>();
+			Map<String,Double> Weight= new HashMap<String,Double>();
+			ArrayList<Double> Avail= new ArrayList<Double>();
+			ArrayList<Double> Rating= new ArrayList<Double>();
+			ArrayList<Double> Price= new ArrayList<Double>();
+			 /*** Get Services List ***/
+			   JSONParser jsonParser = new JSONParser();
+			    ArrayList<JSONObject> ListServices = new ArrayList<JSONObject>();
+			
+		   	    try (FileReader reader = new FileReader("C:\\Users\\pc-click\\Desktop\\services.json"))
+	            {
+	               //Read JSON file
+	                Object obj = jsonParser.parse(reader);
+	                ListServices = (ArrayList<JSONObject>) obj;
+	                //System.out.println(Dictionnary);
+	  
+	             } catch (IOException e) {
+	                e.printStackTrace();
+	             } catch (ParseException e) {
+	                e.printStackTrace();
+	             }
+		   	 for (JSONObject jsonObject : ListServices) {
+					JSONObject generalinfo= (JSONObject) jsonObject.get("QoS");
+				String price=(String)generalinfo.get("price");
+				String rating=(String)generalinfo.get("rating");
+				String availability=(String)generalinfo.get("availability");
+					Avail.add(Double.parseDouble(price));
+					Rating.add(Double.parseDouble(rating));
+					Price.add(Double.parseDouble(availability));
+					System.out.println(price+"/"+rating+"/"+"/"+availability);
+				}
+			
+			VectorR.put("Availability",Double.parseDouble(qos.getAvailabilityR()) );
+			VectorR.put("Rating",Double.parseDouble( qos.getRatingR()));
+			VectorR.put("Price",Double.parseDouble( qos.getPriceR()));
+			
+			Weight.put("Availability",	Double.valueOf(qos.getAvailability()) );
+			Weight.put("Rating", qos.getRating());
+			Weight.put("Price",qos.getPrice());
+			
+			
+			services.put("Availability", Avail);
+			services.put("Rating", Rating);
+			services.put("Price", Price);
+			
+			
+			System.out.println("services Avant Norm:");
+			for (String key : services.keySet()) {
+				System.out.println(services.get(key));
+			}
+			/** Normalization of services **/
+			ArrayList<Double>avai=new ArrayList<>();
+			avai.addAll(services.get("Availability"));
+			avai.add(VectorR.get("Availability"));
+			ArrayList<Double>ra=new ArrayList<>();
+			ra.addAll(services.get("Rating"));
+			ra.add(VectorR.get("Rating"));
+			ArrayList<Double>pri=new ArrayList<>();
+			pri.addAll(services.get("Price"));
+			pri.add(VectorR.get("Price"));
+			Double MaxAvail= Collections.max(avai);
+			Double MinAvail= Collections.min(avai);
+			Double MaxRating= Collections.max(ra);
+			Double MinRating= Collections.min(ra);
+			Double MinPrice= Collections.min(pri);
+			Double MaxPrice= Collections.max(pri);
+			
+			//System.out.println(MaxAvail+"/"+MaxRating+"/"+MinPrice);
+			
+			for (String key : services.keySet()) {
+				if(key.equals("Availability")) {
+					for (int i = 0; i < services.get(key).size(); i++) {
+						Double value= (services.get(key).get(i)-MinAvail)/(MaxAvail-MinAvail);
+						services.get(key).set(i, value);
+					}
+					}else if(key.equals("Rating")) {
+						for (int i = 0; i < services.get(key).size(); i++) {
+							if(MaxRating==MinRating) {
+								Double value= 0.0;
+								services.get(key).set(i, value);
+							}else {
+								Double value= (services.get(key).get(i)-MinRating)/(MaxRating-MinRating);
+								services.get(key).set(i, value);
+							}
+							
+						}	
+					}else {
+						for (int i = 0; i < services.get(key).size(); i++) {
+							Double value= (MaxPrice-services.get(key).get(i))/(MaxPrice-MinPrice);
+							services.get(key).set(i, value);
+						}
+					}
+				}
+			 System.out.println("services Apres Norm:");
+				for (String key : services.keySet()) {
+					System.out.println(services.get(key));
+				}
+				System.out.println("Vector R Avant:");
+				for (String key : VectorR.keySet()) {
+					System.out.println(VectorR.get(key));
+				}
+				System.out.println("Weight Avant:");
+				for (String key : Weight.keySet()) {
+					System.out.println(Weight.get(key));
+				}
+			/** Normalization of Vector R**/
+				
+			VectorR.put("Availability",( VectorR.get("Availability")-MinAvail)/(MaxAvail-MinAvail) );
+			VectorR.put("Rating", (VectorR.get("Rating")-MinRating)/(MaxRating-MinRating) );
+			VectorR.put("Price", (MaxPrice-VectorR.get("Price"))/(MaxPrice-MinPrice) );
+			
+			/** Normalization of Weight**/
+			Weight.put("Availability", (Weight.get("Availability")-1)/2);
+			Weight.put("Rating",(Weight.get("Rating")-1)/2);
+			Weight.put("Price",(3-Weight.get("Price"))/2);
+			
+			System.out.println("Vector R Apres:");
+			for (String key : VectorR.keySet()) {
+				System.out.println(VectorR.get(key));
+			}
+			System.out.println("Weight Apres:");
+			for (String key : Weight.keySet()) {
+				System.out.println(Weight.get(key));
+			}
+			
+			/** Matrice WD **/
+			for (String key : services.keySet()) {
+				if(key.equals("Availability")) {
+					for (int i = 0; i < services.get(key).size(); i++) {
+						Double value= services.get(key).get(i)-VectorR.get("Availability");
+						services.get(key).set(i, value);
+					}
+					}else if(key.equals("Rating")) {
+						for (int i = 0; i < services.get(key).size(); i++) {
+							Double value= services.get(key).get(i)-VectorR.get("Rating");
+							services.get(key).set(i, value);
+						}	
+					}else {
+						for (int i = 0; i < services.get(key).size(); i++) {
+							Double value= services.get(key).get(i)-VectorR.get("Price");
+							services.get(key).set(i, value);
+						}
+					}
+				}
+			System.out.println("services Apres Sous:");
+			for (String key : services.keySet()) {
+				System.out.println(services.get(key));
+			}
+			
+			/** Matrice WD Multiple Weight**/
+			for (String key : services.keySet()) {
+				if(key.equals("Availability")) {
+					for (int i = 0; i < services.get(key).size(); i++) {
+						Double value= Math.exp((services.get(key).get(i)*Weight.get("Availability"))*(-1));
+						services.get(key).set(i, value);
+					}
+					}else if(key.equals("Rating")) {
+						for (int i = 0; i < services.get(key).size(); i++) {
+							Double value= Math.exp((services.get(key).get(i)*Weight.get("Rating"))*(-1));
+							services.get(key).set(i, value);
+						}	
+					}else {
+						for (int i = 0; i < services.get(key).size(); i++) {
+							Double value= Math.exp((services.get(key).get(i)*Weight.get("Price"))*(-1));
+							services.get(key).set(i, value);
+						}
+					}
+				}
+			
+			/** Some WD **/
+			Map<String,Double> WD= new HashMap<String,Double>();
+			int i=0;
+			for (JSONObject jsonObject : ListServices) {
+				JSONObject generalinfo= (JSONObject) jsonObject.get("General Information");
+			String title=(String)generalinfo.get("ServiceTitle");
+			Double some= services.get("Availability").get(i)+services.get("Rating").get(i)+services.get("Price").get(i);
+			i++;
+			WD.put(title,some );
+			System.out.println(title+"/"+some);
+			}
+			
+			
+			
+			ArrayList<Double>servs=new ArrayList<>();
+			for (String key : WD.keySet()) {
+				servs.add(WD.get(key));
+			}
+			Double Min = Collections.min(servs);
+			System.out.println("Min:"+Min);
+			avai.addAll(services.get("Availability"));
+			/** Max value **/
+			String MinID="";
+			for (String key : WD.keySet()) {
+				if(WD.get(key)<=Min) {
+					Min=WD.get(key);
+					MinID= key;
+				}
+			}
+			
+			System.out.println("ID: "+MinID+" Value: "+Min);
+			JSONObject service= SortedServices.GetService(ListServices, MinID);
+			
+			return service;
+		}
 }
   
    
