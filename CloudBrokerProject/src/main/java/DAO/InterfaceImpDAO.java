@@ -89,22 +89,21 @@ public class InterfaceImpDAO implements InterfaceDAO{
 	public int insertDP(DP DP){
 		int key=0;
 		try {
-			String req7 = "INSERT INTO `deploymentparameters_dp_nffs`(`ServiceTitle`, `ProviderID`, `PaymentModelID`, `SubscriptionFee`, `IntendedUserID`, `LicenseTypeID`, `OpennessID`, `ServiceInterfaceID`, `LocationID`, `Version`, `ServiceURL`, `ShortDescription`, `SLA`, `SlaTokens`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+			String req7 = "INSERT INTO `deploymentparameters_dp_nffs`(`ServiceTitle`, `ProviderID`, `PaymentModelID`, `IntendedUserID`, `LicenseTypeID`, `OpennessID`, `ServiceInterfaceID`, `LocationID`, `Version`, `ServiceURL`, `ShortDescription`, `SLA`, `SlaTokens`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);";
 			PreparedStatement preparedStatement = connection.prepareStatement(req7,Statement.RETURN_GENERATED_KEYS);			
 			preparedStatement.setString(1, DP.getServiceTitle());
 			preparedStatement.setString(2, DP.getProviderName());
 			preparedStatement.setString(3, DP.getPaymentModelID());
-			preparedStatement.setString(4, DP.getSubscriptionFee());
-			preparedStatement.setString(5, DP.getIntendedUserID());
-			preparedStatement.setString(6, DP.getLicenseTypeID());
-			preparedStatement.setString(7, DP.getOpennessID());
-			preparedStatement.setString(8, DP.getServiceInterfaceID());
-			preparedStatement.setString(9, DP.getLocationID());
-			preparedStatement.setString(10, DP.getVersion());
-			preparedStatement.setString(11, DP.getServiceURL());
-			preparedStatement.setString(12, DP.getShortDescription());
-			preparedStatement.setString(13, DP.getsLA());
-			preparedStatement.setString(14, DP.getsLATokens());
+			preparedStatement.setString(4, DP.getIntendedUserID());
+			preparedStatement.setString(5, DP.getLicenseTypeID());
+			preparedStatement.setString(6, DP.getOpennessID());
+			preparedStatement.setString(7, DP.getServiceInterfaceID());
+			preparedStatement.setString(8, DP.getLocationID());
+			preparedStatement.setString(9, DP.getVersion());
+			preparedStatement.setString(10, DP.getServiceURL());
+			preparedStatement.setString(11, DP.getShortDescription());
+			preparedStatement.setString(12, DP.getsLA());
+			preparedStatement.setString(13, DP.getsLATokens());
 			System.out.println(preparedStatement);
 			preparedStatement.executeUpdate();
 			
@@ -115,7 +114,7 @@ public class InterfaceImpDAO implements InterfaceDAO{
 				System.out.println("Creating user failed , no ID obtained !!");
 			}
 		} catch (SQLException e) {
-		//	printSQLException(e); 
+			printSQLException(e); 
 			}
 		return key;
 	}
@@ -435,7 +434,7 @@ public static String authenticateAdmin(String Username, String password) {
 			
 			
 		} catch (SQLException e) {
-		//	printSQLException(e); 
+			printSQLException(e); 
 			}
 		
 		
@@ -443,18 +442,16 @@ public static String authenticateAdmin(String Username, String password) {
 	public static ArrayList<DP> GetServices(int idprovider) {
 		ArrayList<DP> services = new ArrayList<DP>();
 		try {
-			String req15 = "SELECT `ServiceTitle`, `SubscriptionFee`, `Version` FROM `deploymentparameters_dp_nffs` WHERE  ProviderID='"+idprovider+"'";
+			String req15 = "SELECT `ServiceTitle`, `Version` FROM `deploymentparameters_dp_nffs` `deploymentparameters_dp_nffs` WHERE  ProviderID='"+idprovider+"'";
 			PreparedStatement preparedStatement = connection.prepareStatement(req15);
 			System.out.println(preparedStatement);
 			preparedStatement.executeQuery();
 			ResultSet r1 =  preparedStatement.executeQuery(req15);
 			while(r1.next()){
-				 String titre = r1.getString("ServiceTitle");
-				 String price = r1.getString("SubscriptionFee");
+				 String titre = r1.getString("ServiceTitle"); 
 				 String version = r1.getString("Version");
 				 DP dp = new DP();
 				 dp.setServiceTitle(titre);
-				 dp.setSubscriptionFee(price);
 				 dp.setVersion(version);
 				 services.add(dp);
 			}

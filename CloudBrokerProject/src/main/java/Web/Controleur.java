@@ -9,6 +9,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
@@ -26,6 +27,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.semanticweb.owlapi.model.OWLException;
+
+import com.github.jsonldjava.shaded.com.google.common.util.concurrent.Service;
 
 import DAO.InterfaceImpDAO;
 import DAO.InterfaceImpDAOntologie;
@@ -274,14 +277,12 @@ public class Controleur extends HttpServlet {
 		
 	        DP dp = new DP();		
 			String title = request.getParameter("title");
-			String fee = request.getParameter("fee");
 			String version = request.getParameter("version");
 			String description = request.getParameter("description");
 			String url = request.getParameter("url");
 			String impor = request.getParameter("import");	
 			dp.setServiceTitle(title);
 			dp.setProviderName(String.valueOf(idprovider));	
-			dp.setSubscriptionFee(fee);
 			dp.setsLA(impor);
 			dp.setVersion(version);
 			dp.setServiceURL(url);
@@ -414,8 +415,63 @@ public class Controleur extends HttpServlet {
 		
 		}
 			
-	
 		
+		 /*****************DescriptionQueryAPI.php ******************/
+       if(path.equals("/DescriptionQueryAPI.php")) {
+			
+			String FF= request.getParameter("user_message");
+			FFQuery input = new FFQuery ();
+			input.setFF(FF);
+			try {
+				JadeGateway.execute(new Behaviour(){
+					private boolean finished = false;
+					public void onStart() {
+						try {
+						ACLMessage msg = new ACLMessage(ACLMessage.CFP);
+				    	AID agent = new AID("AgentFournisseur",AID.ISLOCALNAME);
+				    	msg.addReceiver(agent);
+				    	input.setAid(myAgent.getAID());
+					    msg.setContentObject(input);
+						myAgent.send(msg);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					  }
+
+					@Override
+				    public void action() {  	
+				  ACLMessage res= myAgent.receive();
+				  if(res!= null) {
+					  switch (res.getPerformative()) {
+						case ACLMessage.CFP:
+							String FF = (String)res.getContent();
+						    Cookie cookie = new Cookie("FF",FF);
+					    	response.addCookie(cookie);
+					    	System.out.println(FF);
+							break;}
+					 
+					  finished= true;
+				      }
+					    else {
+					      block();
+					    }
+					  }
+					@Override
+					public boolean done() {
+						return finished;
+					}
+					 
+					});
+			} catch (StaleProxyException e) {
+				e.printStackTrace();
+			} catch (ControllerException e) {
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			System.out.println("Im done");
+			    request.getRequestDispatcher("ApiProvider.jsp").forward(request, response);
+}
                 /******************DescriptionQuery.php ******************/	
 		 if(path.equals("/DescriptionQuery.php")) {
 			
@@ -548,7 +604,6 @@ public class Controleur extends HttpServlet {
 	               //Read JSON file
 	                Object obj = jsonParser.parse(reader);
 	                ListServices = (ArrayList<JSONObject>) obj;
-	                //System.out.println(Dictionnary);
 	  
 	             } catch (IOException e) {
 	                e.printStackTrace();
@@ -573,16 +628,8 @@ public class Controleur extends HttpServlet {
 			response.sendRedirect("ConnexionUser.jsp"); }
 
 	}
-		/******************update.php ******************/	
-	else if(path.equals("/update.php")) {
-		UpdateKeyWords up = new UpdateKeyWords();
-		try {
-			up.UpdateKeywords();
-		} catch (OWLException | IOException e) {
-			e.printStackTrace();
-		}
-		response.sendRedirect("update.jsp");
-	}
+
+/****************** Dashboard *********/
 	else if(path.equals("/Home.php")) {
 		// get services of provider actuel
 		
@@ -593,57 +640,223 @@ public class Controleur extends HttpServlet {
     request.getRequestDispatcher("Home.jsp").forward(request, response);
 	}
 		 
-		 /*** APIQuery.php***/
+ /********************* Ajouter with API**************************/
     else if(path.equals("/ApiQuery.php")){
-    	URL url = new URL(path);
-		HttpURLConnection conn= (HttpURLConnection) url.openConnection();
-		conn.setRequestMethod("GET");
-		conn.connect();
-		
-		// Check if connect is made 
-		int responseCode = conn.getResponseCode();
-		
-		//200 ok
-		if(responseCode!=200) {
-			throw new RuntimeException("HttpRespondeCode: "+responseCode);
-		}else {
-			StringBuilder information= new StringBuilder();
-			Scanner scanner = new Scanner(url.openStream());
-			while(scanner.hasNext()) {
-				information.append(scanner.nextLine());
-			}
-			scanner.close();
-			System.out.println(information);
-			try (FileWriter file = new FileWriter("C:\\Users\\pc-click\\Desktop\\api.json",false)) {
-	            //We can write any JSONArray or JSONObject instance to the file
+    	String pathurl= request.getParameter("uri").toString();
+    	URL url = new URL(pathurl);
+    	JSONObject service = new JSONObject();
+    	
+		try {
+			HttpURLConnection conn= (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("GET");
+			conn.connect();
+			// Check if connect is made 
+			int responseCode = conn.getResponseCode();
+			
+			//200 ok
+			if(responseCode!=200) {
+				throw new RuntimeException("HttpRespondeCode: "+responseCode);
+			}else {
+				StringBuilder information= new StringBuilder();
+				Scanner scanner = new Scanner(url.openStream());
+				while(scanner.hasNext()) {
+					information.append(scanner.nextLine());
+				}
+				scanner.close();
+				//System.out.println(information);
+				try (FileWriter file = new FileWriter("C:\\Users\\pc-click\\Desktop\\api.json",false)) {
+		            //We can write any JSONArray or JSONObject instance to the file
+					
+				    file.write(String.valueOf(information));
+			        file.flush();	
+		            file.close();
+		 
+		        } catch (IOException e) {
+		            e.printStackTrace();
+		        }
 				
-			    file.write(String.valueOf(information));
-		        file.flush();	
-	            file.close();
-	 
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
-			ArrayList<JSONObject> ListServices = new ArrayList<JSONObject>();
-			JSONParser parse = new JSONParser();
-			try (FileReader reader = new FileReader("C:\\Users\\pc-click\\Desktop\\api.json"))
-            {
-               //Read JSON file
-                Object obj = parse.parse(reader);
-                ListServices = (ArrayList<JSONObject>) obj;
-                System.out.println(ListServices);
-             } catch (IOException e) {
-                e.printStackTrace();
-             } catch (ParseException e) {
-                e.printStackTrace();
-             }
-			
-			//JSON
+				JSONParser parse = new JSONParser();
+				
+				try (FileReader reader = new FileReader("C:\\Users\\pc-click\\Desktop\\api.json"))
+	            {
+	               //Read JSON file
+	                Object obj = parse.parse(reader);
+	                service = (JSONObject) obj;  
+	                
+	             } catch (IOException e) {
+	            	 e.printStackTrace();
+	             } catch (ParseException e) {
+	                e.printStackTrace();
+	             }
+				
+				DP dp = new DP();
+				final JSONObject servicefi = service;
+				try {
+					JadeGateway.execute(new Behaviour(){
+						private boolean finished = false;
+						public void onStart() {
+							try {
 							
-			
+							ACLMessage msg = new ACLMessage(ACLMessage.CFP);
+					    	AID agent = new AID("AgentTraitementAPI",AID.ISLOCALNAME);
+					    	msg.addReceiver(agent);
+					    	System.out.println(servicefi);
+						    msg.setContentObject(servicefi);
+							myAgent.send(msg);
+
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						  }
+
+						@Override
+					    public void action() {  	
+							ACLMessage res= myAgent.receive();
+							  if(res!= null) {
+								  switch (res.getPerformative()) {
+									case ACLMessage.ACCEPT_PROPOSAL:
+						  System.out.println("Im APITraitement");
+						  JSONObject service= new JSONObject();
+							
+							try {
+								service = (JSONObject)res.getContentObject();
+								System.out.println("Accept from APITraitement");
+								} catch (UnreadableException e1) {
+									e1.printStackTrace();
+								}
+							
+					    	QoS qos= new QoS();
+					    	qos.setAvailability(Integer.valueOf(service.get("availability").toString()));
+					    	System.out.println(service.get("rating").toString());
+					    	System.out.println(Double.valueOf(service.get("rating").toString()));
+					    	qos.setRating(Double.valueOf(service.get("rating").toString()));
+					    	qos.setPrice(Double.valueOf(service.get("price").toString()));
+					    	qos.setID(imp.insertQoS(qos));
+							idqos = qos.getID();
+							
+							license_type lc = new license_type();
+							lc.setProprietary("");
+							lc.setOpenSource("");	
+							int IDLicenseType=(imp.getIDLicenseType(lc));
+							
+							intended_user iu = new intended_user();
+							JSONObject intended= (JSONObject)service.get("Intended_User");
+							String Individuals = intended.get("Individuals").toString();
+							String Organizations = intended.get("Organizations").toString();		
+							iu.setIndividuals(Individuals);
+							iu.setOrganizations(Organizations);	
+							int IDintended_user=(imp.getIDIntendedUser(iu));
+							
+							service_interface si = new service_interface();	
+							si.setWebPortal("");
+							si.setCLI("");
+							si.setAPI("");
+							int IDservice_interface=(imp.getIDServiceInterface(si));
+							
+							
+							payement pa = new payement();
+							pa.setFree("");
+							pa.setPerUnit("");
+							pa.setSubscription("");
+							pa.setTiered("");
+							int IDpayement=(imp.getIDPayement(pa));
+							
+							
+							openness op = new openness();
+							op.setLimitedLevel("");
+							op.setBasicLevel("");
+							op.setCompleteLevel("");
+							op.setModerateLevel("");
+							int IDopenness=(imp.getIDOpenness(op));
+							
+									
+							location loc = new location();
+							loc.setAfrica("");
+							loc.setAsia("");
+							loc.setAustrallia("");
+							loc.setEurope_UK("");
+							loc.setUS_Canada("");
+							loc.setMiddleeastNorthAfrica("");
+							int IDlocation=(imp.getIDLocation(loc));
+						
+					        		
+							dp.setServiceTitle(service.get("Service_Title").toString());
+							dp.setProviderName(String.valueOf(idprovider));	
+							dp.setsLA("");
+							dp.setVersion(service.get("Version").toString());
+							dp.setServiceURL(service.get("URL").toString());
+							dp.setShortDescription(service.get("Short_Description").toString());
+							dp.setPaymentModelID(String.valueOf(IDpayement));		
+							dp.setIntendedUserID(String.valueOf(IDintended_user));
+							dp.setLicenseTypeID(String.valueOf(IDLicenseType));
+							dp.setLocationID(String.valueOf(IDlocation));	
+							dp.setOpennessID(String.valueOf(IDopenness));
+							dp.setServiceInterfaceID(String.valueOf(IDservice_interface));
+							
+							ACLMessage msg = new ACLMessage(ACLMessage.CFP);
+					    	AID agent = new AID("AgentTraitementTexte",AID.ISLOCALNAME);
+					    	msg.addReceiver(agent);
+						    msg.setContent(service.get("Short_Description").toString());
+							myAgent.send(msg);
+							break;
+							case ACLMessage.CFP:
+								ArrayList<String> FinalKeywords = new ArrayList<String>();
+									try {
+										FinalKeywords = (ArrayList<String>)res.getContentObject();
+									} catch (UnreadableException e) {
+										e.printStackTrace();
+									}
+									System.out.println(FinalKeywords);
+									String SlaTokens ="";
+									for (int i = 0; i < FinalKeywords.size(); i++) {
+										if(SlaTokens.equals("")) {
+											SlaTokens= SlaTokens+FinalKeywords.get(i);
+											
+										}else {
+											SlaTokens= SlaTokens+","+FinalKeywords.get(i);
+										}
+										
+									}
+									
+									System.out.println("SLATOKENS: "+SlaTokens);
+									dp.setsLATokens(SlaTokens);
+									dp.setID(imp.insertDP(dp));
+									iddp = dp.getID();	
+										
+										tax_accounting acc = new tax_accounting();
+										acc.setDeploymentParameters_DP_NFFsID(String.valueOf(iddp));
+										acc.setQoSID(String.valueOf(idqos));
+										imp.insertTax_Acc(acc);
+										System.out.println("Insertion with ssucess");
+										System.out.println("Im done");
+										 finished = true;
+										break;}
+								 
+								  }else {
+						      block();
+						    }
+						  }
+						@Override
+						public boolean done() {
+							return finished;
+						}
+						 
+						});
+				} catch (ControllerException | InterruptedException e) {
+					e.printStackTrace();
+				}
+				
+		}
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		System.out.println("Im done 2");
+		request.getRequestDispatcher("Home.php").forward(request, response);
 			
 		}
-	}
+		 
+	/****************** Selection ****************************/
     else if(path.equals("/Selection.php")) {
     	String Availability = request.getParameter("AvailabilityV");
 		String Rating = request.getParameter("RatingV");

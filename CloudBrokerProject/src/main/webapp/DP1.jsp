@@ -39,11 +39,6 @@
 								<span class="error" id="title"></span>
 							</div>
 							<div class="boite">
-								<label for="">SubscriptionFee :</label>
-								<input type="text" name="fee" />
-								<span class="error" id="fee"></span>
-							</div>
-							<div class="boite">
 								<label for="">Version :</label>
 								<input type="text" name="version" />
 								<span class="error" id="version"></span>

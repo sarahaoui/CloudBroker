@@ -5,7 +5,6 @@ public class DP {
  private int ID;
  private String serviceTitle;
  private String providerName;
- private String subscriptionFee;
  private String sLA;
  private String version;
  private String serviceURL;
@@ -17,7 +16,7 @@ public class DP {
  private String locationID;
  private String opennessID;
  private String serviceInterfaceID;
-
+ private String price;
  
  
  
@@ -25,6 +24,22 @@ public class DP {
  public DP() {
 	 super();
 	}
+
+
+
+
+
+public String getPrice() {
+	return price;
+}
+
+
+
+
+
+public void setPrice(String price) {
+	this.price = price;
+}
 
 
 
@@ -73,25 +88,6 @@ public String getProviderName() {
 public void setProviderName(String providerName) {
 	this.providerName = providerName;
 }
-
-
-
-
-
-public String getSubscriptionFee() {
-	return subscriptionFee;
-}
-
-
-
-
-
-public void setSubscriptionFee(String subscriptionFee) {
-	this.subscriptionFee = subscriptionFee;
-}
-
-
-
 
 
 public String getsLA() {

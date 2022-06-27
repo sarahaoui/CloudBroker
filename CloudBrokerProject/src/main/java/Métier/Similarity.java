@@ -118,7 +118,6 @@ public class Similarity {
 		}
 		 Double size= Double.valueOf(CommunSynset.size());
 		 int size2= max(Concept1.size(),Concept2.size());
-		 System.out.println(size+"/"+size2);
 		 Double Similarity =size/size2 ;
 		return Similarity; 
 	 }

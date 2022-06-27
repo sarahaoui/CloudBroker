@@ -59,7 +59,7 @@
         </div>
         <ul class="sub-menu">
           <li><a class="link_name" href="#">Add</a></li>
-          <li><a href="ApiProvider.jsp">Add with API</a></li>
+          <li><a href="DescriptionProviderAPI.jsp">Add with API</a></li>
           <li><a href="DescriptionProvider.jsp">Add without API</a></li>
         </ul>
       </li>
@@ -189,7 +189,6 @@
 							<thead>
 								<tr>
 									<td>Name</td>
-									<td>Price</td>
 									<td>Version</td>
 									<td>Status</td>
 								</tr>
@@ -198,7 +197,6 @@
 							<c:forEach items="${model.services}" var="p">
 							<tr>
 							<td>${p.serviceTitle}</td>
-							<td>${p.subscriptionFee}</td>
 							<td>${p.version}</td>
 							<td>Delivered</td>
 							</tr>

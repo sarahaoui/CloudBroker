@@ -34,6 +34,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 
 import Metier.entities.FFInstance;
 import Metier.entities.QoS;
+import Métier.BabelNetConnection;
 import Métier.Matching;
 import Métier.Similarity;
 import Métier.SortedServices;
@@ -649,7 +650,7 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 					Double similaritykeys = 0.0;
 					String FF = child.replace("_", " ");
 					for (String key : sysnsetTerm.keySet()) {
-						 similaritykeys=similaritykeys+Similarity.diceCoefficient(key, FF);
+						 similaritykeys=similaritykeys+Similarity.calculateJaccardSimilarity(key, FF);
 					}
 					Double similaritySim = similaritykeys/ sysnsetTerm.size();
 	             
@@ -696,7 +697,7 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 					Double P1=Math.exp(similaritySim);
 					Double P2 = Math.exp(similarityLex);
 					Double P3 = Math.exp(similarityStru);
-					//System.out.println("Child: "+child+"SimSyn: "+similaritySim+"SimLex: "+similarityLex+"SimStru: ");
+					System.out.println("Child: "+child+" SimSyn: "+similaritySim+" SimLex: "+similarityLex+" SimStru: "+similarityStru);
 					//System.out.println("P1: "+P1+"P2: "+P2);
 					Double Similarity = (P1* similaritySim+P2*similarityLex+P3*similarityStru)/(P1+P2+P3);
 					similarityChildren.put(child, Similarity);
@@ -932,7 +933,111 @@ public class InterfaceImpDAOntologie implements InterfaceDAOntologie {
 			
 			return service;
 		}
-}
+	 
+	 
+	 public static void APISimilarity(String key1, ArrayList<String> Description, HashMap<String,Double> similarityChildren ) {
+		 ArrayList<String> synonyms1= new ArrayList<String>();
+		
+		 for (int i = 0; i < Description.size(); i++) {
+			 
+			 ArrayList<String> synonyms2= new ArrayList<String>();
+			 if(Description.get(i).contains("_")) {
+				  String[] parts= Description.get(i).split("_");	
+				  for (int j = 0; j < parts.length; j++) {
+					  synonyms2.addAll(synonyms2.size(), WordNetConnection.Synonyms(parts[j]));
+				}
+			  }else {
+				   synonyms2.addAll(WordNetConnection.Synonyms(Description.get(i))) ; 
+				  
+			  }
+		
+		 
+		 if(key1.contains("_")) {
+			  String[] parts= key1.split("_");	
+			  for (int j = 0; j < parts.length; j++) {
+				  synonyms1.addAll(synonyms1.size(), WordNetConnection.Synonyms(parts[j]));
+			}
+		  }else {
+			   synonyms1.addAll(WordNetConnection.Synonyms(key1)) ; 
+			  
+		  }
+		 
+
+	/*** Calculate Similarity ***/	
+		// Syntaxique Similarity
+		Double similaritykeys = 0.0;	
+		String Key1 = key1.replace("_", " ");		
+		String Key2 = Description.get(i).replace("_", " ");
+		 similaritykeys=Similarity.diceCoefficient(Key1, Key2);
+
+			// Lexical Similarity
+			Double similarityLex = 0.0;
+			similarityLex =Similarity.LexicalSimilarity(synonyms2,synonyms1) ;
+			
+			
+			
+			
+			//Structurel Similarity
+			Double similarityStru =0.0;
+			ArrayList<Double>Sim= new ArrayList<Double>();
+			if(key1.contains("_") && Description.get(i).contains("_")) {
+				String[] parts1= key1.split("_");
+				String[] parts2= Description.get(i).split("_");	
+				for (int j = 0; j < parts1.length; j++) {
+					for (int k = 0; k< parts2.length; k++) {
+						Double Str=compute(parts2[k], parts1[j]);
+						if(Str<=1) {
+							Sim.add(Str);	
+						}
+					}	
+				}
+				 similarityStru =max(Sim);	
+			}else if(key1.contains("_")) {
+				String[] parts1= key1.split("_");	
+				for (int j = 0; j < parts1.length; j++) {
+					
+						Double Str=compute(Description.get(i), parts1[j]);
+						if(Str<=1) {
+							Sim.add(Str);	
+						
+					}	
+				}
+				 similarityStru =max(Sim);	}
+			else if(Description.get(i).contains("_")) {
+				String[] parts1= Description.get(i).split("_");	
+				for (int j = 0; j < parts1.length; j++) {
+					
+						Double Str=compute(key1, parts1[j]);
+						if(Str<=1) {
+							Sim.add(Str);	
+					}	
+				}
+				 similarityStru =max(Sim);	}
+			else  {
+				Double Str=compute(key1, Description.get(i));
+				if(Str<=1) {
+					 similarityStru =Str;			
+			}
+		}
+			
+			
+			
+			
+			similarityStru =(int)(Math.round(similarityStru *10000000))/10000000.0;
+			similaritykeys=(int)(Math.round(similaritykeys *10000000))/10000000.0;
+			similarityLex =(int)(Math.round(similarityLex *10000000))/10000000.0;
+			// Semantique Similarity 
+			Double P1=Math.exp(similaritykeys);
+			Double P2 = Math.exp(similarityLex);
+			Double P3 = Math.exp(similarityStru);
+			Double Similarity = (P1* similaritykeys+P2*similarityLex+P3*similarityStru)/(P1+P2+P3);
+			similarityChildren.put(Description.get(i), Similarity);
+		 }
+	 }
+	 } 
+		 
+	 
+
   
    
 

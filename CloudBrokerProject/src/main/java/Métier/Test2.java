@@ -6,17 +6,24 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Scanner;
 import java.util.Set;
 
 import javax.servlet.http.Cookie;
 
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.semanticweb.owlapi.model.OWLException;
+
 
 import DAO.InterfaceImpDAOntologie;
 
@@ -24,84 +31,70 @@ public class Test2 {
 
 	public static void main(String[] args) {
 		
-		System.out.println("************UpdateKeywords**************");
-		
-		/*UpdateKeyWords up = new UpdateKeyWords();
+		URL url;
 		try {
-			up.UpdateKeywords();
-		} catch (OWLException | IOException e) {
-			e.printStackTrace();
-		}*/
-		
-		System.out.println("************Fournisseur Description**************");
-		
-		/*String Description= "We describe TriNet as our HR solution and we like to call them our mentors - people who help us with our HR processes, accounting, payroll, and all the reporting"
-			+ " and compliance required for our business ... I want to focus on my business and TriNet helps me support "
-			+ "my business plans, and my HR requirements in ways I could have never done. "
-			+ "It's difficult to compete with the big companies and the benefit packages that they offer their employees "
-			+ "and what TriNet allows us to do is level the playing field ...";*/
-		
-		String Description="We generate two streaming signals, one per linguistic version of the audio .both polish and english"
-				+ " broadcast media , the video was edited live according to a pre-scripted narrative ... In addition to live straling services"
-				+ " , we supplied a quality sound system and handled sound editiong. ";
-
-		ArrayList<String> keywords = new ArrayList<String>();
-		ArrayList<String> Tokens = new ArrayList<String>();
-		ArrayList<String> FinalKeywords = new ArrayList<String>();
-
-
-		try {
-			/*** Text Rank ***/
-			keywords=TextRank.sentenceDetect(Description);
-			System.out.println("Keywords: "+keywords);
+			url = new URL("http://localhost:3000/Service");
+			HttpURLConnection conn= (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("GET");
+			conn.connect();
+			// Check if connect is made 
+			int responseCode = conn.getResponseCode();
 			
-			/*** Babelnet Elimination ***/
-			BabelNetConnection.Connection(keywords);
-			
-			/*** Tokenization And POS ***/
-			Tokens= Tokenization.TokanizationTag(keywords);
-			
-			/*** WordNet ***/
-			WordNetConnection.WordnetConnection(Tokens);
-			Set<String> set= new HashSet<>(Tokens);
-			Tokens.clear();
-			Tokens.addAll(set);
-			
-			/*** Babelnet Verification ***/
-			FinalKeywords=BabelNetConnection.Connection2(Tokens);
-			System.out.println("FinalKeywords: ");
-			System.out.println(FinalKeywords);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		/*** Get CloudDictionary ***/
-			    JSONParser jsonParser = new JSONParser();
-		    JSONArray Dictionnary = new JSONArray();
-
-			    try (FileReader reader = new FileReader("C:\\Users\\pc-click\\Desktop\\CloudDictionary.json"))
-		    {
-		       //Read JSON file
-		        Object obj = jsonParser.parse(reader);
-		        Dictionnary = (JSONArray) obj;
-
-		     } catch (IOException e) {
-		        e.printStackTrace();
-		     } catch (ParseException e) {
-		        e.printStackTrace();	     }
-
-		   /*** Matching Keywords ***/
-		    ArrayList<String> VisitedNode= new ArrayList<String>();
-		    ArrayList<String> matchedChildren= new ArrayList<String>();
-		    try {
-				InterfaceImpDAOntologie.BFSbasedMatchingKeywords("OFFs", FinalKeywords, Dictionnary, VisitedNode, matchedChildren);
-			} catch (OWLException e) {
-				e.printStackTrace();
-			}	
-		    System.out.println("FFS Matched:"+matchedChildren);
-				
+			//200 ok
+			if(responseCode!=200) {
+				throw new RuntimeException("HttpRespondeCode: "+responseCode);
+			}else {
+				StringBuilder information= new StringBuilder();
+				Scanner scanner = new Scanner(url.openStream());
+				while(scanner.hasNext()) {
+					information.append(scanner.nextLine());
+				}
+				scanner.close();
+				//System.out.println(information);
+				try (FileWriter file = new FileWriter("C:\\Users\\pc-click\\Desktop\\api.json",false)) {
+		            //We can write any JSONArray or JSONObject instance to the file
+					
+				    file.write(String.valueOf(information));
+			        file.flush();	
+		            file.close();
 		 
-	
+		        } catch (IOException e) {
+		            e.printStackTrace();
+		        }
+				JSONObject service = new JSONObject();
+				JSONParser parse = new JSONParser();
+				
+				try (FileReader reader = new FileReader("C:\\Users\\pc-click\\Desktop\\api.json"))
+	            {
+	               //Read JSON file
+	                Object obj = parse.parse(reader);
+	                service = (JSONObject) obj;  
+	                
+	             } catch (IOException e) {
+	            	 e.printStackTrace();
+	             } catch (ParseException e) {
+	                e.printStackTrace();
+	             }
+				
+				Set<String> keys=  service.keySet();
+				//System.out.println(keys);
+				Iterator keysiter= keys.iterator();
+                
+				while(keysiter.hasNext()) {
+					String key = keysiter.next().toString();
+					if(service.get(key) instanceof JSONObject) {  // to JSONObject
+						System.out.println("JSONObject:" +service.get(key));
+					}else {
+						System.out.println("Value: "+service.get(key));  // value type
+					}	
+				}
+		}
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		
-	}
+		
+}
 }
