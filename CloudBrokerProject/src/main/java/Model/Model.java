@@ -13,6 +13,24 @@ public class Model {
 	private List<DP> services= new ArrayList<DP>();
 	private ArrayList<JSONObject> rankedCatServices = new ArrayList<JSONObject>();
 	JSONObject service = new JSONObject();
+	private boolean showpop = false;
+    private String ff;
+    
+	public String getFf() {
+		return ff;
+	}
+
+	public void setFf(String ff) {
+		this.ff = ff;
+	}
+
+	public boolean isShowpop() {
+		return showpop;
+	}
+
+	public void setShowpop(boolean showpop) {
+		this.showpop = showpop;
+	}
 
 	public List<DP> getServices() {
 		return services;

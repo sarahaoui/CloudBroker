@@ -474,7 +474,7 @@ public class Controleur extends HttpServlet {
 }
                 /******************DescriptionQuery.php ******************/	
 		 if(path.equals("/DescriptionQuery.php")) {
-			
+			 Model model = new Model();
 			String FF= request.getParameter("user_message");
 			FFQuery input = new FFQuery ();
 			input.setFF(FF);
@@ -504,6 +504,8 @@ public class Controleur extends HttpServlet {
 						    Cookie cookie = new Cookie("FF",FF);
 					    	response.addCookie(cookie);
 					    	System.out.println(FF);
+					    	FF.replace("_", " ");
+					    	model.setFf(FF);
 							break;}
 					 
 					  finished= true;
@@ -525,8 +527,13 @@ public class Controleur extends HttpServlet {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			
+			
+	        model.setShowpop(true);
+	        request.setAttribute("model", model);
 			System.out.println("Im done");
-			    request.getRequestDispatcher("DP1.jsp").forward(request, response);
+			request.getRequestDispatcher("DescriptionProvider.jsp").forward(request, response);
+			
 			   
 			
 			
