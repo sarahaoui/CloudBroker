@@ -6,6 +6,7 @@ import java.util.List;
 import org.json.simple.JSONObject;
 
 import Metier.entities.DP;
+import Metier.entities.Service;
 
 
 public class Model {
@@ -15,7 +16,16 @@ public class Model {
 	JSONObject service = new JSONObject();
 	private boolean showpop = false;
     private String ff;
+    private ArrayList<Service> servicesorder= new ArrayList<Service>();
     
+	public ArrayList<Service> getServicesorder() {
+		return servicesorder;
+	}
+
+	public void setServicesorder(ArrayList<Service> servicesorder) {
+		this.servicesorder = servicesorder;
+	}
+
 	public String getFf() {
 		return ff;
 	}

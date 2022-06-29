@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import Metier.entities.DP;
 
 import Metier.entities.QoS;
-
+import Metier.entities.Service;
 import Metier.entities.intended_user;
 import Metier.entities.license_type;
 import Metier.entities.location;
@@ -282,8 +282,65 @@ public class InterfaceImpDAO implements InterfaceDAO{
 			}
 		return key;
 	}
-
-
+	
+	public static int insertRating(int idService, int idUser,Double rating){
+		int key=0;
+		try {
+			String req4 = "INSERT INTO `rating`(`IDUser`, `IDService`, `rating`) VALUES (?,?,?);";
+			PreparedStatement preparedStatement = connection.prepareStatement(req4,Statement.RETURN_GENERATED_KEYS);			
+			preparedStatement.setInt(1, idUser);
+			preparedStatement.setInt(2, idService);
+			preparedStatement.setDouble(3, rating);
+			System.out.println(preparedStatement);
+			preparedStatement.executeUpdate();
+			
+		} catch (SQLException e) {
+			printSQLException(e); 
+			}
+		return key;
+	}
+	public static Double CalculateRating(int idService){
+		Double Rating=0.0;
+		Double ratings=0.0;
+		 try {
+				String req13 = "SELECT `rating` FROM `rating` WHERE `IDService`="+idService+"";
+				PreparedStatement preparedStatement = connection.prepareStatement(req13);
+    			ResultSet r1 =  preparedStatement.executeQuery(req13);
+    			int Count=0;
+    			while(r1.next()){
+    				Count++;
+    				 ratings = ratings+ r1.getDouble("rating");
+    			}
+    			Rating = ratings/Count;
+    			Rating =(int)(Math.round(Rating*100))/100.0;
+				
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+				}
+		 return Rating;
+	}
+	public static void UpdateRating(int idService, Double rating){
+		int qos=0;
+		 try {
+				String req13 = "SELECT `QoSID` FROM `tax_accounting` WHERE `DeploymentParameters_DP_NFFsID` ="+idService+"";
+				PreparedStatement preparedStatement = connection.prepareStatement(req13);
+    			ResultSet r1 =  preparedStatement.executeQuery(req13);
+    			while(r1.next()){
+    				 qos= r1.getInt("QoSID");
+    			}	
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+				}
+		 try {
+				String req4 = "UPDATE `rt_nffs` SET `rating`="+rating+" WHERE `QoSID`="+qos+";";
+				PreparedStatement preparedStatement = connection.prepareStatement(req4,Statement.RETURN_GENERATED_KEYS);			
+				preparedStatement.executeUpdate();
+				
+			} catch (SQLException e) {
+				printSQLException(e); 
+				}
+		 
+	}
     ////////////////////////////////////////////////////////////////		
  public static String authenticateProvider(String Nom, String Motdepasse) {
 	 String msg = null;	 
@@ -498,4 +555,90 @@ public static String authenticateAdmin(String Username, String password) {
 		return services;
 		
 	}
+	public static ArrayList<Integer> GetServicesOrderd(int idUser) {
+		ArrayList<Integer> services = new ArrayList<Integer>();
+		try {
+			String req15 = "SELECT `IDService` FROM `order` WHERE `IDUser`="+idUser+"";
+			PreparedStatement preparedStatement = connection.prepareStatement(req15);
+			System.out.println(preparedStatement);
+			preparedStatement.executeQuery();
+			ResultSet r1 =  preparedStatement.executeQuery(req15);
+			while(r1.next()){
+				 Integer id= r1.getInt("IDService"); 
+				 services.add(id);
+			}
+		} catch (SQLException e) {
+			printSQLException(e); }
+		
+	
+		return services;
+		
+	}
+	
+	public static ArrayList<Service> GetService( ArrayList<Integer> ids) {
+		ArrayList<Service> services = new ArrayList<Service>();
+		for (int i = 0; i < ids.size(); i++) {
+			String title="";
+			int providerID=0;
+			String ProviderName="";
+			int qos =0;
+			Double rating =0.0;
+			try {
+				String req15 = "SELECT `ServiceTitle`, `ProviderID` FROM `deploymentparameters_dp_nffs` WHERE `DeploymentParameters_DP_NFFsID`="+ids.get(i)+"";
+				PreparedStatement preparedStatement = connection.prepareStatement(req15);
+				System.out.println(preparedStatement);
+				preparedStatement.executeQuery();
+				ResultSet r1 =  preparedStatement.executeQuery(req15);
+				while(r1.next()){
+					 title= r1.getString("ServiceTitle"); 
+					 providerID= r1.getInt("ProviderID"); 
+				}
+			} catch (SQLException e) {
+				printSQLException(e); }
+			try {
+				String req15 = "SELECT `Nom` FROM `provider` WHERE `ID`="+providerID+"";
+				PreparedStatement preparedStatement = connection.prepareStatement(req15);
+				System.out.println(preparedStatement);
+				preparedStatement.executeQuery();
+				ResultSet r1 =  preparedStatement.executeQuery(req15);
+				while(r1.next()){
+					ProviderName= r1.getString("Nom"); 
+				}
+			} catch (SQLException e) {
+				printSQLException(e); }
+			try {
+				String req15 = "SELECT `QoSID` FROM `tax_accounting` WHERE `DeploymentParameters_DP_NFFsID`="+ids.get(i)+"";
+				PreparedStatement preparedStatement = connection.prepareStatement(req15);
+				System.out.println(preparedStatement);
+				preparedStatement.executeQuery();
+				ResultSet r1 =  preparedStatement.executeQuery(req15);
+				while(r1.next()){
+					qos= r1.getInt("QoSID"); 
+				}
+			} catch (SQLException e) {
+				printSQLException(e); }
+			try {
+				String req15 = "SELECT `rating` FROM `rt_nffs` WHERE `QoSID`="+qos+"";
+				PreparedStatement preparedStatement = connection.prepareStatement(req15);
+				System.out.println(preparedStatement);
+				preparedStatement.executeQuery();
+				ResultSet r1 =  preparedStatement.executeQuery(req15);
+				while(r1.next()){
+					rating= r1.getDouble("rating"); 
+				}
+			} catch (SQLException e) {
+				printSQLException(e); }
+			
+			Service s = new Service();
+				s.setFf("Tax accounting");
+				s.setProvoderName(ProviderName);
+				s.setRating(rating);
+				s.setServiceTitle(title);
+				services.add(s);
+		}
+
+		return services;
+		
+	}
+	
 }

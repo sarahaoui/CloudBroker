@@ -15,14 +15,14 @@
       </li>
       
       <li>
-          <a href="UsedServices.jsp">
+          <a href="UsedServices.php">
             <i class='bx bx-folder-open'></i>
             <span class="link_name">Services used</span>
           </a>
          <!--  <i class='bx bxs-chevron-down arrow' ></i> -->
         
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="UsedServices.jsp">Services used</a></li>
+          <li><a class="link_name" href="UsedServices.php">Services used</a></li>
           </ul>
       </li>
   

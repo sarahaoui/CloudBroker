@@ -872,12 +872,37 @@ public class Controleur extends HttpServlet {
 		
 		 /***************RatingService ******/
 		}else if(path.equals("/Rate.php")) {
-			String rating = request.getParameter("RateValue");
+			Model model= new Model();
+			Double rating =Double.valueOf(request.getParameter("RateValue")) ; 
 			String nomService = request.getParameter("ServiceTitle");
 			int id =idprovider;
 			int idService=InterfaceImpDAO.getIDService(nomService);
+			InterfaceImpDAO.insertRating(idService, id, rating);
+			Double ratingService=InterfaceImpDAO.CalculateRating(idService);
+			InterfaceImpDAO.UpdateRating(idService, ratingService);
+			System.out.println("Im done 2");
+	        model.setShowpop(true);
+	        request.setAttribute("model", model);
+			request.getRequestDispatcher("AddRating.jsp").forward(request, response);
 		}
-		 
+		 /***************RatingService ******/
+	else if(path.equals("/AddRating.php")) {
+		String title = request.getParameter("title").toString();
+		Model model = new Model ();
+		model.setFf(title);
+		request.setAttribute("model", model);
+		request.getRequestDispatcher("AddRating.jsp").forward(request, response);
+	}
+		
+		 /***************Used Services ******/
+	else if(path.equals("/UsedServices.php")) {
+		ArrayList<Integer> ids = InterfaceImpDAO.GetServicesOrderd(idprovider);
+		ArrayList<Metier.entities.Service> services = InterfaceImpDAO.GetService(ids);
+		Model model = new Model();
+		model.setServicesorder(services);
+		request.setAttribute("model", model);
+		request.getRequestDispatcher("UsedServices.jsp").forward(request, response);
+	}
 		 /***************OrderService ******/
     else if(path.equals("/orderService.php")) {
     	Model model= new Model();

@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Services used</title>
-<link rel="stylesheet" href="css/ServiceDecouvert.css" />
+<link rel="stylesheet" href="css/UsedServices.css" />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
@@ -29,35 +29,28 @@
 						<tr>
 							<th>Service Title</th>
 							<th>Provider Name</th>
-							<th>Price</th>
 							<th>Rating</th>
-							<th>Availability</th>
 							<th>Functionality</th>
 							<th>Action</th>
 						</tr>
 					</thead>
 					<tbody>
 						
-							<c:forEach items="${model.rankedCatServices}" var="p">  
+							<c:forEach items="${model.servicesorder}" var="p">
 							<tr>
-							<td>
-							${p.get("General Information").get("ServiceTitle")}
-							</td> 
-							<td>${p.get("General Information").get("Provider").get("nom")}</td>
-							<td>${p.get("QoS").get("price")}$</td>
-							<td>${p.get("QoS").get("rating")}/5</td>
-							<td>${p.get("QoS").get("availability")}%</td>
-							<td>${p.get("FF")}</td>
-							<td><a href='AjouterRate.php?title=${p.get("General Information").get("ServiceTitle")}'>Rate</a></td>
+							<td>${p.serviceTitle}</td>
+							<td>${p.provoderName}</td>
+							<td>${p.rating} /5</td>
+							<td>${p.ff}</td>
+						   <td><a href="AddRating.php?title=${p.serviceTitle}">Rate</a></td>
 							</tr>
-						     </c:forEach>
+							</c:forEach>
 							
 							
 					</tbody>
 				</table>
        </div>
 
-</div>
            <!--side bar section-->
 			<%@ include file="MenuUser.jsp" %>
 			
