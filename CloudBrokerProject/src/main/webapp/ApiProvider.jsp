@@ -1,5 +1,6 @@
+<%@ page pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-
 <head>
     <meta charset="UTF-8">
 
@@ -39,13 +40,47 @@
                 </div>
               </form>
     </div>
+   <div class="popup-overlay">
+			<div class="popup-box">
+				<div class="check-container">
+					<ion-icon name="checkmark-outline"></ion-icon>
+				</div>
+				<div class="popup-message-container">
+				<h1>Thank you!</h1>
+					<p>your service has been successfully added</p>
+				</div>
+				<button class="ok-btn">OK</button>
+			</div>
+		</div>
+		
+		<c:if test="${model.showpop == true}">
+		<script>
+		const popbox = document.querySelector('.popup-overlay');
 
+	 popbox.classList.add('active');
+	  
+      </script> 
+		</c:if>
+		
+		<script
+			type="module"
+			src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+		></script>
+		<script
+			nomodule
+			src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+		></script>
     <!--side bar section-->
 
       <%@ include file="Menu.jsp" %>
 
       <!-- Script part-->      
             <script>
+            const okbtn = document.querySelector('.ok-btn');
+    		okbtn.addEventListener('click', () => {
+    			popbox.classList.add('active');
+    			popbox.classList.remove('active');
+    		});
   let arrow = document.querySelectorAll(".arrow");
   for (var i = 0; i < arrow.length; i++) {
     arrow[i].addEventListener("click", (e)=>{

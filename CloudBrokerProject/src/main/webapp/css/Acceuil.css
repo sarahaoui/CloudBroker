@@ -296,6 +296,11 @@ textarea {
 	-ms-transform: translate(-50%);
 	-o-transform: translate(-50%);
 	border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+	align-content: center;
+	justify-content: center;
+	
 }
 .check-container ion-icon {
 	background-color: white;
@@ -314,6 +319,13 @@ textarea {
 	font-weight: 500;
 	margin-bottom: 10px;
 }
+.buttons{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-content: center;
+	width: 400px; 
+}
 .ok-btn , .Yes-btn {
 	cursor: pointer;
 	background: #083e6f;
@@ -325,6 +337,14 @@ textarea {
 	width: 20%;
 	
 }
+.ok-btn{
+	margin-left: -40px;
+	margin-right: 10px;
+}
+.Yes-btn{
+	width: 230%;
+}
+
 span{
 	margin-top: 8px;
 }

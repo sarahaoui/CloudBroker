@@ -1,5 +1,6 @@
 package Web;
 
+import java.awt.Image;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -363,7 +364,7 @@ public class Controleur extends HttpServlet {
 			
 		/******************QoS.php ******************/	
 		}if(path.equals("/QoS.php")) {
-			
+			 Model model = new Model();	
 		QoS QoS = new QoS();
 		
 		Double price =Double.parseDouble(request.getParameter("price")) ;
@@ -411,14 +412,16 @@ public class Controleur extends HttpServlet {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		request.getRequestDispatcher("Home.php").forward(request, response);
+		model.setShowpop(true);
+        request.setAttribute("model", model);
+		request.getRequestDispatcher("QoS.jsp").forward(request, response);
 		
 		}
 			
 		
 		 /*****************DescriptionQueryAPI.php ******************/
        if(path.equals("/DescriptionQueryAPI.php")) {
-			
+    	   Model model = new Model();
 			String FF= request.getParameter("user_message");
 			FFQuery input = new FFQuery ();
 			input.setFF(FF);
@@ -470,7 +473,9 @@ public class Controleur extends HttpServlet {
 				e.printStackTrace();
 			}
 			System.out.println("Im done");
-			    request.getRequestDispatcher("ApiProvider.jsp").forward(request, response);
+			model.setShowpop(true);
+	        request.setAttribute("model", model);
+			    request.getRequestDispatcher("DescriptionProviderAPI.jsp").forward(request, response);
 }
                 /******************DescriptionQuery.php ******************/	
 		 if(path.equals("/DescriptionQuery.php")) {
@@ -504,7 +509,7 @@ public class Controleur extends HttpServlet {
 						    Cookie cookie = new Cookie("FF",FF);
 					    	response.addCookie(cookie);
 					    	System.out.println(FF);
-					    	FF.replace("_", " ");
+					    	FF=FF.replace("_", " ");
 					    	model.setFf(FF);
 							break;}
 					 
@@ -649,6 +654,7 @@ public class Controleur extends HttpServlet {
 		 
  /********************* Ajouter with API**************************/
     else if(path.equals("/ApiQuery.php")){
+    	Model model = new Model();
     	String pathurl= request.getParameter("uri").toString();
     	URL url = new URL(pathurl);
     	JSONObject service = new JSONObject();
@@ -859,10 +865,31 @@ public class Controleur extends HttpServlet {
 			e1.printStackTrace();
 		}
 		System.out.println("Im done 2");
-		request.getRequestDispatcher("Home.php").forward(request, response);
-			
+        model.setShowpop(true);
+        request.setAttribute("model", model);
+		request.getRequestDispatcher("ApiProvider.jsp").forward(request, response);
+		
+		
+		 /***************RatingService ******/
+		}else if(path.equals("/Rate.php")) {
+			String rating = request.getParameter("RateValue");
+			String nomService = request.getParameter("ServiceTitle");
+			int id =idprovider;
+			int idService=InterfaceImpDAO.getIDService(nomService);
 		}
 		 
+		 /***************OrderService ******/
+    else if(path.equals("/orderService.php")) {
+    	Model model= new Model();
+		String nomService = request.getParameter("ServiceTitle");
+		int id =idprovider;
+		int idService=InterfaceImpDAO.getIDService(nomService);
+		InterfaceImpDAO.insertOrder(idService, id);
+		 model.setShowpop(true);
+	        request.setAttribute("model", model);
+			request.getRequestDispatcher("ServiceDetail.jsp").forward(request, response);
+		
+	}
 	/****************** Selection ****************************/
     else if(path.equals("/Selection.php")) {
     	String Availability = request.getParameter("AvailabilityV");

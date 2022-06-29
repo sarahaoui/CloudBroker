@@ -7,22 +7,22 @@
       <li>
         <a href="QueryUser.jsp">
           <i class='bx bx-grid-alt' ></i>
-          <span class="link_name">Dashboard</span>
+          <span class="link_name">Search</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="QueryUser.jsp">Dashboard</a></li>
+          <li><a class="link_name" href="QueryUser.jsp">Search</a></li>
         </ul>
       </li>
       
       <li>
-          <a href="#">
+          <a href="UsedServices.jsp">
             <i class='bx bx-folder-open'></i>
-            <span class="link_name">Services</span>
+            <span class="link_name">Services used</span>
           </a>
          <!--  <i class='bx bxs-chevron-down arrow' ></i> -->
         
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Services</a></li>
+          <li><a class="link_name" href="UsedServices.jsp">Services used</a></li>
           </ul>
       </li>
   

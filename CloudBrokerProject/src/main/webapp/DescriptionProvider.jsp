@@ -41,15 +41,18 @@
     <div class="popup-overlay">
 			<div class="popup-box">
 				<div class="check-container">
-					<ion-icon name="checkmark-outline"></ion-icon>
+					<ion-icon name="information-outline"></ion-icon>
 				</div>
 				<div class="popup-message-container">
-					<h1>Thank you !</h1>
 					<p>Do you want to add your service with ${model.ff} Functional Functionality? </p>
 					<span><p>Click No to repeat search</p></span>
 				</div>
+				<div class="buttons">
 				<button class="ok-btn">No</button>
-				<button class="Yes-btn">Yes</button>
+				<form action="DP1.jsp">
+				<input type="submit" value="Yes" class="Yes-btn">
+				</form>
+				</div>
 			</div>
 		</div>
 		

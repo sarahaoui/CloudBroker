@@ -136,6 +136,21 @@ public class InterfaceImpDAO implements InterfaceDAO{
 			printSQLException(e); }
 		return max;
 	}
+	public static int getIDService(String name){
+		int max = 0;
+		try {
+			String req14 = "SELECT `DeploymentParameters_DP_NFFsID` FROM `deploymentparameters_dp_nffs` WHERE `ServiceTitle`='"+name+"'";
+			PreparedStatement preparedStatement = connection.prepareStatement(req14);
+			System.out.println(preparedStatement);
+			preparedStatement.executeQuery();
+			ResultSet r1 =  preparedStatement.executeQuery(req14);
+			while(r1.next()){
+				 max = r1.getInt("DeploymentParameters_DP_NFFsID");
+			}
+		} catch (SQLException e) {
+			printSQLException(e); }
+		return max;
+	}
     ////////////////////////////////////////////////////////////////	
 
 	public int getIDIntendedUser(intended_user intended_user){
@@ -245,7 +260,28 @@ public class InterfaceImpDAO implements InterfaceDAO{
 			}
 		return key;
 	}
-    
+	public static int insertOrder(int idService, int idUser){
+		int key=0;
+		try {
+			String req4 = "INSERT INTO `order`( `IDUser`, `IDService`) VALUES (?,?);";
+			PreparedStatement preparedStatement = connection.prepareStatement(req4,Statement.RETURN_GENERATED_KEYS);			
+			preparedStatement.setInt(1, idUser);
+			preparedStatement.setInt(2, idService);
+			
+			System.out.println(preparedStatement);
+			preparedStatement.executeUpdate();
+			
+			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+			if(generatedKeys.next()) {
+				 key=(generatedKeys.getInt(1));
+			}else {
+				System.out.println("Creating qos failed , no ID obtained !!");
+			}
+		} catch (SQLException e) {
+			printSQLException(e); 
+			}
+		return key;
+	}
 
 
     ////////////////////////////////////////////////////////////////		
