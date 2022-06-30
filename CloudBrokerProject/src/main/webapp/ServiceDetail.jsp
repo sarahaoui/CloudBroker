@@ -159,7 +159,7 @@
 				<td>${model.service.get("General Information").get("Location").get("US_Canada")}</td>
 				</tr>
 				<tr>
-				<td><a href="SLA.php">Show SLA</a></td>
+				<td><a href="SLA.jsp">Show SLA</a></td>
 				</tr>
 				</table>
 			</div>

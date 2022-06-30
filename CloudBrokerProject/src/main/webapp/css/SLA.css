@@ -1,0 +1,55 @@
+
+* {
+    margin:0;
+	padding:0;
+	font-family: 'Poppins', sans-serif;
+    color: #444;
+    line-height: 1.6;
+	overflow-x: hidden;
+}
+
+.content {
+	width: 100vw;
+	height: fit-content;
+	background: #fafafa;
+	display: flex;
+	flex-direction: column;
+	align-content: center;
+	align-items: center;
+	justify-content: center;
+}
+
+#description {
+	background: white;
+	width: 60vw;
+	padding: 40px;
+	line-height: 1.6;
+	height: fit-content;
+}
+#description h2 {
+	margin-bottom: 40px;
+}
+p {
+	font-size: 16px;
+}
+span {
+	font-weight: bold;
+}
+ul {
+	margin-left: 30px;
+}
+.radio {
+	margin-top: 50px;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	width: 60vw;
+	margin-bottom: 20px;
+}
+.rat {
+	margin: 10px;
+}
+.rat label {
+	margin-left: 8px;
+	font-size: 17px;
+}
