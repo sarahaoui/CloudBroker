@@ -46,7 +46,7 @@
 				<br />
 				<p>The quality of service (QoS) information are listed as follows:</p>
 				<ul>
-					<li>Price : 11.3 euros/month.</li>
+					<li>Price : 3.0 euros/month.</li>
 					<li>Rating: 4.5.</li>
 					<li>Availability :99%.</li>
 				</ul>
@@ -70,17 +70,17 @@
 				<br />
 				<p>
 					The customer must pay the service provider the sum of
-					<span>12.43 euros/month</span>, paid as follows:
+					<span>3.3 euros/month</span>, paid as follows:
 				</p>
 				<ul>
-					<li>Price of service is :<span>11.3 euros/month</span>.</li>
+					<li>Price of service is :<span>3.0 euros/month</span>.</li>
 				</ul>
 				<br />
 				<p>
 					CloudBroker share of the payment represents 10% of the total price,
 					or
-					<span>1.13 euro/month</span>. The total price of the service after
-					adding CloudBroker share is: <span>12.43 euros/month</span>.
+					<span>0.3 euro/month</span>. The total price of the service after
+					adding CloudBroker share is: <span>3.3 euros/month</span>.
 				</p>
 				<br />
 				<p>
@@ -93,7 +93,7 @@
 				</p>
 				<br />
 				<p>
-					If you agree to the terms of this SLA select “I accept” in the choices
+					If you agree to the terms of this SLA select (I accept) in the choices
 					below.
 				</p>
 			</div>
