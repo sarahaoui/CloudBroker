@@ -7,3 +7,6 @@ We designed a simple and meaningful logo to represent our application. Our logo 
 The main goal of our work is to provide a user-centric interface. This interface allows users, who lack experience and knowledge in the Cloud, to compose complex discovery queries using natural english language to discover or publish services suitable for the intended computing functionalities, it also allows users to directly obtain information about the appropriate cloud services without any human intervention.
 
 When a user access to our application, through their web browser, they land on the site overview page. As shown below:
+
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/58111836/179745789-806459ea-8e01-4753-83f1-50d88c79ccd5.gif)
+
