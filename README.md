@@ -15,7 +15,7 @@ When a user access to our application, through their web browser, they land on t
 <h4>Signup interface :</h4>
 <img align="center" alt="Rafa-CSS" height="280" width="600" src="https://user-images.githubusercontent.com/58111836/179800302-8f4ebefe-57b7-4153-a81f-cacc09a43c06.PNG">
 
-<h4>Dashboard Prvider :</h4>
+<h4>Dashboard Provider :</h4>
 <img align="center" alt="Rafa-CSS" height="280" width="600" src="https://user-images.githubusercontent.com/58111836/179801532-f0d10399-f8c7-4c33-af5f-81293fae6dc9.PNG">
 
 <h4>ADD Service with API :</h4>
