@@ -10,7 +10,7 @@ When a user access to our application, through their web browser, they land on t
 
 ![ezgif com-gif-maker](https://user-images.githubusercontent.com/58111836/179745789-806459ea-8e01-4753-83f1-50d88c79ccd5.gif)
 
-### Tools :
+### Tools used :
 <p align="left">
 <img align="center" src="https://imgs.search.brave.com/Sf3Dn-KI_DY_3X9hf9oa6qCNnY4S4dOSVTj9VmjTglA/rs:fit:1200:1200:1/g:ce/aHR0cDovL2xvZ29z/LWRvd25sb2FkLmNv/bS93cC1jb250ZW50/L3VwbG9hZHMvMjAx/Ni8xMC9KYXZhX2xv/Z28ucG5n" title = "JAVA" alt="" height="50" />
 <img align="center" src="https://imgs.search.brave.com/s34yvtTY-xgNkvbX6Ir5tgmRbcOZkBSTGTDxAFLCLCM/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9sb2dv/cy1kb3dubG9hZC5j/b20vd3AtY29udGVu/dC91cGxvYWRzLzIw/MTcvMDcvSFRNTDVf/YmFkZ2UucG5n" title = "HTML" alt="" height="35" />
